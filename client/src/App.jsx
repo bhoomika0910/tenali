@@ -25,6 +25,7 @@ import React, { useEffect, useState, useRef, useMemo } from 'react'
 import './App.css'
 import LanguageDashboard from './language/LanguageDashboard'
 import InteractiveLcmHcfApp from './LcmHcfApp'
+import AvatarStudio from './AvatarStudio/AvatarStudio'
 
 // API base URL from environment variables (Vite)
 const API = import.meta.env.VITE_API_BASE_URL || '';
@@ -35883,6 +35884,11 @@ function App() {
   // Check if current URL matches a specific student page
   const pathname = window.location.pathname.replace(/\/$/, '').toLowerCase()
 
+  // Route: /avatar → Avatar Studio
+  if (pathname === '/avatar') {
+    return <AvatarStudio onBack={() => window.location.href = '/'} />
+  }
+
   // Route: /tables → Generic 5-level scaffolded tables app
   if (pathname === '/tables') {
     return (
@@ -36460,6 +36466,7 @@ function App() {
     lineqgym: LinEqGymApp,         // LinearEquations-Gym — solve linear equations (MCQ)
     indicesgym: IndicesGymApp,     // Indices-Gym — index laws (MCQ)
     polygym: PolyGymApp,           // Polynomials Gym — arithmetic → monomial algebra (MCQ)
+    avatar: AvatarStudio,          // Avatar Studio
   }
 
   // Get the component to render (or null if mode not set)
@@ -36475,6 +36482,8 @@ function App() {
           <Home onSelect={(key) => {
             if (key === 'goalpractice') {
               setMode('goalpractice');
+            } else if (key === 'avatar') {
+              window.open('/avatar', '_blank');
             } else {
               setMode(key);
               setIsGoalMode(false);
@@ -36488,8 +36497,12 @@ function App() {
               setIsGoalMode(false);
             }}
             onSelect={(key) => {
-              setMode(key);
-              setIsGoalMode(true);
+              if (key === 'avatar') {
+                window.open('/avatar', '_blank');
+              } else {
+                setMode(key);
+                setIsGoalMode(true);
+              }
             }}
           />
         ) : ActiveApp ? (
@@ -36532,6 +36545,7 @@ function Home({ onSelect, isGoalSelection = false, onBack }) {
     { key: 'randommix', name: 'Random Mix', subtitle: 'Adaptive cross-topic quiz', color: 'featured' },
     { key: 'custom', name: 'Custom Lesson', subtitle: 'Build your own mixed quiz', color: 'featured' },
     { key: 'gym', name: 'Gym', subtitle: 'Adaptive workout across all 7 gym puzzles', color: 'featured' },
+    { key: 'avatar', name: 'Avatar Studio', subtitle: 'Customize your premium avatar', color: 'featured' },
   ]
 
   // All regular quiz apps sorted alphabetically by name

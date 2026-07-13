@@ -24,12 +24,13 @@
 
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   // Serves from root path (no /sub/path)
   base: '/',
   // Enable React support for JSX compilation
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   server: {
     // Listen on all network interfaces (0.0.0.0) for development
     host: '0.0.0.0',

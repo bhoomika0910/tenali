@@ -19,7 +19,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/tenali';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/tenali';
 const JWT_SECRET = process.env.JWT_SECRET || 'tenali-dev-secret-change-me';
 const JWT_TTL = process.env.JWT_TTL || '14d';
 
@@ -32,7 +32,8 @@ const UserSchema = new mongoose.Schema({
   gradeLevel: { type: String, default: 'Grade 3' },
   coinBalance: { type: Number, default: 0 },
   xpScore: { type: Number, default: 0 },
-  pinnedBadges: { type: [String], default: [] }
+  pinnedBadges: { type: [String], default: [] },
+  avatarConfig: { type: mongoose.Schema.Types.Mixed, default: null }
 });
 
 const User = mongoose.model('User', UserSchema);
@@ -43,7 +44,7 @@ let connected = false;
 
 async function connectMongo(uri = MONGO_URI) {
   if (connected) return;
-  await mongoose.connect(uri, { serverSelectionTimeoutMS: 8000, family: 4 });
+  await mongoose.connect(uri);
   connected = true;
   console.log(`[auth] Mongo connected: ${uri.replace(/\/\/.*@/, '//***@')}`);
 }
@@ -120,8 +121,43 @@ router.post('/login', async (req, res) => {
   res.json({ token, user: { username } });
 });
 
-router.get('/me', requireAuth, (req, res) => {
-  res.json({ user: req.user });
+router.get('/me', requireAuth, async (req, res) => {
+  // If no DB connection, return the basic JWT user
+  if (!connected) return res.json({ user: req.user });
+
+  try {
+    const user = await User.findOne({ username: req.user.username });
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.json({
+      user: {
+        id: user._id,
+        username: user.username,
+        gradeLevel: user.gradeLevel,
+        coinBalance: user.coinBalance,
+        xpScore: user.xpScore,
+        pinnedBadges: user.pinnedBadges,
+        avatarConfig: user.avatarConfig
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Database error' });
+  }
+});
+
+router.put('/avatar', requireAuth, async (req, res) => {
+  if (!connected) return res.status(503).json({ error: 'Database unavailable' });
+  try {
+    const { avatarConfig } = req.body;
+    const user = await User.findOneAndUpdate(
+      { username: req.user.username },
+      { $set: { avatarConfig } },
+      { new: true }
+    );
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.json({ success: true, avatarConfig: user.avatarConfig });
+  } catch (err) {
+    res.status(500).json({ error: 'Database error' });
+  }
 });
 
 module.exports = { connectMongo, seedUsers, router, requireAuth, User };

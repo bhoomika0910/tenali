@@ -22,14 +22,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App, { AuthMenu } from './App'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import './index.css'
+
+const queryClient = new QueryClient();
 
 // Create React root and render the App component
 ReactDOM.createRoot(document.getElementById('root')).render(
   // StrictMode: Enables additional development checks and warnings
   <React.StrictMode>
-    <App />
-    {/* Hamburger menu (login/logout) — fixed top-right, visible on every page */}
-    <AuthMenu />
+    <QueryClientProvider client={queryClient}>
+      <App />
+      {/* Hamburger menu (login/logout) — fixed top-right, visible on every page */}
+      <AuthMenu />
+    </QueryClientProvider>
   </React.StrictMode>,
 )

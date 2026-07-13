@@ -1,7 +1,20 @@
-node_modules
-*.log
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Build output
 client/dist
-server.log
-server/dictionaryCache
-ISSUE_DRAFT.md
-PR_DRAFT.md
+
+# Logs
+*.log
+
+# Vite cache
+.vite/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+server/dictionaryCache/
