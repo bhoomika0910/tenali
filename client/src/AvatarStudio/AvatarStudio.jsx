@@ -6,14 +6,16 @@ import StudentCard from './components/StudentCard';
 import AvatarPreview from './components/AvatarPreview';
 import CategorySidebar from './components/CategorySidebar';
 import CustomizationGrid from './components/CustomizationGrid';
-import { CATEGORIES, DEFAULT_AVATAR } from './constants';
+import { CATEGORIES, DEFAULT_AVATAR, OPTIONS } from './constants';
 
 export default function AvatarStudio({ onBack }) {
   const { data: userAvatarData, saveAvatar, isSaving } = useAvatar();
   
   const [config, setConfig] = useState(DEFAULT_AVATAR);
   const [activeCategory, setActiveCategory] = useState(CATEGORIES[0].id);
-  const [theme, setTheme] = useState('light'); // 'light' or 'dark'
+  const [theme, setTheme] = useState(() => {
+    return document.documentElement.getAttribute('data-theme') || 'dark';
+  });
 
   // Load from backend if available
   useEffect(() => {
@@ -23,7 +25,10 @@ export default function AvatarStudio({ onBack }) {
   }, [userAvatarData]);
 
   const toggleTheme = () => {
-    setTheme(t => t === 'light' ? 'dark' : 'light');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('tenali-theme', newTheme);
   };
 
   const handleUpdate = (categoryId, value) => {
@@ -48,98 +53,149 @@ export default function AvatarStudio({ onBack }) {
   };
 
   const handleRandomize = () => {
-    // Only randomize the active category properties? 
-    // The prompt says "Never regenerate the complete avatar randomly. Only update the selected property."
-    // But there is a random button on the StudentCard. If we must only randomize selected property:
-    // Wait, prompt: "Never regenerate the complete avatar randomly. Only update the selected property." 
-    // I will remove the "Random" button from StudentCard or make it randomize the *current category*.
-    // Wait, let's just make it a "Randomize [Category]" button.
+    const newConfig = { ...DEFAULT_AVATAR };
+    
+    // Pick a random option for each category
+    Object.keys(OPTIONS).forEach(category => {
+      // Don't randomize background by default
+      if (category === 'backgroundColor') return;
+      
+      const categoryOptions = OPTIONS[category];
+      if (categoryOptions && categoryOptions.length > 0) {
+        const randomIndex = Math.floor(Math.random() * categoryOptions.length);
+        const selectedValue = categoryOptions[randomIndex];
+        newConfig[category] = selectedValue === 'none' ? [] : [selectedValue];
+      }
+    });
+    
+    setConfig(newConfig);
   };
 
   return (
-    <div className={`min-h-screen w-full transition-colors duration-300 font-sans ${theme === 'dark' ? 'bg-slate-900 text-slate-100' : 'bg-orange-50 text-slate-800'}`}>
+    <div 
+      className="h-screen w-full flex flex-col overflow-hidden transition-colors duration-300 font-sans"
+      style={{ backgroundColor: 'var(--clr-bg)', color: 'var(--clr-text)' }}
+    >
       
-      {/* Top Navbar */}
-      <nav className={`p-4 flex justify-between items-center ${theme === 'dark' ? 'bg-slate-800/50 border-slate-700' : 'bg-white/50 border-orange-100'} border-b backdrop-blur-md sticky top-0 z-10`}>
-        <div className="flex items-center gap-4">
+      {/* Top Navbar (~70px) */}
+      <nav 
+        className="h-[70px] shrink-0 px-6 py-3 flex justify-between items-center border-b z-10"
+        style={{ borderColor: 'var(--clr-border)', backgroundColor: 'var(--clr-card)' }}
+      >
+        <div className="flex items-center gap-6">
           <button 
-            onClick={onBack}
-            className={`p-2 rounded-full transition-colors ${theme === 'dark' ? 'hover:bg-slate-700' : 'hover:bg-orange-100'}`}
+            onClick={onBack} 
+            className="flex items-center gap-2 font-bold hover:opacity-70 transition-opacity"
+            style={{ color: 'var(--clr-text)' }}
           >
             <ArrowLeft size={24} />
+            <span className="hidden sm:inline">Back to Home</span>
           </button>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-purple-500 bg-clip-text text-transparent">
+          <div className="h-6 w-px" style={{ backgroundColor: 'var(--clr-border)' }} />
+          <h1 className="text-xl md:text-2xl font-extrabold m-0" style={{ color: 'var(--clr-text)', fontFamily: 'var(--font-display)' }}>
             Avatar Studio
           </h1>
         </div>
         <button 
           onClick={toggleTheme}
-          className={`p-2 rounded-full transition-colors ${theme === 'dark' ? 'hover:bg-slate-700 text-yellow-400' : 'hover:bg-orange-100 text-slate-700'}`}
+          className="p-2.5 rounded-full transition-colors flex items-center justify-center"
+          style={{ backgroundColor: 'var(--clr-surface)', color: 'var(--clr-text)' }}
+          title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
         >
-          {theme === 'dark' ? <Sun size={24} /> : <Moon size={24} />}
+          {theme === 'dark' ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} />}
         </button>
       </nav>
 
-      <div className="max-w-7xl mx-auto p-4 lg:p-8 flex flex-col lg:flex-row gap-8">
+      {/* Main Body */}
+      <div className="flex-1 w-full max-w-[1600px] mx-auto p-4 md:p-6 flex flex-col lg:flex-row gap-6 overflow-hidden">
         
-        {/* LEFT PANEL: Student Card */}
-        <div className="w-full lg:w-1/4 flex flex-col gap-6 shrink-0">
-          <StudentCard theme={theme} />
-          
-          <div className={`p-6 rounded-2xl flex flex-col gap-4 shadow-xl ${theme === 'dark' ? 'bg-slate-800 border border-slate-700' : 'bg-white border border-orange-100'}`}>
-            <h3 className="text-lg font-bold">Actions</h3>
+        {/* LEFT PANEL: Student Info & Actions */}
+        <div className="w-full lg:w-[320px] shrink-0 flex flex-col h-[35vh] lg:h-full gap-4">
+          <div className="flex-1 flex flex-col gap-4 overflow-y-auto custom-scrollbar lg:pr-2">
             
-            <button 
-              onClick={handleSave} 
-              disabled={isSaving}
-              className="w-full py-3 px-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold rounded-xl shadow-lg shadow-orange-500/30 flex justify-center items-center gap-2 transform transition hover:scale-[1.02] active:scale-95 disabled:opacity-50"
-            >
-              <Save size={20} />
-              {isSaving ? 'Saving...' : 'Save Avatar'}
-            </button>
+            <StudentCard />
             
-            <button 
-              onClick={handleReset}
-              className={`w-full py-3 px-4 font-bold rounded-xl flex justify-center items-center gap-2 transform transition hover:scale-[1.02] active:scale-95 ${theme === 'dark' ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-orange-100 hover:bg-orange-200 text-orange-800'}`}
+            <div 
+              className="mt-auto p-5 rounded-2xl flex flex-col gap-3 shadow-xl shrink-0 border"
+              style={{ backgroundColor: 'var(--clr-card)', borderColor: 'var(--clr-border)' }}
             >
-              <RefreshCw size={20} />
-              Reset Avatar
-            </button>
+              <motion.button 
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleSave} 
+                disabled={isSaving}
+                className="w-full py-3 px-4 font-bold rounded-xl shadow-lg flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ backgroundColor: 'var(--clr-accent)', color: '#ffffff' }}
+              >
+                {isSaving ? <RefreshCw size={20} className="animate-spin" /> : <Save size={20} />}
+                {isSaving ? 'Saving...' : 'Save Avatar'}
+              </motion.button>
+              
+              <motion.button 
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleReset}
+                className="w-full py-3 px-4 font-bold rounded-xl flex justify-center items-center gap-2"
+                style={{ backgroundColor: 'var(--clr-surface)', color: 'var(--clr-text)' }}
+              >
+                <RefreshCw size={20} />
+                Reset
+              </motion.button>
+
+              <motion.button 
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleRandomize}
+                className="w-full py-3 px-4 font-bold rounded-xl flex justify-center items-center gap-2"
+                style={{ backgroundColor: 'var(--clr-surface)', color: 'var(--clr-text)' }}
+              >
+                <Dice5 size={20} />
+                Random
+              </motion.button>
+            </div>
           </div>
         </div>
 
         {/* CENTER PANEL: Avatar Preview */}
-        <div className="w-full lg:w-2/4 flex flex-col items-center shrink-0">
-          <AvatarPreview config={config} theme={theme} />
+        <div className="flex-1 flex flex-col items-center justify-center relative shrink-0 min-h-[300px] lg:min-h-0 bg-transparent rounded-2xl">
+          <AvatarPreview config={config} />
         </div>
 
-        {/* RIGHT PANEL: Customization */}
-        <div className="w-full lg:w-1/4 flex flex-col gap-6 shrink-0 h-[600px]">
-          <div className={`flex flex-col h-full rounded-2xl shadow-xl overflow-hidden ${theme === 'dark' ? 'bg-slate-800 border border-slate-700' : 'bg-white border border-orange-100'}`}>
+        {/* RIGHT PANEL: Customization (Sidebar + Grid) */}
+        <div 
+          className="w-full lg:w-[500px] xl:w-[700px] shrink-0 flex flex-col lg:flex-row h-[50vh] lg:h-full rounded-2xl shadow-xl overflow-hidden border"
+          style={{ backgroundColor: 'var(--clr-card)', borderColor: 'var(--clr-border)' }}
+        >
+          
+          {/* Category Sidebar */}
+          <div 
+            className="w-full lg:w-[180px] xl:w-[240px] shrink-0 border-b lg:border-b-0 lg:border-r overflow-x-auto lg:overflow-y-auto custom-scrollbar flex flex-row lg:flex-col"
+            style={{ borderColor: 'var(--clr-border)', backgroundColor: 'var(--clr-surface)' }}
+          >
             <CategorySidebar 
               categories={CATEGORIES} 
               activeCategory={activeCategory} 
               setActiveCategory={setActiveCategory}
-              theme={theme}
             />
-            <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeCategory}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <CustomizationGrid 
-                    categoryId={activeCategory} 
-                    currentValue={config[activeCategory]?.[0] || 'none'}
-                    onSelect={(val) => handleUpdate(activeCategory, val)}
-                    theme={theme}
-                  />
-                </motion.div>
-              </AnimatePresence>
-            </div>
+          </div>
+
+          {/* Options Grid */}
+          <div className="flex-1 overflow-y-auto custom-scrollbar p-2 lg:p-4" style={{ backgroundColor: 'var(--clr-card)' }}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeCategory}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+              >
+                <CustomizationGrid 
+                  categoryId={activeCategory} 
+                  currentValue={config[activeCategory]?.[0] || 'none'}
+                  onSelect={(val) => handleUpdate(activeCategory, val)}
+                />
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
 

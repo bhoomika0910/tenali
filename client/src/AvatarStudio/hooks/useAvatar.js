@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // Get Bearer token from localStorage
 const getAuthHeaders = () => {
-  const token = localStorage.getItem('token'); // Adjust depending on auth mechanism
+  const token = localStorage.getItem('tenali-auth-token');
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 

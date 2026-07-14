@@ -1,14 +1,13 @@
 import React, { useMemo } from 'react';
 import { createAvatar } from '@dicebear/core';
 import { avataaars } from '@dicebear/collection';
-import { OPTIONS, COSMETICS, DEFAULT_AVATAR } from '../constants';
+import { OPTIONS, COSMETICS, COLOR_NAMES, DEFAULT_AVATAR } from '../constants';
 import { Check, Lock } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 // A tiny helper component to render the option preview
-const OptionPreview = React.memo(({ categoryId, value, isColor }) => {
+const OptionPreview = React.memo(({ categoryId, value }) => {
   const uri = useMemo(() => {
-    if (isColor) return null;
-    
     // Create a base avatar config that is neutral to highlight the specific feature
     const previewConfig = { ...DEFAULT_AVATAR };
     
@@ -18,90 +17,104 @@ const OptionPreview = React.memo(({ categoryId, value, isColor }) => {
       previewConfig[categoryId] = [value];
     }
     
-    return createAvatar(avataaars, { ...previewConfig, size: 64 }).toDataUri();
-  }, [categoryId, value, isColor]);
+    // Ensure we can see clothing/hair clearly without background interfering
+    previewConfig.backgroundColor = ['transparent'];
+    
+    // Ensure deterministic preview by passing a fixed seed
+    const avatar = createAvatar(avataaars, { 
+      seed: "tenali",
+      ...previewConfig, 
+      size: 128 
+    });
+    return avatar.toDataUri();
+  }, [categoryId, value]);
 
-  if (isColor) {
-    const isTransparent = value === 'transparent';
-    return (
-      <div 
-        className={`w-full h-full rounded-full border-2 border-black/10 ${isTransparent ? 'bg-white' : ''}`}
-        style={!isTransparent ? { backgroundColor: `#${value}` } : {}}
-      >
-        {isTransparent && <div className="w-full h-full flex items-center justify-center text-xs text-gray-400 font-bold">\</div>}
-      </div>
-    );
-  }
-
-  return <img src={uri} alt={value} className="w-full h-full object-contain" />;
+  return (
+    <img 
+      src={uri} 
+      alt={value} 
+      className="w-full h-full object-contain scale-[1.7] translate-y-[10%]"
+      onError={(e) => {
+        e.target.style.display = 'none';
+        e.target.parentElement.classList.add('bg-slate-200', 'dark:bg-slate-700', 'rounded-full');
+      }}
+    />
+  );
 });
 
-export default function CustomizationGrid({ categoryId, currentValue, onSelect, theme }) {
+export default function CustomizationGrid({ categoryId, currentValue, onSelect }) {
   const availableOptions = OPTIONS[categoryId] || [];
   const cosmetics = COSMETICS[categoryId] || [];
   const isColor = categoryId.toLowerCase().includes('color');
 
   return (
-    <div className={`grid gap-4 ${isColor ? 'grid-cols-4 lg:grid-cols-5' : 'grid-cols-2 lg:grid-cols-3'}`}>
+    <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 p-2">
       
       {/* Basic Options */}
       {availableOptions.map((opt) => {
         const isSelected = currentValue === opt;
         
         return (
-          <button
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.05 }}
             key={opt}
             onClick={() => onSelect(opt)}
             className={`
-              relative flex flex-col items-center justify-center gap-2 p-2 rounded-xl transition-all duration-200 group
-              ${isSelected 
-                ? 'ring-2 ring-orange-500 ring-offset-2 scale-105' 
-                : 'hover:scale-105 hover:shadow-md'
-              }
-              ${theme === 'dark' 
-                ? (isSelected ? 'bg-slate-700' : 'bg-slate-700/50 hover:bg-slate-700') 
-                : (isSelected ? 'bg-orange-100' : 'bg-white hover:bg-orange-50 shadow-sm border border-orange-50')
-              }
-              ${isColor ? 'aspect-square p-1 rounded-full' : 'aspect-square'}
+              relative flex flex-col items-center justify-center gap-2 p-3 rounded-xl transition-colors duration-200 group shadow-sm border
+              ${isSelected ? 'ring-2 ring-offset-2' : ''}
+              aspect-square
             `}
+            style={{
+              backgroundColor: isSelected ? 'var(--clr-accent-soft)' : 'var(--clr-surface)',
+              borderColor: isSelected ? 'var(--clr-accent)' : 'var(--clr-border)',
+              ...(isSelected ? { '--tw-ring-color': 'var(--clr-accent)' } : {})
+            }}
           >
-            <div className={`w-full h-full ${!isColor && 'p-2'}`}>
-              <OptionPreview categoryId={categoryId} value={opt} isColor={isColor} />
+            <div className="w-full h-full flex-1 flex items-center justify-center overflow-hidden p-1">
+              <OptionPreview categoryId={categoryId} value={opt} />
             </div>
             
-            {!isColor && (
-              <span className={`text-xs font-medium truncate w-full text-center ${theme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`}>
-                {opt}
-              </span>
-            )}
+            <span 
+              className="text-[10px] md:text-xs font-semibold w-full text-center leading-tight line-clamp-2 px-1"
+              style={{ color: 'var(--clr-text)' }}
+              title={isColor ? (COLOR_NAMES[opt] || opt) : opt}
+            >
+              {isColor ? (COLOR_NAMES[opt] || opt) : opt}
+            </span>
             
             {isSelected && (
-              <div className="absolute -top-2 -right-2 bg-orange-500 text-white rounded-full p-1 shadow-md">
-                <Check size={14} strokeWidth={3} />
+              <div 
+                className="absolute -top-2 -right-2 text-white rounded-full p-1.5 shadow-md"
+                style={{ backgroundColor: 'var(--clr-accent)' }}
+              >
+                <Check size={16} strokeWidth={3} />
               </div>
             )}
-          </button>
+          </motion.button>
         );
       })}
 
       {/* Locked Cosmetics */}
-      {!isColor && cosmetics.map((item) => (
+      {cosmetics.map((item) => (
         <div
           key={item.id}
-          className={`
-            relative flex flex-col items-center justify-center gap-2 p-2 aspect-square rounded-xl cursor-not-allowed opacity-60
-            ${theme === 'dark' ? 'bg-slate-800 border border-slate-700' : 'bg-slate-50 border border-slate-200'}
-          `}
-          title={`Locked: ${item.condition}`}
+          className="relative flex flex-col items-center justify-center gap-3 p-4 aspect-square rounded-xl cursor-not-allowed opacity-60 border"
+          style={{ backgroundColor: 'var(--clr-bg)', borderColor: 'var(--clr-border)' }}
+          title={`🔒 Unlock by completing lessons`}
         >
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-10 backdrop-blur-[2px] rounded-xl p-2 text-center">
-            <Lock size={24} className="mb-2 text-slate-400" />
-            <span className="text-xs font-bold text-slate-500">{item.condition}</span>
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-10 backdrop-blur-[1px] rounded-xl p-2 text-center">
+            <Lock size={24} className="mb-2" style={{ color: 'var(--clr-text-soft)' }} />
+            <span className="text-[10px] md:text-xs font-bold leading-tight" style={{ color: 'var(--clr-text-soft)' }}>Unlock by completing lessons</span>
           </div>
-          <div className="w-full h-full p-2 opacity-30 grayscale blur-sm">
-            <OptionPreview categoryId={categoryId} value="none" isColor={false} />
+          <div className="w-full h-full p-2 opacity-30 grayscale blur-sm flex-1 overflow-hidden">
+            <OptionPreview categoryId={categoryId === 'math_collection' ? 'accessories' : categoryId} value="none" />
           </div>
-          <span className={`text-xs font-medium truncate w-full text-center ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>
+          <span 
+            className="text-xs sm:text-sm font-semibold truncate w-full text-center leading-tight mt-2 px-1"
+            style={{ color: 'var(--clr-text-soft)' }}
+            title={item.label}
+          >
             {item.label}
           </span>
         </div>

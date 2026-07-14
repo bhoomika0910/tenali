@@ -3,10 +3,11 @@ import { createAvatar } from '@dicebear/core';
 import { avataaars } from '@dicebear/collection';
 import { motion } from 'framer-motion';
 
-export default function AvatarPreview({ config, theme }) {
+export default function AvatarPreview({ config }) {
   // Generate the SVG data URI using DiceBear
   const avatarUri = useMemo(() => {
     const avatar = createAvatar(avataaars, {
+      seed: 'tenali',
       ...config,
       size: 512,
     });
@@ -14,9 +15,12 @@ export default function AvatarPreview({ config, theme }) {
   }, [config]);
 
   return (
-    <div className="w-full flex flex-col items-center justify-center relative h-[400px] lg:h-[600px]">
+    <div className="w-full flex flex-col items-center justify-center relative h-full min-h-[300px]">
       {/* Soft glowing background behind avatar */}
-      <div className={`absolute w-64 h-64 lg:w-96 lg:h-96 rounded-full blur-3xl opacity-30 ${theme === 'dark' ? 'bg-orange-500' : 'bg-orange-300'}`} />
+      <div 
+        className="absolute w-[60%] h-[60%] rounded-full blur-3xl opacity-30"
+        style={{ backgroundColor: 'var(--clr-accent)' }}
+      />
       
       {/* Platform/Base shadow */}
       <div className="absolute bottom-10 w-48 lg:w-64 h-8 bg-black/10 dark:bg-black/40 blur-md rounded-full shadow-[0_0_20px_rgba(0,0,0,0.1)]" />
@@ -25,7 +29,10 @@ export default function AvatarPreview({ config, theme }) {
       <motion.img
         src={avatarUri}
         alt="Avatar Preview"
-        className="relative z-10 w-64 h-64 lg:w-96 lg:h-96 object-contain drop-shadow-2xl"
+        className="relative z-10 w-full h-full max-w-[80%] max-h-[80%] object-contain drop-shadow-2xl"
+        onError={(e) => {
+          e.target.style.display = 'none';
+        }}
         animate={{ 
           y: [0, -15, 0] 
         }}
@@ -38,7 +45,8 @@ export default function AvatarPreview({ config, theme }) {
       
       {/* Decorative elements */}
       <motion.div 
-        className="absolute top-1/4 right-1/4 text-orange-400 opacity-50"
+        className="absolute top-1/4 right-1/4 opacity-50"
+        style={{ color: 'var(--clr-accent)' }}
         animate={{ rotate: 360, scale: [1, 1.2, 1] }}
         transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
       >
@@ -47,7 +55,8 @@ export default function AvatarPreview({ config, theme }) {
         </svg>
       </motion.div>
       <motion.div 
-        className="absolute bottom-1/3 left-1/4 text-purple-400 opacity-50"
+        className="absolute bottom-1/3 left-1/4 opacity-50"
+        style={{ color: 'var(--clr-correct)' }}
         animate={{ rotate: -360, scale: [1, 1.5, 1] }}
         transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
       >

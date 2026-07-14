@@ -32,3 +32,20 @@ body {
 #root {
   min-height: 100vh;  /* Minimum height is full viewport */
 }
+
+/* Custom scrollbar for Avatar Studio */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--clr-accent, #f97316);
+  border-radius: 10px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #64748b;
+}
