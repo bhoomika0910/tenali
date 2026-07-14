@@ -26,6 +26,8 @@ import './App.css'
 import LanguageDashboard from './language/LanguageDashboard'
 import InteractiveLcmHcfApp from './LcmHcfApp'
 import AvatarStudio from './AvatarStudio/AvatarStudio'
+import axios from 'axios'
+import AvatarThumbnail from './AvatarStudio/components/AvatarThumbnail';
 
 // API base URL from environment variables (Vite)
 const API = import.meta.env.VITE_API_BASE_URL || '';
@@ -35857,7 +35859,14 @@ function TenthApp({ onBack }) {
 
 function App() {
   // Currently selected quiz mode (null = home menu, or key like 'gk', 'addition', etc.)
-  const [mode, setMode] = useState(null)
+  const [mode, setMode] = useState(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('mode') || null;
+    } catch {
+      return null;
+    }
+  })
   // Tracks if the active practice session should show the Goal Selector UI
   const [isGoalMode, setIsGoalMode] = useState(false)
 
@@ -36710,9 +36719,10 @@ function Home({ onSelect, isGoalSelection = false, onBack }) {
             </p>
           </div>
         </div>
-        {/* Hamburger menu — top right — hidden in goal selection screen */}
+        {/* User Avatar and Hamburger menu — top right — hidden in goal selection screen */}
         {!isGoalSelection && (
-          <div ref={menuRef} style={{ position: 'absolute', top: '8px', right: '0' }}>
+          <div ref={menuRef} style={{ position: 'absolute', top: '8px', right: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <AvatarThumbnail size={40} onClick={() => onSelect('avatar')} />
             <button onClick={() => setMenuOpen(o => !o)} style={{
               background: 'none', border: 'none', cursor: 'pointer', padding: '8px',
               display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'center'
