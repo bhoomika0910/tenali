@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Moon, Sun, ArrowLeft, RefreshCw, Save, Dice5 } from 'lucide-react';
 import { useAvatar } from './hooks/useAvatar';
+import { useCollections } from './hooks/useCollections';
 import StudentCard from './components/StudentCard';
 import AvatarPreview from './components/AvatarPreview';
 import CategorySidebar from './components/CategorySidebar';
 import CustomizationGrid from './components/CustomizationGrid';
+import CollectionsDashboard from './components/CollectionsDashboard';
 import { CATEGORIES, DEFAULT_AVATAR, OPTIONS } from './constants';
 
 export default function AvatarStudio({ onBack }) {
   const { data: userAvatarData, saveAvatar, isSaving } = useAvatar();
+  const { collections, progress } = useCollections();
   
   const [config, setConfig] = useState(DEFAULT_AVATAR);
   const [activeCategory, setActiveCategory] = useState(CATEGORIES[0].id);
@@ -23,6 +26,23 @@ export default function AvatarStudio({ onBack }) {
       setConfig((prev) => ({ ...prev, ...userAvatarData }));
     }
   }, [userAvatarData]);
+
+  // Dynamically inject unlocked cosmetics into OPTIONS
+  useEffect(() => {
+    if (Array.isArray(collections) && progress) {
+      collections.forEach(col => {
+        const completedCount = col.requiredModules.filter(modId => progress?.[modId]?.easy?.completed).length;
+        const isUnlocked = completedCount >= col.requiredModules.length;
+        if (isUnlocked) {
+          col.rewards.forEach(reward => {
+            if (OPTIONS[reward.type] && !OPTIONS[reward.type].includes(reward.id)) {
+              OPTIONS[reward.type].push(reward.id);
+            }
+          });
+        }
+      });
+    }
+  }, [collections, progress]);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -107,7 +127,7 @@ export default function AvatarStudio({ onBack }) {
       </nav>
 
       {/* Main Body */}
-      <div className="flex-1 w-full max-w-[1600px] mx-auto p-4 md:p-6 flex flex-col lg:flex-row gap-6 overflow-hidden">
+      <div className="flex-1 w-full p-4 md:p-6 flex flex-col lg:flex-row gap-6 overflow-hidden">
         
         {/* LEFT PANEL: Student Info & Actions */}
         <div className="w-full lg:w-[320px] shrink-0 flex flex-col h-[35vh] lg:h-full gap-4">
@@ -188,12 +208,17 @@ export default function AvatarStudio({ onBack }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
+                className="h-full"
               >
-                <CustomizationGrid 
-                  categoryId={activeCategory} 
-                  currentValue={config[activeCategory]?.[0] || 'none'}
-                  onSelect={(val) => handleUpdate(activeCategory, val)}
-                />
+                {activeCategory === 'math_collection' ? (
+                  <CollectionsDashboard collections={collections} progress={progress} />
+                ) : (
+                  <CustomizationGrid 
+                    categoryId={activeCategory} 
+                    currentValue={config[activeCategory]?.[0] || 'none'}
+                    onSelect={(val) => handleUpdate(activeCategory, val)}
+                  />
+                )}
               </motion.div>
             </AnimatePresence>
           </div>

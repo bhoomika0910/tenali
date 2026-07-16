@@ -9334,6 +9334,105 @@ app.get(/.*/, (_req, res) => {
  * Listen on all interfaces (0.0.0.0) at the configured port
  * 0.0.0.0 makes the server accessible from any network interface/IP address
  */
+
+// ─── Module Progression Routes ──────────────────────────────────────────
+const modulesData = require('./modules.json');
+// Assume requireAuth is already available or import it
+const { requireAuth } = require('./auth.js');
+const collectionsData = require('./collections.json');
+
+app.get('/api/collections', (req, res) => {
+  res.json(collectionsData);
+});
+
+app.get('/api/modules', (req, res) => {
+  res.json(modulesData);
+});
+
+app.get('/api/progress/all', requireAuth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.json(user.moduleProgress || {});
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch all progress' });
+  }
+});
+
+app.get('/api/progress/:moduleId', requireAuth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    const progress = user.moduleProgress && user.moduleProgress[req.params.moduleId] 
+      ? user.moduleProgress[req.params.moduleId] 
+      : {
+          easy: { completed: false, score: 0, stars: 0, attempts: 0 },
+          medium: { completed: false, score: 0, stars: 0, attempts: 0 },
+          hard: { completed: false, score: 0, stars: 0, attempts: 0 }
+        };
+    res.json(progress);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch progress' });
+  }
+});
+
+app.post('/api/progress/update', requireAuth, async (req, res) => {
+  const { moduleId, difficulty, score, stars } = req.body;
+  if (!moduleId || !difficulty) return res.status(400).json({ error: 'Missing fields' });
+
+  try {
+    const user = await User.findById(req.user.id);
+    const currentProgress = user.moduleProgress || {};
+    const moduleProg = currentProgress[moduleId] || {
+      easy: { completed: false, score: 0, stars: 0, attempts: 0 },
+      medium: { completed: false, score: 0, stars: 0, attempts: 0 },
+      hard: { completed: false, score: 0, stars: 0, attempts: 0 }
+    };
+
+    // Progression validation
+    if (difficulty === 'medium' && !moduleProg.easy.completed) {
+      return res.status(403).json({ error: 'Must complete Easy first' });
+    }
+    if (difficulty === 'hard' && !moduleProg.medium.completed) {
+      return res.status(403).json({ error: 'Must complete Medium first' });
+    }
+
+    // Update difficulty stats
+    const diffStat = moduleProg[difficulty];
+    diffStat.attempts = (diffStat.attempts || 0) + 1;
+    const isCompleted = diffStat.completed || score >= 70;
+    
+    moduleProg[difficulty] = {
+      completed: isCompleted,
+      score: Math.max(diffStat.score, score || 0),
+      stars: Math.max(diffStat.stars, stars || 0),
+      attempts: diffStat.attempts
+    };
+
+    currentProgress[moduleId] = moduleProg;
+    
+    // Mongoose Mixed types need markModified
+    user.markModified('moduleProgress');
+    user.moduleProgress = currentProgress;
+    await user.save();
+
+    res.json({ success: true, progress: moduleProg });
+  } catch (err) {
+    console.error('Progress update error:', err);
+    res.status(500).json({ error: 'Failed to update progress' });
+  }
+});
+
+
+/**
+ * CATCH-ALL ROUTE
+ * ═══════════════════════════════════════════════════════════════════════════
+ * Serves the React/Vue SPA index.html for all unmatched routes
+ * Enables client-side routing to work properly
+ */
+app.get(/.*/, (_req, res) => {
+  res.sendFile(path.join(clientDistPath, 'index.html'));
+});
+
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Tenali app running on http://0.0.0.0:${PORT}`);
 });

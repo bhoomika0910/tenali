@@ -33,7 +33,8 @@ const UserSchema = new mongoose.Schema({
   coinBalance: { type: Number, default: 0 },
   xpScore: { type: Number, default: 0 },
   pinnedBadges: { type: [String], default: [] },
-  avatarConfig: { type: mongoose.Schema.Types.Mixed, default: null }
+  avatarConfig: { type: mongoose.Schema.Types.Mixed, default: null },
+  moduleProgress: { type: mongoose.Schema.Types.Mixed, default: {} }
 });
 
 const User = mongoose.model('User', UserSchema);

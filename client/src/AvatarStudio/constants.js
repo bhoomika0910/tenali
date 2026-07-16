@@ -9,7 +9,7 @@ export const CATEGORIES = [
   { id: 'clothesColor', label: 'Clothes Color', icon: 'Palette' },
   { id: 'accessories', label: 'Glasses & Eyewear', icon: 'Glasses' },
   { id: 'backgroundColor', label: 'Background', icon: 'Image' },
-  { id: 'math_collection', label: 'Math Collection', icon: 'Sparkles' }
+  { id: 'math_collection', label: 'Math Collections', icon: 'Sparkles' }
 ];
 
 export const OPTIONS = {
@@ -76,26 +76,8 @@ export const COLOR_NAMES = {
   "262e33": "Black", "65c9ff": "Cyan", "5199e4": "Blue", "25557c": "Navy", "e6e6e6": "Light Gray", "929598": "Gray", "3c4f5c": "Dark Gray", "b1e2ff": "Pastel Blue", "a7ffc4": "Pastel Green", "ffafb9": "Pastel Pink", "ffffb1": "Pastel Yellow", "ff488e": "Hot Pink", "ff5c5c": "Red", "ffffff": "White"
 };
 
-// Math-themed cosmetics (Locked items placeholders)
-export const COSMETICS = {
-  math_collection: [
-    { id: 'math_glasses', label: 'Geometry Glasses', condition: 'Complete lessons', locked: true },
-    { id: 'calc_watch', label: 'Calculator Watch', condition: 'Complete lessons', locked: true },
-    { id: 'pi_tshirt', label: 'π Pi T-Shirt', condition: 'Complete lessons', locked: true },
-    { id: 'algebra_hoodie', label: '➗ Algebra Hoodie', condition: 'Complete lessons', locked: true },
-    { id: 'sigma_hoodie', label: '∑ Sigma Hoodie', condition: 'Complete lessons', locked: true },
-    { id: 'genius_aura', label: '🧠 Genius Aura', condition: 'Complete lessons', locked: true },
-    { id: 'math_explorer', label: '📚 Math Explorer Bag', condition: 'Complete lessons', locked: true },
-    { id: 'compass_bag', label: '📏 Compass Backpack', condition: 'Complete lessons', locked: true },
-    { id: 'olympiad_medal', label: '🏅 Olympiad Medal', condition: 'Complete lessons', locked: true },
-    { id: 'grad_cap', label: '🎓 Graduation Cap', condition: 'Complete lessons', locked: true },
-    { id: 'wizard_hat', label: '🪄 Math Wizard Hat', condition: 'Complete lessons', locked: true },
-    { id: 'number_crown', label: '🔢 Number Crown', condition: 'Complete lessons', locked: true },
-    { id: 'formula_cape', label: '⚡ Formula Cape', condition: 'Complete lessons', locked: true },
-    { id: 'puzzle_badge', label: '🧩 Puzzle Badge', condition: 'Complete lessons', locked: true },
-    { id: 'golden_math', label: '⭐ Golden Mathematician Badge', condition: 'Complete lessons', locked: true }
-  ]
-};
+// Dynamic cosmetics will be populated here
+export const COSMETICS = {};
 
 export const DEFAULT_AVATAR = {
   gender: 'boy',

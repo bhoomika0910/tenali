@@ -13,6 +13,7 @@ export default function AvatarThumbnail({ onClick, size = 48 }) {
     const avatar = createAvatar(avataaars, {
       seed: 'tenali',
       ...config,
+      accessoriesProbability: 100,
       size,
     });
     return avatar.toDataUri();

@@ -9,6 +9,7 @@ export default function AvatarPreview({ config }) {
     const avatar = createAvatar(avataaars, {
       seed: 'tenali',
       ...config,
+      accessoriesProbability: 100,
       size: 512,
     });
     return avatar.toDataUri();

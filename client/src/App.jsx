@@ -27,10 +27,11 @@ import LanguageDashboard from './language/LanguageDashboard'
 import InteractiveLcmHcfApp from './LcmHcfApp'
 import AvatarStudio from './AvatarStudio/AvatarStudio'
 import axios from 'axios'
+
 import AvatarThumbnail from './AvatarStudio/components/AvatarThumbnail';
 
 // API base URL from environment variables (Vite)
-const API = import.meta.env.VITE_API_BASE_URL || '';
+const API = import.meta.env.VITE_API || '';
 
 // App version — increment with each commit
 const TENALI_VERSION = '1.0.86'
@@ -35870,6 +35871,14 @@ function App() {
   // Tracks if the active practice session should show the Goal Selector UI
   const [isGoalMode, setIsGoalMode] = useState(false)
 
+  const [modulesData, setModulesData] = useState({ featuredApps: [], regularApps: [] });
+  useEffect(() => {
+    fetch(API + '/modules')
+      .then(res => res.json())
+      .then(data => setModulesData(data))
+      .catch(err => console.error('Failed to load modules:', err));
+  }, []);
+
   // Current theme: 'dark' or 'light'
   // Initialized from localStorage with fallback to 'dark'
   const [theme, setTheme] = useState(() => {
@@ -36515,16 +36524,16 @@ function App() {
             }}
           />
         ) : ActiveApp ? (
-          <ActiveApp
-            onBack={() => {
-              if (isGoalMode) {
-                setMode('goalpractice');
-              } else {
-                setMode(null);
-              }
-            }}
-            isGoalMode={isGoalMode}
-          />
+            <ActiveApp
+              onBack={() => {
+                if (isGoalMode) {
+                  setMode('goalpractice');
+                } else {
+                  setMode(null);
+                }
+              }}
+              isGoalMode={isGoalMode}
+            />
         ) : (
           <Home onSelect={(key) => {
             if (key === 'goalpractice') {
@@ -36807,7 +36816,7 @@ function Home({ onSelect, isGoalSelection = false, onBack }) {
  * @param {Object} props
  * @param {Function} props.onBack - Callback to return to home menu
  */
-function GKApp({ onBack, isGoalMode = false }) {
+function GKApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
   // Current question object: {id, question, options: [A, B, C, D], ...}
   const [question, setQuestion] = useState(null)
   // User's selected option: 'A', 'B', 'C', or 'D'
@@ -36836,9 +36845,33 @@ function GKApp({ onBack, isGoalMode = false }) {
   // Total questions to answer
   const [totalQ, setTotalQ] = useState(DEFAULT_TOTAL)
   // Quiz started flag
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   // Quiz finished flag
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   const [sessionGoal, setSessionGoal] = useState(isGoalMode ? 'speed' : 'standard')
   useEffect(() => {
     if (!isGoalMode) {
@@ -37117,9 +37150,9 @@ const loadQuestion = async (excludeIds) => {
  * @param {Object} props
  * @param {Function} props.onBack - Callback to return to home menu
  */
-function AdditionApp({ onBack, isGoalMode = false }) {
+function AdditionApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
   // Difficulty level: 'easy' (1-digit), 'medium' (2-digit), 'hard' (3-digit), 'extrahard' (4-digit)
-  const [difficulty, setDifficulty] = useState('easy')
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   // Adaptive mode enabled?
   const [isAdaptive, setIsAdaptive] = useState(false)
   // Adaptive score (0-3)
@@ -37128,9 +37161,33 @@ function AdditionApp({ onBack, isGoalMode = false }) {
   // User-entered number of questions to attempt
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
   // Quiz state: has quiz started?
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   // Has quiz finished (all questions answered)?
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   // Current question object: {a, b, prompt}
   const [question, setQuestion] = useState(null)
   // User's text input (numeric answer)
@@ -37997,8 +38054,15 @@ function gymCheckAnswer(q, raw) {
 function GymQuiz({ title, subtitle, typeKeys, welcomeText, algebraInput, onBack }) {
   const [ordering, setOrdering] = useState('random')          // 'random' | 'sequential'
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   const [finished, setFinished] = useState(false)
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   const [adaptive, setAdaptive] = useState(false)             // Adaptive mode: infinite stream until Stop
   // plan is an array of { type, difficulty }. Empty in adaptive mode.
   const [plan, setPlan] = useState([])
@@ -38330,9 +38394,9 @@ function GymQuiz({ title, subtitle, typeKeys, welcomeText, algebraInput, onBack 
  * @param {Object} props
  * @param {Function} props.onBack - Callback to return to home menu
  */
-function BasicArithApp({ onBack, isGoalMode = false }) {
+function BasicArithApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
   // Difficulty level: 'easy', 'medium', 'hard', 'extrahard'
-  const [difficulty, setDifficulty] = useState('easy')
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   // Adaptive mode enabled?
   const [isAdaptive, setIsAdaptive] = useState(false)
   // Adaptive score (0-3)
@@ -38341,9 +38405,33 @@ function BasicArithApp({ onBack, isGoalMode = false }) {
   // User-entered number of questions
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
   // Quiz started?
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   // Quiz finished?
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   // Current question: {a, b, op: '+' | '−' | '×', prompt}
   const [question, setQuestion] = useState(null)
   // User's numeric answer
@@ -38648,9 +38736,9 @@ const fetchQuestion = async () => {
  * @param {Object} props
  * @param {Function} props.onBack - Callback to return to home menu
  */
-function QuadraticApp({ onBack, isGoalMode = false }) {
+function QuadraticApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
   // Difficulty level: 'easy', 'medium', 'hard', 'extrahard'
-  const [difficulty, setDifficulty] = useState('easy')
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   // Adaptive mode enabled?
   const [isAdaptive, setIsAdaptive] = useState(false)
   // Adaptive score (0-3)
@@ -38659,9 +38747,33 @@ function QuadraticApp({ onBack, isGoalMode = false }) {
   // Number of questions to complete in this quiz session
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
   // Quiz started flag
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   // Quiz finished flag
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   // Current question object: {a, b, c, x} where formula is y = ax² + bx + c
   const [question, setQuestion] = useState(null)
   // User's string input for the y value answer
@@ -39096,7 +39208,17 @@ function buildExtensionBatch(sourceTables, count) {
   return pool.slice(0, count)
 }
 
-function MultiplyApp({ onBack, isGoalMode = false }) {
+function MultiplyApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
   // --- Persistent state ---
   const [stats, setStats] = useState(() => loadMultStats())
   // --- Phase: 'picker' (level chooser) | 'level2-setup' (weak-table picker) |
@@ -39545,9 +39667,9 @@ function MultiplyApp({ onBack, isGoalMode = false }) {
  * @param {Object} props
  * @param {Function} props.onBack - Callback to return to home menu
  */
-function VocabApp({ onBack, isGoalMode = false }) {
+function VocabApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
   // Difficulty level: 'easy' | 'medium' | 'hard' | 'extrahard'
-  const [difficulty, setDifficulty] = useState('easy')
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   // Adaptive mode enabled?
   const [isAdaptive, setIsAdaptive] = useState(false)
   // Adaptive score (0-3)
@@ -39556,9 +39678,33 @@ function VocabApp({ onBack, isGoalMode = false }) {
   // Number of questions to answer in this session
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
   // Quiz started flag
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   // Quiz finished flag
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   // Current question object: {id, question: word, options: [def1, def2, def3, def4]}
   const [question, setQuestion] = useState(null)
   // Selected option letter: 'A' | 'B' | 'C' | 'D' (or empty)
@@ -39952,7 +40098,7 @@ const GYM_OPTION_LABEL = { A: '1', B: '2', C: '3', D: '4' }
  * question as a 4-button options grid instead of a free-form text input.
  */
 function makeMCQuizApp({ title, subtitle, apiPath, diffLabels, tip, adaptiveOnly }) {
-  return function GeneratedMCQuizApp({ onBack, isGoalMode = false }) {
+  return function GeneratedMCQuizApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
     const diffs = Object.keys(diffLabels)
     const [difficulty, setDifficulty] = useState(diffs[0])
     // When adaptiveOnly is set (used by all gym puzzles), the difficulty
@@ -39960,8 +40106,15 @@ function makeMCQuizApp({ title, subtitle, apiPath, diffLabels, tip, adaptiveOnly
     const [isAdaptive, setIsAdaptive] = useState(!!adaptiveOnly)
     const [adaptScore, setAdaptScore] = useState(0)
     const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
-    const [started, setStarted] = useState(false)
+    const [started, setStarted] = useState(autoStart || false)
     const [finished, setFinished] = useState(false)
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
     const [question, setQuestion] = useState(null)
     const [selectedOption, setSelectedOption] = useState('')
     const [score, setScore] = useState(0)
@@ -40272,15 +40425,22 @@ function makeMCQuizApp({ title, subtitle, apiPath, diffLabels, tip, adaptiveOnly
 }
 
 function makeQuizApp({ title, subtitle, apiPath, diffLabels, placeholders, tip, answerField }) {
-  return function GeneratedQuizApp({ onBack, isGoalMode = false }) {
+  return function GeneratedQuizApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
     const diffs = Object.keys(diffLabels)
     const [difficulty, setDifficulty] = useState(diffs[0])
     const [isAdaptive, setIsAdaptive] = useState(false)
     const [adaptScore, setAdaptScore] = useState(0) // 0.0 (easy) → 3.0 (extrahard)
     const [reportAck, setReportAck] = useState('')
     const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
-    const [started, setStarted] = useState(false)
+    const [started, setStarted] = useState(autoStart || false)
     const [finished, setFinished] = useState(false)
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
     const [question, setQuestion] = useState(null)
     const [answer, setAnswer] = useState('')
     const [score, setScore] = useState(0)
@@ -40647,13 +40807,20 @@ function DotProdApp({ onBack }) {
   const DIFFS = ['easy', 'medium', 'hard', 'extrahard']
   const DIFF_LABELS_DP = { easy: 'Easy — 2D Dot', medium: 'Medium — 2D / 3D', hard: 'Hard — Matrix ×', extrahard: 'Extra Hard — Fill Blanks' }
 
-  const [difficulty, setDifficulty] = useState('easy')
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   const [isAdaptive, setIsAdaptive] = useState(false)
   const [adaptScore, setAdaptScore] = useState(0)
   const adaptScoreRef = useRef(0)
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   const [finished, setFinished] = useState(false)
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   const [question, setQuestion] = useState(null)
   const [answer, setAnswer] = useState('')
   // Grid answer for matrix input (2D array of strings)
@@ -42631,17 +42798,41 @@ function TatsavitApp({ onBack }) {
 
 /* ── Squaring App ──────────────────────────────────── */
 // (a+b)² = a² + 2ab + b²  — student fills all four boxes
-function SquaringApp({ onBack, isGoalMode = false }) {
+function SquaringApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
   const DIFFS = ['easy', 'medium', 'hard', 'extrahard']
   const DIFF_LABELS_SQ = { easy: 'Easy — 11-19', medium: 'Medium — 20-49', hard: 'Hard — 50-99', extrahard: 'Extra Hard — 100-999' }
 
-  const [difficulty, setDifficulty] = useState('easy')
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   const [isAdaptive, setIsAdaptive] = useState(false)
   const [adaptScore, setAdaptScore] = useState(0)
   const adaptScoreRef = useRef(0)
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   const [question, setQuestion] = useState(null)
   const [score, setScore] = useState(0)
   const [questionNumber, setQuestionNumber] = useState(0)
@@ -43154,7 +43345,23 @@ const DIFF_LEVELS = ['easy', 'medium', 'hard', 'extrahard']
 const DIFF_LABELS = { easy: 'Easy', medium: 'Medium', hard: 'Hard', extrahard: 'Extra Hard' }
 const DIFF_COLORS = { easy: '#4caf50', medium: '#ff9800', hard: '#f44336', extrahard: '#9c27b0' }
 
-function RandomMixApp({ onBack, isGoalMode = false }) {
+function RandomMixApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
   const [phase, setPhase] = useState('setup') // setup | playing | finished
   const [skippedTopics, setSkippedTopics] = useState(new Set())
   const [topicDiffMap, setTopicDiffMap] = useState({}) // { topicKey: diffIndex (0-3) }
@@ -43654,14 +43861,38 @@ function RandomMixApp({ onBack, isGoalMode = false }) {
 }
 
 /* ── Sets App ───────────────────────────────────────── */
-function SetsApp({ onBack, isGoalMode = false }) {
-  const [difficulty, setDifficulty] = useState('easy')
+function SetsApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   const [isAdaptive, setIsAdaptive] = useState(false)
   const [adaptScore, setAdaptScore] = useState(0)
   const adaptScoreRef = useRef(0)
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   const [question, setQuestion] = useState(null)
   const [answer, setAnswer] = useState('')
   const [score, setScore] = useState(0)
@@ -43888,14 +44119,38 @@ const loadQuestion = async () => {
 }
 
 /* ── Sequences & Series App ─────────────────────────── */
-function SequencesApp({ onBack, isGoalMode = false }) {
-  const [difficulty, setDifficulty] = useState('easy')
+function SequencesApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   const [isAdaptive, setIsAdaptive] = useState(false)
   const [adaptScore, setAdaptScore] = useState(0)
   const adaptScoreRef = useRef(0)
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   const [question, setQuestion] = useState(null)
   const [answer, setAnswer] = useState('')
   const [score, setScore] = useState(0)
@@ -44114,14 +44369,38 @@ const loadQuestion = async () => {
 }
 
 /* ── Ratio & Proportion App ────────────────────────── */
-function RatioApp({ onBack, isGoalMode = false }) {
-  const [difficulty, setDifficulty] = useState('easy')
+function RatioApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   const [isAdaptive, setIsAdaptive] = useState(false)
   const [adaptScore, setAdaptScore] = useState(0)
   const adaptScoreRef = useRef(0)
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   const [question, setQuestion] = useState(null)
   const [answer, setAnswer] = useState('')
   const [score, setScore] = useState(0)
@@ -44356,14 +44635,38 @@ const loadQuestion = async () => {
 }
 
 /* ── Percentages App ────────────────────────────────── */
-function PercentApp({ onBack, isGoalMode = false }) {
-  const [difficulty, setDifficulty] = useState('easy')
+function PercentApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   const [isAdaptive, setIsAdaptive] = useState(false)
   const [adaptScore, setAdaptScore] = useState(0)
   const adaptScoreRef = useRef(0)
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   const [question, setQuestion] = useState(null)
   const [answer, setAnswer] = useState('')
   const [score, setScore] = useState(0)
@@ -44608,14 +44911,38 @@ const loadQuestion = async () => {
  * For 'simplify' questions: user enters the resulting exponent (integer)
  * For 'evaluate' questions: user enters a number or fraction (e.g. "8", "1/4")
  */
-function IndicesApp({ onBack, isGoalMode = false }) {
-  const [difficulty, setDifficulty] = useState('easy')
+function IndicesApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   const [isAdaptive, setIsAdaptive] = useState(false)
   const [adaptScore, setAdaptScore] = useState(0)
   const adaptScoreRef = useRef(0)
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   const [question, setQuestion] = useState(null)
   const [answer, setAnswer] = useState('')
   const [score, setScore] = useState(0)
@@ -44897,14 +45224,38 @@ const loadQuestion = async () => {
  * User types answers using √ symbol (keyboard hint provided) or "sqrt".
  * Auto-advance on correct answers; Enter key advances after wrong answers.
  */
-function SurdsApp({ onBack, isGoalMode = false }) {
-  const [difficulty, setDifficulty] = useState('easy')
+function SurdsApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   const [isAdaptive, setIsAdaptive] = useState(false)
   const [adaptScore, setAdaptScore] = useState(0)
   const adaptScoreRef = useRef(0)
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   const [question, setQuestion] = useState(null)
   const [answer, setAnswer] = useState('')
   const [score, setScore] = useState(0)
@@ -45206,10 +45557,10 @@ const loadQuestion = async () => {
   )
 }
 
-function FractionAddApp({ onBack, isGoalMode = false }) {
+function FractionAddApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
   // ── State variables ──────────────────────────────────────────────────
   // Difficulty: 'easy' | 'medium' | 'hard' | 'extrahard'
-  const [difficulty, setDifficulty] = useState('easy')
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   // Adaptive mode enabled?
   const [isAdaptive, setIsAdaptive] = useState(false)
   // Adaptive score (0-3)
@@ -45218,8 +45569,32 @@ function FractionAddApp({ onBack, isGoalMode = false }) {
   // Number of questions (user-configurable, stored as string for input)
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
   // Quiz phase flags
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   // Current question object from API
   const [question, setQuestion] = useState(null)
   // User's answer as a string: "3/4" or "2 3/4" for mixed numbers
@@ -45639,13 +46014,37 @@ const TWIN_SYMBOLS = [
   '⚽','🏀','🎾','🎯','🎲','🎸','🎨','📚','✏️','🔔',
 ]
 
-function TwinHuntApp({ onBack, isGoalMode = false }) {
+function TwinHuntApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
   // Number of symbols per panel (default 5, configurable 3-15)
   const [count, setCount] = useState('5')
   // Game started flag
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   // Game finished flag
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startGame(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   // Current round number (1-indexed)
   const [round, setRound] = useState(0)
   // Total rounds to complete
@@ -45989,9 +46388,9 @@ const generateRound = (n) => {
  * @param {Object} props
  * @param {Function} props.onBack - Callback to return to home menu
  */
-function SqrtApp({ onBack, isGoalMode = false }) {
+function SqrtApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
   // Difficulty level: 'easy' (1-5), 'medium' (6-10), 'hard' (11-20), 'extrahard' (21-50)
-  const [difficulty, setDifficulty] = useState('easy')
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   // Adaptive mode enabled?
   const [isAdaptive, setIsAdaptive] = useState(false)
   // Adaptive score (0-3)
@@ -46000,9 +46399,33 @@ function SqrtApp({ onBack, isGoalMode = false }) {
   // User-entered question limit (empty string = unlimited)
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
   // Quiz started flag
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   // Quiz finished flag
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   // Current question object: {q: radicand, prompt: "√n"}
   const [question, setQuestion] = useState(null)
   // User's string input for the answer
@@ -46290,9 +46713,9 @@ const fetchQuestion = async (step) => {
  * @param {Object} props
  * @param {Function} props.onBack - Callback to return to home menu
  */
-function PolyMulApp({ onBack, isGoalMode = false }) {
+function PolyMulApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
   // Difficulty level: 'easy' | 'medium' | 'hard' | 'extrahard'
-  const [difficulty, setDifficulty] = useState('easy')
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   // Adaptive mode enabled?
   const [isAdaptive, setIsAdaptive] = useState(false)
   // Adaptive score (0-3)
@@ -46301,9 +46724,33 @@ function PolyMulApp({ onBack, isGoalMode = false }) {
   // Number of questions to answer
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
   // Quiz started flag
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   // Quiz finished flag
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   // Current question: {p1, p2, p1Display, p2Display, productDisplay, resultDegree}
   const [question, setQuestion] = useState(null)
   // Array of user-entered coefficients (strings, parallel to resultDegree length)
@@ -46600,10 +47047,10 @@ const loadQuestion = async () => {
  * @param {Object} props
  * @param {Function} props.onBack - Callback to return to home menu
  */
-function PolyFactorApp({ onBack, isGoalMode = false }) {
+function PolyFactorApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
   // ─────── Quiz State Management ──────────────────────────────────
   // Difficulty level: 'easy' | 'medium' | 'hard' | 'extrahard'
-  const [difficulty, setDifficulty] = useState('easy')
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   // Adaptive mode enabled?
   const [isAdaptive, setIsAdaptive] = useState(false)
   // Adaptive score (0-3)
@@ -46612,9 +47059,33 @@ function PolyFactorApp({ onBack, isGoalMode = false }) {
   // Number of questions to answer (as string for input field)
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
   // Quiz started flag (controls welcome screen vs quiz content)
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   // Quiz finished flag (controls results screen)
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   // Current question: {originalPoly, display, a, b, c, factors: {p, q, r, s}}
   const [question, setQuestion] = useState(null)
   // Coefficient p for first factor (px + q)
@@ -46911,10 +47382,10 @@ const loadQuestion = async () => {
  * @param {Object} props
  * @param {Function} props.onBack - Callback to return to home menu
  */
-function PrimeFactorApp({ onBack, isGoalMode = false }) {
+function PrimeFactorApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
   // ─────── Quiz State Management ──────────────────────────────────
   // Difficulty level: 'easy' | 'medium' | 'hard' (affects size of numbers)
-  const [difficulty, setDifficulty] = useState('easy')
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   // Adaptive mode enabled?
   const [isAdaptive, setIsAdaptive] = useState(false)
   // Adaptive score (0-3)
@@ -46923,9 +47394,33 @@ function PrimeFactorApp({ onBack, isGoalMode = false }) {
   // Number of questions to answer (as string for input field)
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
   // Quiz started flag (controls welcome screen vs quiz content)
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   // Quiz finished flag (controls results screen)
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   // Current question: {number: n, factors: [p1, p2, ...]}
   const [question, setQuestion] = useState(null)
   // Array of factors user has entered so far (e.g., [2, 3, 5])
@@ -47249,10 +47744,10 @@ const loadQuestion = async () => {
  * @param {Object} props
  * @param {Function} props.onBack - Callback to return to home menu
  */
-function QFormulaApp({ onBack, isGoalMode = false }) {
+function QFormulaApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
   // ─────── Quiz State Management ──────────────────────────────────
   // Difficulty level: 'easy' | 'medium' | 'hard'
-  const [difficulty, setDifficulty] = useState('easy')
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   // Adaptive mode enabled?
   const [isAdaptive, setIsAdaptive] = useState(false)
   // Adaptive score (0-3)
@@ -47261,9 +47756,33 @@ function QFormulaApp({ onBack, isGoalMode = false }) {
   // Number of questions to answer (as string for input field)
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
   // Quiz started flag (controls welcome screen vs quiz content)
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   // Quiz finished flag (controls results screen)
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   // Current question: {a, b, c, roots: {type: 'real_distinct'|'real_equal'|'complex', r1, r2, ...}}
   const [question, setQuestion] = useState(null)
   // User's first root value (or real part for complex)
@@ -47567,10 +48086,10 @@ const loadQuestion = async () => {
  * @param {Object} props
  * @param {Function} props.onBack - Callback to return to home menu
  */
-function SimulApp({ onBack, isGoalMode = false }) {
+function SimulApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
   // ─────── Quiz State Management ──────────────────────────────────
   // Difficulty level: 'easy' (2×2) | 'hard' (3×3)
-  const [difficulty, setDifficulty] = useState('easy')
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   // Adaptive mode enabled?
   const [isAdaptive, setIsAdaptive] = useState(false)
   // Adaptive score (0-3)
@@ -47579,9 +48098,33 @@ function SimulApp({ onBack, isGoalMode = false }) {
   // Number of questions to answer (as string for input field)
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
   // Quiz started flag (controls welcome screen vs quiz content)
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   // Quiz finished flag (controls results screen)
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   // Current question: {size: 2|3, eqs: [{a, b, c, d}, ...], solution: {x, y, z}}
   const [question, setQuestion] = useState(null)
   // User's solution for x variable
@@ -47899,10 +48442,10 @@ const loadQuestion = async () => {
  * @param {Object} props
  * @param {Function} props.onBack - Callback to return to home menu
  */
-function FuncEvalApp({ onBack, isGoalMode = false }) {
+function FuncEvalApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
   // ─────── Quiz State Management ──────────────────────────────────
   // Difficulty level: 'easy' | 'medium' | 'hard' (number of variables)
-  const [difficulty, setDifficulty] = useState('easy')
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   // Adaptive mode enabled?
   const [isAdaptive, setIsAdaptive] = useState(false)
   // Adaptive score (0-3)
@@ -47911,9 +48454,33 @@ function FuncEvalApp({ onBack, isGoalMode = false }) {
   // Number of questions to answer (as string for input field)
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
   // Quiz started flag (controls welcome screen vs quiz content)
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   // Quiz finished flag (controls results screen)
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   // Current question: {formula: "2x + 3y + 1", vars: {x: 2, y: 3}, answer: 10}
   const [question, setQuestion] = useState(null)
   // User's answer (the result of the function evaluation)
@@ -48186,10 +48753,10 @@ const loadQuestion = async () => {
  * @param {Object} props
  * @param {Function} props.onBack - Callback to return to home menu
  */
-function LineEqApp({ onBack, isGoalMode = false }) {
+function LineEqApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
   // ─────── Quiz State Management ──────────────────────────────────
   // Difficulty level: 'easy' | 'medium' | 'hard' (affects slope/intercept values)
-  const [difficulty, setDifficulty] = useState('easy')
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   // Adaptive mode enabled?
   const [isAdaptive, setIsAdaptive] = useState(false)
   // Adaptive score (0-3)
@@ -48198,9 +48765,33 @@ function LineEqApp({ onBack, isGoalMode = false }) {
   // Number of questions to answer (as string for input field)
   const [numQuestions, setNumQuestions] = useState(String(DEFAULT_TOTAL))
   // Quiz started flag (controls welcome screen vs quiz content)
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(autoStart || false)
   // Quiz finished flag (controls results screen)
   const [finished, setFinished] = useState(false)
+
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   // Current question: {x1, y1, x2, y2}
   const [question, setQuestion] = useState(null)
   // User's slope value (m in y = mx + c)
@@ -48722,7 +49313,23 @@ function getPromptForType(type, q) {
  * @param {Object} props
  * @param {Function} props.onBack - Callback to return to home menu
  */
-function CustomApp({ onBack, isGoalMode = false }) {
+function CustomApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onComplete = false  }) {
+  useEffect(() => {
+    if (forcedDifficulty) {
+      let q = 20;
+      if (forcedDifficulty === 'medium') q = 30;
+      if (forcedDifficulty === 'hard') q = 40;
+      try { if (typeof setTotalQ === 'function') setTotalQ(q); } catch(e){}
+      try { if (typeof setNumQuestions === 'function') setNumQuestions(String(q)); } catch(e){}
+    }
+  }, [forcedDifficulty]);
+
+  useEffect(() => {
+    if (autoStart) {
+      setTimeout(() => startQuiz(), 0);
+    }
+  }, [autoStart]);
+
   // ─────── Setup Phase State ──────────────────────────────────
   // Current phase: 'setup' | 'quiz' | 'finished'
   const [phase, setPhase] = useState('setup')
@@ -48731,7 +49338,7 @@ function CustomApp({ onBack, isGoalMode = false }) {
   // Question ordering: 'random' | 'sequential' (affects question plan generation)
   const [ordering, setOrdering] = useState('random')
   // Difficulty level applied to all selected puzzle types: 'easy' | 'medium' | 'hard'
-  const [difficulty, setDifficulty] = useState('easy')
+  const [difficulty, setDifficulty] = useState(forcedDifficulty || 'easy')
   // Total number of questions to answer (as string for input field)
   const [numQuestions, setNumQuestions] = useState('20')
 
@@ -50939,6 +51546,13 @@ function Tatsavit1App({ onBack }) {
   const [score, setScore] = useState(0)
   const [results, setResults] = useState([])
   const [finished, setFinished] = useState(false)
+  useEffect(() => {
+    if (finished && typeof onComplete === 'function') {
+      const p = Math.round(((typeof score !== 'undefined' ? score : 0) / (typeof totalQ !== 'undefined' ? totalQ : 10)) * 100);
+      const s = p === 100 ? 3 : p >= 85 ? 2 : p >= 70 ? 1 : 0;
+      onComplete(p, s);
+    }
+  }, [finished]);
   const [sessionGoal, setSessionGoal] = useState(isGoalMode ? 'speed' : 'standard')
   useEffect(() => {
     if (!isGoalMode) {

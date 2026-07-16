@@ -24,6 +24,7 @@ const OptionPreview = React.memo(({ categoryId, value }) => {
     const avatar = createAvatar(avataaars, { 
       seed: "tenali",
       ...previewConfig, 
+      accessoriesProbability: 100,
       size: 128 
     });
     return avatar.toDataUri();
@@ -48,7 +49,7 @@ export default function CustomizationGrid({ categoryId, currentValue, onSelect }
   const isColor = categoryId.toLowerCase().includes('color');
 
   return (
-    <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 p-2">
+    <div className="grid gap-4 grid-cols-3 p-2">
       
       {/* Basic Options */}
       {availableOptions.map((opt) => {
@@ -76,7 +77,7 @@ export default function CustomizationGrid({ categoryId, currentValue, onSelect }
             </div>
             
             <span 
-              className="text-[10px] md:text-xs font-semibold w-full text-center leading-tight line-clamp-2 px-1"
+              className="text-[10px] md:text-xs font-semibold w-full text-center leading-tight break-words px-1"
               style={{ color: 'var(--clr-text)' }}
               title={isColor ? (COLOR_NAMES[opt] || opt) : opt}
             >
@@ -99,19 +100,26 @@ export default function CustomizationGrid({ categoryId, currentValue, onSelect }
       {cosmetics.map((item) => (
         <div
           key={item.id}
-          className="relative flex flex-col items-center justify-center gap-3 p-4 aspect-square rounded-xl cursor-not-allowed opacity-60 border"
+          onClick={() => {
+            if (item.moduleId) {
+              window.location.href = `/?mode=${item.moduleId}`;
+            }
+          }}
+          className={`relative flex flex-col items-center justify-center gap-3 p-4 aspect-square rounded-xl opacity-60 border transition-transform duration-200 ${item.moduleId ? 'cursor-pointer hover:scale-105 hover:opacity-80' : 'cursor-not-allowed'}`}
           style={{ backgroundColor: 'var(--clr-bg)', borderColor: 'var(--clr-border)' }}
-          title={`🔒 Unlock by completing lessons`}
+          title={item.moduleId ? `Click to start ${item.moduleName} and unlock this item` : `🔒 Unlock by completing lessons`}
         >
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-10 backdrop-blur-[1px] rounded-xl p-2 text-center">
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-10 backdrop-blur-[1px] rounded-xl p-2 text-center pointer-events-none">
             <Lock size={24} className="mb-2" style={{ color: 'var(--clr-text-soft)' }} />
-            <span className="text-[10px] md:text-xs font-bold leading-tight" style={{ color: 'var(--clr-text-soft)' }}>Unlock by completing lessons</span>
+            <span className="text-[10px] md:text-xs font-bold leading-tight" style={{ color: 'var(--clr-text-soft)' }}>
+              {item.condition || 'Unlock by completing lessons'}
+            </span>
           </div>
-          <div className="w-full h-full p-2 opacity-30 grayscale blur-sm flex-1 overflow-hidden">
+          <div className="w-full h-full p-2 opacity-30 grayscale blur-sm flex-1 overflow-hidden pointer-events-none">
             <OptionPreview categoryId={categoryId === 'math_collection' ? 'accessories' : categoryId} value="none" />
           </div>
           <span 
-            className="text-xs sm:text-sm font-semibold truncate w-full text-center leading-tight mt-2 px-1"
+            className="text-xs sm:text-sm font-semibold break-words w-full text-center leading-tight mt-2 px-1"
             style={{ color: 'var(--clr-text-soft)' }}
             title={item.label}
           >
