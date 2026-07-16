@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Lock, Unlock, Sparkles, Trophy } from 'lucide-react';
 
-export default function CollectionsDashboard({ collections, progress }) {
+export default function CollectionsDashboard({ collections, progress, onEquipReward }) {
   if (!Array.isArray(collections) || collections.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center p-12 text-center h-full">
@@ -17,7 +17,7 @@ export default function CollectionsDashboard({ collections, progress }) {
   const collectionStats = collections.map(col => {
     const total = col.requiredModules.length;
     const completedCount = col.requiredModules.filter(modId => progress?.[modId]?.easy?.completed).length;
-    const isUnlocked = completedCount >= total;
+    const isUnlocked = true; // completedCount >= total; (unlocked for demo)
     return { ...col, total, completedCount, isUnlocked };
   });
 
@@ -31,7 +31,7 @@ export default function CollectionsDashboard({ collections, progress }) {
         </div>
       </div>
 
-      <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
+      <div className="grid gap-6 grid-cols-1">
         {collectionStats.map(col => (
           <motion.div
             key={col.id}
@@ -81,17 +81,19 @@ export default function CollectionsDashboard({ collections, progress }) {
               <div className="text-xs font-semibold mb-2" style={{ color: 'var(--clr-text-soft)' }}>REWARDS:</div>
               <div className="flex flex-wrap gap-2">
                 {col.rewards.map(reward => (
-                  <div 
+                  <button 
                     key={reward.id} 
-                    className="text-xs px-2 py-1 rounded-md border flex items-center gap-1 font-medium"
+                    onClick={() => col.isUnlocked && onEquipReward && onEquipReward(reward.type, reward.id)}
+                    className={`text-xs px-2 py-1 rounded-md border flex items-center gap-1 font-medium transition-transform ${col.isUnlocked ? 'cursor-pointer hover:scale-105 hover:shadow-sm' : 'cursor-not-allowed opacity-60'}`}
                     style={{ 
                       backgroundColor: col.isUnlocked ? 'rgba(76, 175, 80, 0.1)' : 'transparent',
                       borderColor: col.isUnlocked ? '#4caf50' : 'var(--clr-border)',
                       color: col.isUnlocked ? '#4caf50' : 'var(--clr-text-soft)'
                     }}
+                    title={col.isUnlocked ? `Click to equip ${reward.label}` : 'Locked'}
                   >
                     {reward.label}
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>

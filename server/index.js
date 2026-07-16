@@ -9319,16 +9319,6 @@ app.get('/enhanced', (_req, res) => {
 });
 
 /**
- * CATCH-ALL ROUTE
- * ═══════════════════════════════════════════════════════════════════════════
- * Serves the React/Vue SPA index.html for all unmatched routes
- * Enables client-side routing to work properly
- */
-app.get(/.*/, (_req, res) => {
-  res.sendFile(path.join(clientDistPath, 'index.html'));
-});
-
-/**
  * START SERVER
  * ═══════════════════════════════════════════════════════════════════════════
  * Listen on all interfaces (0.0.0.0) at the configured port
@@ -9421,6 +9411,7 @@ app.post('/api/progress/update', requireAuth, async (req, res) => {
     res.status(500).json({ error: 'Failed to update progress' });
   }
 });
+
 
 
 /**

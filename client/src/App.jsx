@@ -36501,7 +36501,7 @@ function App() {
             if (key === 'goalpractice') {
               setMode('goalpractice');
             } else if (key === 'avatar') {
-              window.open('/avatar', '_blank');
+              window.location.href = '/avatar';
             } else {
               setMode(key);
               setIsGoalMode(false);
@@ -36516,7 +36516,7 @@ function App() {
             }}
             onSelect={(key) => {
               if (key === 'avatar') {
-                window.open('/avatar', '_blank');
+                window.location.href = '/avatar';
               } else {
                 setMode(key);
                 setIsGoalMode(true);
@@ -36563,7 +36563,7 @@ function Home({ onSelect, isGoalSelection = false, onBack }) {
     { key: 'randommix', name: 'Random Mix', subtitle: 'Adaptive cross-topic quiz', color: 'featured' },
     { key: 'custom', name: 'Custom Lesson', subtitle: 'Build your own mixed quiz', color: 'featured' },
     { key: 'gym', name: 'Gym', subtitle: 'Adaptive workout across all 7 gym puzzles', color: 'featured' },
-    { key: 'avatar', name: 'Avatar Studio', subtitle: 'Customize your premium avatar', color: 'featured' },
+
   ]
 
   // All regular quiz apps sorted alphabetically by name

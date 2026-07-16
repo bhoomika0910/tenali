@@ -32,7 +32,7 @@ export default function AvatarStudio({ onBack }) {
     if (Array.isArray(collections) && progress) {
       collections.forEach(col => {
         const completedCount = col.requiredModules.filter(modId => progress?.[modId]?.easy?.completed).length;
-        const isUnlocked = completedCount >= col.requiredModules.length;
+        const isUnlocked = true; // completedCount >= col.requiredModules.length; (unlocked for demo)
         if (isUnlocked) {
           col.rewards.forEach(reward => {
             if (OPTIONS[reward.type] && !OPTIONS[reward.type].includes(reward.id)) {
@@ -211,7 +211,13 @@ export default function AvatarStudio({ onBack }) {
                 className="h-full"
               >
                 {activeCategory === 'math_collection' ? (
-                  <CollectionsDashboard collections={collections} progress={progress} />
+                  <div className="h-full overflow-y-auto">
+                    <CollectionsDashboard 
+                      collections={collections} 
+                      progress={progress} 
+                      onEquipReward={(type, id) => handleUpdate(type, id)} 
+                    />
+                  </div>
                 ) : (
                   <CustomizationGrid 
                     categoryId={activeCategory} 

@@ -3,60 +3,145 @@
     "id": "number_master",
     "name": "Number Master",
     "theme": "Arithmetic & Number Theory",
-    "requiredModules": ["addition", "multiply", "decimals", "fractionadd", "percent", "ratio", "bases"],
+    "requiredModules": [
+      "addition",
+      "multiply",
+      "decimals",
+      "fractionadd",
+      "percent",
+      "ratio",
+      "bases"
+    ],
     "rewards": [
-      { "id": "number_crown", "type": "top", "label": "Number Crown" },
-      { "id": "calc_watch", "type": "accessories", "label": "Calculator Watch" }
+      {
+        "id": "winterHat02",
+        "type": "top",
+        "label": "Number Crown"
+      },
+      {
+        "id": "round",
+        "type": "accessories",
+        "label": "Calculator Watch"
+      }
     ]
   },
   {
     "id": "geometry_genius",
     "name": "Geometry Genius",
     "theme": "Shapes & Space",
-    "requiredModules": ["angles", "congruence", "similarity", "polygons", "pythag", "coordgeom"],
+    "requiredModules": [
+      "angles",
+      "congruence",
+      "similarity",
+      "polygons",
+      "pythag",
+      "coordgeom"
+    ],
     "rewards": [
-      { "id": "math_glasses", "type": "accessories", "label": "Geometry Glasses" },
-      { "id": "compass_bag", "type": "accessories", "label": "Compass Backpack" }
+      {
+        "id": "wayfarers",
+        "type": "accessories",
+        "label": "Geometry Glasses"
+      },
+      {
+        "id": "overall",
+        "type": "clothing",
+        "label": "Compass Backpack"
+      }
     ]
   },
   {
     "id": "algebra_ace",
     "name": "Algebra Ace",
     "theme": "Equations & Patterns",
-    "requiredModules": ["lineareq", "quadratic", "simul", "funceval", "indices"],
+    "requiredModules": [
+      "lineareq",
+      "quadratic",
+      "simul",
+      "funceval",
+      "indices"
+    ],
     "rewards": [
-      { "id": "algebra_hoodie", "type": "clothing", "label": "➗ Algebra Hoodie" },
-      { "id": "sigma_hoodie", "type": "clothing", "label": "∑ Sigma Hoodie" }
+      {
+        "id": "hoodie",
+        "type": "clothing",
+        "label": "➗ Algebra Hoodie"
+      },
+      {
+        "id": "graphicShirt",
+        "type": "clothing",
+        "label": "∑ Sigma Hoodie"
+      }
     ]
   },
   {
     "id": "calculus_champion",
     "name": "Calculus Champion",
     "theme": "Change & Motion",
-    "requiredModules": ["limits", "diff", "integ", "diffeq"],
+    "requiredModules": [
+      "limits",
+      "diff",
+      "integ",
+      "diffeq"
+    ],
     "rewards": [
-      { "id": "formula_cape", "type": "clothing", "label": "⚡ Formula Cape" },
-      { "id": "wizard_hat", "type": "top", "label": "🪄 Math Wizard Hat" }
+      {
+        "id": "blazerAndShirt",
+        "type": "clothing",
+        "label": "⚡ Formula Cape"
+      },
+      {
+        "id": "winterHat1",
+        "type": "top",
+        "label": "🪄 Math Wizard Hat"
+      }
     ]
   },
   {
     "id": "advanced_math",
     "name": "Advanced Mathematics",
     "theme": "Higher Level Concepts",
-    "requiredModules": ["binomial", "complex", "conics", "matrix", "vectors"],
+    "requiredModules": [
+      "binomial",
+      "complex",
+      "conics",
+      "matrix",
+      "vectors"
+    ],
     "rewards": [
-      { "id": "genius_aura", "type": "backgroundColor", "label": "🧠 Genius Aura" },
-      { "id": "grad_cap", "type": "top", "label": "🎓 Graduation Cap" }
+      {
+        "id": "f97316",
+        "type": "backgroundColor",
+        "label": "🧠 Genius Aura"
+      },
+      {
+        "id": "winterHat03",
+        "type": "top",
+        "label": "🎓 Graduation Cap"
+      }
     ]
   },
   {
     "id": "data_science",
     "name": "Data Science",
     "theme": "Data & Probability",
-    "requiredModules": ["stats", "prob", "permcomb", "sets"],
+    "requiredModules": [
+      "stats",
+      "prob",
+      "permcomb",
+      "sets"
+    ],
     "rewards": [
-      { "id": "puzzle_badge", "type": "accessories", "label": "🧩 Puzzle Badge" },
-      { "id": "pi_tshirt", "type": "clothing", "label": "π Pi T-Shirt" }
+      {
+        "id": "prescription01",
+        "type": "accessories",
+        "label": "🧩 Puzzle Badge"
+      },
+      {
+        "id": "shirtCrewNeck",
+        "type": "clothing",
+        "label": "π Pi T-Shirt"
+      }
     ]
   }
 ]
