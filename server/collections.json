@@ -10,137 +10,306 @@
       "fractionadd",
       "percent",
       "ratio",
-      "bases"
+      "basicarith"
     ],
     "rewards": [
       {
-        "id": "winterHat02",
-        "type": "top",
-        "label": "Number Crown"
+        "id": "number_shirt",
+        "type": "custom_clothing",
+        "label": "Number-themed T-shirt"
       },
       {
-        "id": "round",
-        "type": "accessories",
-        "label": "Calculator Watch"
+        "id": "calculator_badge",
+        "type": "custom_accessory",
+        "label": "Calculator Badge"
+      },
+      {
+        "id": "explorer_bg",
+        "type": "custom_bg",
+        "label": "Explorer Background"
       }
     ]
   },
   {
-    "id": "geometry_genius",
-    "name": "Geometry Genius",
+    "id": "geometry_hero",
+    "name": "Geometry Hero",
     "theme": "Shapes & Space",
     "requiredModules": [
       "angles",
-      "congruence",
+      "triangles",
       "similarity",
+      "congruence",
       "polygons",
+      "circleth",
       "pythag",
-      "coordgeom"
+      "heron"
     ],
     "rewards": [
       {
-        "id": "wayfarers",
-        "type": "accessories",
+        "id": "geometry_glasses",
+        "type": "custom_eyewear",
         "label": "Geometry Glasses"
       },
       {
-        "id": "overall",
-        "type": "clothing",
-        "label": "Compass Backpack"
+        "id": "compass_accessory",
+        "type": "custom_accessory",
+        "label": "Compass"
+      },
+      {
+        "id": "blueprint_bg",
+        "type": "custom_bg",
+        "label": "Blueprint Background"
       }
     ]
   },
   {
-    "id": "algebra_ace",
-    "name": "Algebra Ace",
+    "id": "algebra_genius",
+    "name": "Algebra Genius",
     "theme": "Equations & Patterns",
     "requiredModules": [
       "lineareq",
-      "quadratic",
       "simul",
-      "funceval",
-      "indices"
+      "quadratic",
+      "qformula",
+      "ineq",
+      "funceval"
     ],
     "rewards": [
       {
-        "id": "hoodie",
-        "type": "clothing",
-        "label": "➗ Algebra Hoodie"
+        "id": "sigma_hoodie",
+        "type": "custom_clothing",
+        "label": "Sigma Hoodie"
       },
       {
-        "id": "graphicShirt",
-        "type": "clothing",
-        "label": "∑ Sigma Hoodie"
+        "id": "formula_notebook",
+        "type": "custom_accessory",
+        "label": "Formula Notebook"
+      },
+      {
+        "id": "algebra_aura",
+        "type": "custom_bg",
+        "label": "Algebra Aura"
       }
     ]
   },
   {
-    "id": "calculus_champion",
-    "name": "Calculus Champion",
-    "theme": "Change & Motion",
+    "id": "coordinate_explorer",
+    "name": "Coordinate Explorer",
+    "theme": "Coordinate Geometry",
     "requiredModules": [
-      "limits",
-      "diff",
-      "integ",
-      "diffeq"
+      "coordgeom",
+      "lineq",
+      "section",
+      "vectors",
+      "dotprod",
+      "transform"
     ],
     "rewards": [
       {
-        "id": "blazerAndShirt",
-        "type": "clothing",
-        "label": "⚡ Formula Cape"
+        "id": "grid_bg",
+        "type": "custom_bg",
+        "label": "Grid Background"
       },
       {
-        "id": "winterHat1",
-        "type": "top",
-        "label": "🪄 Math Wizard Hat"
+        "id": "coordinate_compass",
+        "type": "custom_accessory",
+        "label": "Coordinate Compass"
+      },
+      {
+        "id": "vector_cape",
+        "type": "custom_clothing",
+        "label": "Vector Cape"
       }
     ]
   },
   {
-    "id": "advanced_math",
-    "name": "Advanced Mathematics",
-    "theme": "Higher Level Concepts",
-    "requiredModules": [
-      "binomial",
-      "complex",
-      "conics",
-      "matrix",
-      "vectors"
-    ],
-    "rewards": [
-      {
-        "id": "f97316",
-        "type": "backgroundColor",
-        "label": "🧠 Genius Aura"
-      },
-      {
-        "id": "winterHat03",
-        "type": "top",
-        "label": "🎓 Graduation Cap"
-      }
-    ]
-  },
-  {
-    "id": "data_science",
-    "name": "Data Science",
+    "id": "data_wizard",
+    "name": "Data Wizard",
     "theme": "Data & Probability",
     "requiredModules": [
       "stats",
       "prob",
-      "permcomb",
-      "sets"
+      "sets",
+      "permcomb"
     ],
     "rewards": [
       {
-        "id": "prescription01",
-        "type": "accessories",
-        "label": "🧩 Puzzle Badge"
+        "id": "dice_backpack",
+        "type": "custom_accessory",
+        "label": "Dice Backpack"
       },
       {
-        "id": "shirtCrewNeck",
-        "type": "clothing",
-        "label": "π Pi T-Shirt"
+        "id": "graph_hoodie",
+        "type": "custom_clothing",
+        "label": "Graph Hoodie"
+      },
+      {
+        "id": "statistics_cap",
+        "type": "custom_hat",
+        "label": "Statistics Cap"
+      }
+    ]
+  },
+  {
+    "id": "advanced_maths",
+    "name": "Advanced Maths",
+    "theme": "Higher Level Concepts",
+    "requiredModules": [
+      "limits",
+      "diff",
+      "integ",
+      "diffeq",
+      "log",
+      "matrix",
+      "complex",
+      "binomial"
+    ],
+    "rewards": [
+      {
+        "id": "infinity_aura",
+        "type": "custom_bg",
+        "label": "Infinity Aura"
+      },
+      {
+        "id": "scholar_robe",
+        "type": "outfit_macro",
+        "label": "Scholar Robe"
+      },
+      {
+        "id": "golden_formula",
+        "type": "custom_accessory",
+        "label": "Golden Formula Scroll"
+      }
+    ]
+  },
+  {
+    "id": "finance_expert",
+    "name": "Finance Expert",
+    "theme": "Finance",
+    "requiredModules": [
+      "gst",
+      "profitloss",
+      "banking",
+      "shares",
+      "variation",
+      "sdt"
+    ],
+    "rewards": [
+      {
+        "id": "money_bag",
+        "type": "custom_accessory",
+        "label": "Money Bag"
+      },
+      {
+        "id": "finance_jacket",
+        "type": "custom_clothing",
+        "label": "Finance Jacket"
+      },
+      {
+        "id": "investor_badge",
+        "type": "custom_accessory",
+        "label": "Investor Badge"
+      }
+    ]
+  },
+  {
+    "id": "logic_patterns",
+    "name": "Logic & Patterns",
+    "theme": "Logic",
+    "requiredModules": [
+      "indices",
+      "surds",
+      "sqrt",
+      "primefactor",
+      "hcflcm",
+      "remfactor",
+      "polyfactor",
+      "polymul",
+      "bases"
+    ],
+    "rewards": [
+      {
+        "id": "puzzle_crown",
+        "type": "custom_hat",
+        "label": "Puzzle Crown"
+      },
+      {
+        "id": "logic_glasses",
+        "type": "custom_eyewear",
+        "label": "Logic Glasses"
+      },
+      {
+        "id": "ancient_numbers_bg",
+        "type": "custom_bg",
+        "label": "Ancient Numbers Background"
+      }
+    ]
+  },
+  {
+    "id": "practice_champion",
+    "name": "Practice Champion",
+    "theme": "Practice",
+    "requiredModules": [
+      "gymdecimals",
+      "funcgym",
+      "dotprodgym",
+      "fracaddgym",
+      "lineqgym",
+      "indicesgym",
+      "polygym",
+      "guess",
+      "spot"
+    ],
+    "rewards": [
+      {
+        "id": "training_outfit",
+        "type": "custom_clothing",
+        "label": "Training Outfit"
+      },
+      {
+        "id": "champion_medal",
+        "type": "custom_accessory",
+        "label": "Champion Medal"
+      },
+      {
+        "id": "lightning_aura",
+        "type": "custom_bg",
+        "label": "Lightning Aura"
+      }
+    ]
+  },
+  {
+    "id": "legendary_scholar",
+    "name": "Legendary Scholar",
+    "theme": "Completion",
+    "requiredModules": [
+      "all_collections"
+    ],
+    "rewards": [
+      {
+        "id": "tenali_outfit",
+        "type": "outfit_macro",
+        "label": "Tenali Outfit"
+      },
+      {
+        "id": "aryabhata_outfit",
+        "type": "outfit_macro",
+        "label": "Aryabhata Outfit"
+      },
+      {
+        "id": "chanakya_outfit",
+        "type": "outfit_macro",
+        "label": "Chanakya Outfit"
+      },
+      {
+        "id": "chitragupta_outfit",
+        "type": "outfit_macro",
+        "label": "Chitragupta Outfit"
+      },
+      {
+        "id": "golden_palace_bg",
+        "type": "custom_bg",
+        "label": "Golden Palace Background"
       }
     ]
   }

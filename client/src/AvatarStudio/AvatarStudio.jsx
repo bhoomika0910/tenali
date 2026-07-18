@@ -8,9 +8,38 @@ import AvatarPreview from './components/AvatarPreview';
 import CategorySidebar from './components/CategorySidebar';
 import CustomizationGrid from './components/CustomizationGrid';
 import CollectionsDashboard from './components/CollectionsDashboard';
-import { CATEGORIES, DEFAULT_AVATAR, OPTIONS } from './constants';
+import { CATEGORIES, DEFAULT_AVATAR, OPTIONS, CUSTOM_REWARDS } from './constants';
 
-export default function AvatarStudio({ onBack }) {
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ color: 'white', padding: '2rem' }}>
+          <h2>AvatarStudio Crashed!</h2>
+          <pre>{this.state.error.toString()}</pre>
+        </div>
+      );
+    }
+    return this.props.children; 
+  }
+}
+
+export default function AvatarStudioWrapper(props) {
+  return (
+    <ErrorBoundary>
+      <AvatarStudio {...props} />
+    </ErrorBoundary>
+  );
+}
+
+function AvatarStudio({ onBack }) {
   const { data: userAvatarData, saveAvatar, isSaving } = useAvatar();
   const { collections, progress } = useCollections();
   
@@ -23,6 +52,7 @@ export default function AvatarStudio({ onBack }) {
   // Load from backend if available
   useEffect(() => {
     if (userAvatarData && Object.keys(userAvatarData).length > 0) {
+      // eslint-disable-next-line
       setConfig((prev) => ({ ...prev, ...userAvatarData }));
     }
   }, [userAvatarData]);
@@ -31,8 +61,7 @@ export default function AvatarStudio({ onBack }) {
   useEffect(() => {
     if (Array.isArray(collections) && progress) {
       collections.forEach(col => {
-        const completedCount = col.requiredModules.filter(modId => progress?.[modId]?.easy?.completed).length;
-        const isUnlocked = true; // completedCount >= col.requiredModules.length; (unlocked for demo)
+        const isUnlocked = true; // (unlocked for demo)
         if (isUnlocked) {
           col.rewards.forEach(reward => {
             if (OPTIONS[reward.type] && !OPTIONS[reward.type].includes(reward.id)) {
@@ -54,6 +83,38 @@ export default function AvatarStudio({ onBack }) {
   const handleUpdate = (categoryId, value) => {
     setConfig(prev => {
       const newConfig = { ...prev };
+      
+      // If equipping a custom reward or macro
+      if (CUSTOM_REWARDS[value]) {
+        const customData = CUSTOM_REWARDS[value];
+        // Clear conflicting custom states depending on what is being equipped
+        if (categoryId.includes('clothing') || categoryId === 'outfit_macro') newConfig.custom_clothing = [];
+        if (categoryId.includes('accessory') || categoryId === 'outfit_macro') newConfig.custom_accessory = [];
+        if (categoryId.includes('eyewear')) newConfig.custom_eyewear = [];
+        if (categoryId.includes('hat') || categoryId === 'outfit_macro') newConfig.custom_hat = [];
+        if (categoryId.includes('bg')) newConfig.custom_bg = [];
+        if (categoryId !== 'outfit_macro') newConfig.outfit_macro = [];
+
+        // Apply DiceBear base configuration
+        if (customData.base) {
+          Object.keys(customData.base).forEach(baseKey => {
+            newConfig[baseKey] = customData.base[baseKey];
+          });
+        }
+      } else {
+        // If equipping a standard Peeps item, clear any custom overlay for that slot
+        if (categoryId === 'body') {
+           newConfig.custom_clothing = [];
+           newConfig.outfit_macro = [];
+        }
+        if (categoryId === 'accessory') newConfig.custom_accessory = [];
+        if (categoryId === 'hair') {
+           newConfig.custom_hat = [];
+           newConfig.outfit_macro = [];
+        }
+        if (categoryId === 'backgroundColor') newConfig.custom_bg = [];
+      }
+
       // Some properties are arrays in DiceBear configs (like top: ['bob'])
       if (value === 'none') {
         newConfig[categoryId] = [];

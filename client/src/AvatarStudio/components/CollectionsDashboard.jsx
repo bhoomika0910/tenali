@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Lock, Unlock, Sparkles, Trophy } from 'lucide-react';
+import { CheckCircle2, Lock, Gift, Unlock, Sparkles, Trophy } from 'lucide-react';
 
 export default function CollectionsDashboard({ collections, progress, onEquipReward }) {
   if (!Array.isArray(collections) || collections.length === 0) {

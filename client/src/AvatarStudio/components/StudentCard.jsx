@@ -1,19 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Award, Star, Target } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function StudentCard() {
-  // Placeholder user stats since auth isn't deeply connected here yet
+  const [coins, setCoins] = useState(0);
+  const [streak, setStreak] = useState(0);
+
+  // Sync coins and streak from local storage
+  const syncCoins = () => {
+    const savedCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+    setCoins(savedCoins);
+  };
+  
+  const syncStreak = () => {
+    const savedStreak = parseInt(localStorage.getItem('user_streak') || '0', 10);
+    setStreak(savedStreak);
+  };
+
+  useEffect(() => {
+    // eslint-disable-next-line
+    syncCoins();
+    syncStreak();
+    window.addEventListener('coinsUpdated', syncCoins);
+    window.addEventListener('streakUpdated', syncStreak);
+    return () => {
+      window.removeEventListener('coinsUpdated', syncCoins);
+      window.removeEventListener('streakUpdated', syncStreak);
+    };
+  }, []);
+
   const user = {
     username: 'Student',
     level: 1,
-    coins: 0,
-    streak: 0,
-    xp: 0,
-    nextXp: 1000
+    streak: streak
   };
-
-  const progress = (user.xp / user.nextXp) * 100;
 
   return (
     <motion.div 
@@ -44,7 +64,7 @@ export default function StudentCard() {
             </div>
             <span className="font-semibold" style={{ color: 'var(--clr-text-soft)' }}>Coins</span>
           </div>
-          <span className="font-bold text-lg" style={{ color: 'var(--clr-text)' }}>{user.coins}</span>
+          <span className="font-bold text-lg" style={{ color: 'var(--clr-text)' }}>{coins}</span>
         </div>
 
         {/* Streak */}
@@ -60,27 +80,8 @@ export default function StudentCard() {
           </div>
           <span className="font-bold text-lg" style={{ color: 'var(--clr-text)' }}>{user.streak} Days</span>
         </div>
-
-        {/* XP Progress */}
-        <div className="mt-2">
-          <div className="flex justify-between text-sm font-semibold mb-2" style={{ color: 'var(--clr-text-soft)' }}>
-            <span>XP</span>
-            <span>{user.xp} / {user.nextXp}</span>
-          </div>
-          <div 
-            className="h-3 w-full rounded-full overflow-hidden"
-            style={{ backgroundColor: 'var(--clr-surface)' }}
-          >
-            <motion.div 
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className="h-full rounded-full"
-              style={{ backgroundColor: 'var(--clr-accent)' }}
-            />
-          </div>
-        </div>
       </div>
     </motion.div>
   );
 }
+

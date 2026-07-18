@@ -52,7 +52,13 @@ export const OPTIONS = {
   ],
   backgroundColor: [
     "ffedea", "eaf4ff", "f3eafe", "eaffed", "fffbea", "ffeaed", "transparent", "f97316", "a855f7", "3b82f6", "22c55e"
-  ]
+  ],
+  custom_clothing: [],
+  custom_bg: [],
+  custom_hat: [],
+  custom_eyewear: [],
+  custom_accessory: [],
+  outfit_macro: []
 };
 
 export const COLOR_NAMES = {
@@ -91,4 +97,50 @@ export const DEFAULT_AVATAR = {
   clothesColor: ['5199e4'],
   accessories: [],
   backgroundColor: ['transparent'],
+  custom_clothing: [],
+  custom_bg: [],
+  custom_hat: [],
+  custom_eyewear: [],
+  custom_accessory: [],
+  outfit_macro: []
+};
+
+export const CUSTOM_REWARDS = {
+  explorer_bg: { type: 'custom_bg', base: { backgroundColor: ['transparent'] } },
+  blueprint_bg: { type: 'custom_bg', base: { backgroundColor: ['transparent'] } },
+  grid_bg: { type: 'custom_bg', base: { backgroundColor: ['transparent'] } },
+  golden_palace_bg: { type: 'custom_bg', base: { backgroundColor: ['transparent'] } },
+  ancient_numbers_bg: { type: 'custom_bg', base: { backgroundColor: ['transparent'] } },
+  
+  algebra_aura: { type: 'custom_bg', base: { backgroundColor: ['transparent'] } },
+  infinity_aura: { type: 'custom_bg', base: { backgroundColor: ['transparent'] } },
+  lightning_aura: { type: 'custom_bg', base: { backgroundColor: ['transparent'] } },
+  
+  vector_cape: { type: 'custom_clothing', base: {} },
+  number_shirt: { type: 'custom_clothing', base: {} },
+  sigma_hoodie: { type: 'custom_clothing', base: {} },
+  graph_hoodie: { type: 'custom_clothing', base: {} },
+  finance_jacket: { type: 'custom_clothing', base: {} },
+  training_outfit: { type: 'custom_clothing', base: {} },
+  scholar_robe: { type: 'custom_clothing', base: {} },
+  tenali_outfit: { type: 'outfit_macro', base: {} },
+  aryabhata_outfit: { type: 'outfit_macro', base: {} },
+  chanakya_outfit: { type: 'outfit_macro', base: {} },
+  chitragupta_outfit: { type: 'outfit_macro', base: {} },
+  
+  calculator_badge: { type: 'custom_accessory', base: {} },
+  compass_accessory: { type: 'custom_accessory', base: {} },
+  coordinate_compass: { type: 'custom_accessory', base: {} },
+  formula_notebook: { type: 'custom_accessory', base: {} },
+  dice_backpack: { type: 'custom_accessory', base: {} },
+  golden_formula: { type: 'custom_accessory', base: {} },
+  money_bag: { type: 'custom_accessory', base: {} },
+  investor_badge: { type: 'custom_accessory', base: {} },
+  champion_medal: { type: 'custom_accessory', base: {} },
+  
+  puzzle_crown: { type: 'custom_hat', base: {} },
+  statistics_cap: { type: 'custom_hat', base: {} },
+  
+  geometry_glasses: { type: 'custom_eyewear', base: {} },
+  logic_glasses: { type: 'custom_eyewear', base: {} },
 };

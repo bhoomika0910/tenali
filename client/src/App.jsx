@@ -36969,7 +36969,23 @@ const loadQuestion = async (excludeIds) => {
     if (data.correct) setScore((s) => s + 1)
     // Show feedback with explanation
     (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! The answer is ${data.correctAnswer}) ${data.correctAnswerText}`.slice(0,-1) + _ci + `Correct! The answer is ${data.correctAnswer}) ${data.correctAnswerText}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -37318,7 +37334,23 @@ const fetchQuestion = async (selectedDifficulty = difficulty) => {
         const newScore = score + (data.correct ? 1 : 0)
         setScore(newScore)
         const reasoning = `${question.a} + ${question.b} = ${data.correctAnswer ?? '?'}`
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${reasoning}` + _ci)
         } else if (sessionGoal === 'perfect') {
@@ -38571,7 +38603,23 @@ const fetchQuestion = async () => {
       setIsCorrect(data.correct)
       if (data.correct) setScore(s => s + 1)
       (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${question.prompt} = ${data.correctAnswer}`.slice(0,-1) + _ci + `Correct! ${question.prompt} = ${data.correctAnswer}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -38904,7 +38952,23 @@ const fetchQuestion = async (selectedDifficulty = difficulty) => {
       const sign = (v) => v >= 0 ? `+ ${v}` : `− ${Math.abs(v)}`
       const reasoning = `y = ${a}(${x})² ${sign(b)}(${x}) ${sign(c)}\n= ${a}(${xSq}) ${sign(termB)} ${sign(c)}\n= ${termA} ${sign(termB)} ${sign(c)}\n= ${data.correctAnswer}`
       (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct!\n${reasoning}`.slice(0,-1) + _ci + `Correct!\n${reasoning}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -39826,7 +39890,23 @@ const loadQuestion = async (excludeIds) => {
     if (data.correct) setScore((s) => s + 1)
     // Show feedback with correct answer text
     (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! "${data.correctAnswerText}"`.slice(0,-1) + _ci + `Correct! "${data.correctAnswerText}"`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -40236,7 +40316,23 @@ function makeMCQuizApp({ title, subtitle, apiPath, diffLabels, tip, adaptiveOnly
         setCorrectOption(data.correctOption || '')
         if (data.correct) setScore(s => s + 1)
         const correctText = data.correctDisplay || (question.options.find(o => o.option === data.correctOption)?.text) || ''
-        const coinMsg = (data.lil?.coinsEarned ?? 0) > 0 ? ` (+${data.lil.coinsEarned}🪙)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const coinMsg = (data.lil?.coinsEarned ?? 0) > 0 ? ` (+${data.lil.coinsEarned}🪙)` : ''
         if (!data.correct && sessionGoal === 'perfect') {
           setFeedback(`❌ Wrong — Perfect Solve ended! Correct: ${data.correctOption}. ${correctText}`)
           timer.reset()
@@ -40558,7 +40654,23 @@ function makeQuizApp({ title, subtitle, apiPath, diffLabels, placeholders, tip, 
         const data = await r.json()
         setIsCorrect(data.correct); setRevealed(true)
         if (data.correct) setScore(s => s + 1)
-        const coinMsg = (data.lil?.coinsEarned ?? 0) > 0 ? ` (+${data.lil.coinsEarned}🪙)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const coinMsg = (data.lil?.coinsEarned ?? 0) > 0 ? ` (+${data.lil.coinsEarned}🪙)` : ''
         if (!data.correct && sessionGoal === 'perfect') {
           // Perfect Solve: any wrong answer immediately ends the quiz
           setFeedback(`❌ Wrong answer — Perfect Solve ended! Correct: ${data.display || ''}`)
@@ -40961,7 +41073,23 @@ const loadQuestion = async () => {
       setIsCorrect(data.correct); setRevealed(true)
       if (data.correct) setScore(s => s + 1)
       (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${data.display}`.slice(0,-1) + _ci + `Correct! ${data.display}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -42936,7 +43064,23 @@ const loadQuestion = async () => {
       setIsCorrect(data.correct); setRevealed(true)
       if (data.correct) setScore(s => s + 1)
       (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${question.n}² = ${question.answer}`.slice(0,-1) + _ci + `Correct! ${question.n}² = ${question.answer}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -43478,7 +43622,23 @@ function RandomMixApp({ onBack, isGoalMode, forcedDifficulty, autoStart, onCompl
       const correct = data.correct
       setIsCorrect(correct)
       setRevealed(true)
-      const coinMsg = (data.lil?.coinsEarned ?? 0) > 0 ? ` (+${data.lil.coinsEarned}🪙)` : ''
+      
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const coinMsg = (data.lil?.coinsEarned ?? 0) > 0 ? ` (+${data.lil.coinsEarned}🪙)` : ''
 
       if (!correct && sessionGoal === 'perfect') {
         setFeedback(`❌ Wrong answer — Perfect Solve ended! Correct: ${data.display || ''}`)
@@ -43984,7 +44144,23 @@ const loadQuestion = async () => {
       setIsCorrect(data.correct); setRevealed(true)
       if (data.correct) setScore(s => s + 1)
       (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${data.display}`.slice(0,-1) + _ci + `Correct! ${data.display}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -44235,7 +44411,23 @@ const loadQuestion = async () => {
       setIsCorrect(data.correct); setRevealed(true)
       if (data.correct) setScore(s => s + 1)
       (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! Answer: ${data.display}`.slice(0,-1) + _ci + `Correct! Answer: ${data.display}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -44499,7 +44691,23 @@ const loadQuestion = async () => {
       setRevealed(true)
       if (data.correct) setScore(s => s + 1)
       (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${data.display}`.slice(0,-1) + _ci + `Correct! ${data.display}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -44765,7 +44973,23 @@ const loadQuestion = async () => {
       setRevealed(true)
       if (data.correct) setScore(s => s + 1)
       (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${data.display}`.slice(0,-1) + _ci + `Correct! ${data.display}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -45043,7 +45267,23 @@ const loadQuestion = async () => {
 
       const prompt = question.prompt
       (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${prompt} = ${data.display}`.slice(0,-1) + _ci + `Correct! ${prompt} = ${data.display}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -45389,7 +45629,23 @@ const loadQuestion = async () => {
 
       const prompt = getPrompt(question)
       (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${prompt} = ${data.display}`.slice(0,-1) + _ci + `Correct! ${prompt} = ${data.display}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -45775,7 +46031,23 @@ const loadQuestion = async () => {
         : `${question.n1}/${question.d1} ${op} ${question.n2}/${question.d2}`
 
       (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${prompt} = ${data.display}`.slice(0,-1) + _ci + `Correct! ${prompt} = ${data.display}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -46553,7 +46825,23 @@ const fetchQuestion = async (step) => {
       // Show floor and ceiling values for reference
       const reasoning = `√${question.q} = ${data.sqrtRounded}\n⌊${data.sqrtRounded}⌋ = ${data.floorAnswer}, ⌈${data.sqrtRounded}⌉ = ${data.ceilAnswer}`
       (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct!\n${reasoning}`.slice(0,-1) + _ci + `Correct!\n${reasoning}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -46855,7 +47143,23 @@ const loadQuestion = async () => {
     setIsCorrect(data.correct)
     if (data.correct) setScore(s => s + 1)
     (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${question.productDisplay}`.slice(0,-1) + _ci + `Correct! ${question.productDisplay}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -47201,7 +47505,23 @@ const loadQuestion = async () => {
     // Format feedback message using correct factors (p, q, r, s from question.factors)
     const { p, q, r, s } = question.factors
     (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! (${p}x ${q >= 0 ? '+' : '−'} ${Math.abs(q)})(${r}x ${s >= 0 ? '+' : '−'} ${Math.abs(s)})`.slice(0,-1) + _ci + `Correct! (${p}x ${q >= 0 ? '+' : '−'} ${Math.abs(q)})(${r}x ${s >= 0 ? '+' : '−'} ${Math.abs(s)})`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -47898,7 +48218,23 @@ const loadQuestion = async () => {
     else if (data.roots.type === 'real_equal') correctStr = `Root: ${data.roots.r1} (repeated)`
     else correctStr = `Roots: ${data.roots.realPart} ± ${data.roots.imagPart}i`
     (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${correctStr}`.slice(0,-1) + _ci + `Correct! ${correctStr}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -48244,7 +48580,23 @@ const loadQuestion = async () => {
     const s = question.solution
     if (is3x3) {
       (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! (x, y, z) = (${s.x}, ${s.y}, ${s.z})`.slice(0,-1) + _ci + `Correct! (x, y, z) = (${s.x}, ${s.y}, ${s.z})`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -48257,7 +48609,23 @@ const loadQuestion = async () => {
       setResults(prev => [...prev, { question: '3×3 system', userAnswer: `(${userX}, ${userY}, ${userZ})`, correctAnswer: `(${s.x}, ${s.y}, ${s.z})`, correct: data.correct, time: timeTaken }])
     } else {
       (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! (x, y) = (${s.x}, ${s.y})`.slice(0,-1) + _ci + `Correct! (x, y) = (${s.x}, ${s.y})`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -48580,7 +48948,23 @@ const loadQuestion = async () => {
     // Format variable string for feedback (e.g., "x=2, y=3")
     const varStr = Object.entries(question.vars).map(([k, v]) => `${k}=${v}`).join(', ')
     (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! f(${varStr}) = ${data.correctAnswer}`.slice(0,-1) + _ci + `Correct! f(${varStr}) = ${data.correctAnswer}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -48893,7 +49277,23 @@ const loadQuestion = async () => {
     if (data.correct) setScore(s => s + 1)
     // Format feedback message with correct m and c values
     (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! y = ${data.m}x ${data.c >= 0 ? '+' : '−'} ${Math.abs(data.c)}`.slice(0,-1) + _ci + `Correct! y = ${data.m}x ${data.c >= 0 ? '+' : '−'} ${Math.abs(data.c)}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49530,7 +49930,23 @@ const startQuiz = async () => {
         data = await res.json()
         correct = data.correct; correctDisplay = String(data.correctAnswer); userDisplay = answer;
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${question.prompt} = ${data.correctAnswer}`.slice(0,-1) + _ci + `Correct! ${question.prompt} = ${data.correctAnswer}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49550,7 +49966,23 @@ const startQuiz = async () => {
         data = await res.json()
         correct = data.correct; correctDisplay = String(data.correctAnswer); userDisplay = answer;
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${question.a} + ${question.b} = ${data.correctAnswer}`.slice(0,-1) + _ci + `Correct! ${question.a} + ${question.b} = ${data.correctAnswer}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49570,7 +50002,23 @@ const startQuiz = async () => {
         data = await res.json()
         correct = data.correct; correctDisplay = String(data.correctAnswer); userDisplay = answer;
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! y = ${data.correctAnswer}`.slice(0,-1) + _ci + `Correct! y = ${data.correctAnswer}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49590,7 +50038,23 @@ const startQuiz = async () => {
         data = await res.json()
         correct = data.correct; correctDisplay = String(data.correctAnswer); userDisplay = answer;
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${question.prompt} = ${data.correctAnswer}`.slice(0,-1) + _ci + `Correct! ${question.prompt} = ${data.correctAnswer}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49610,7 +50074,23 @@ const startQuiz = async () => {
         data = await res.json()
         correct = data.correct; correctDisplay = `⌊${data.sqrtRounded}⌋=${data.floorAnswer} or ⌈${data.sqrtRounded}⌉=${data.ceilAnswer}`; userDisplay = answer;
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! √${question.q} ≈ ${data.sqrtRounded}`.slice(0,-1) + _ci + `Correct! √${question.q} ≈ ${data.sqrtRounded}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49630,7 +50110,23 @@ const startQuiz = async () => {
         data = await res.json()
         correct = data.correct; correctDisplay = String(data.correctAnswer); userDisplay = answer;
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! = ${data.correctAnswer}`.slice(0,-1) + _ci + `Correct! = ${data.correctAnswer}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49650,7 +50146,23 @@ const startQuiz = async () => {
         data = await res.json()
         correct = data.correct; correctDisplay = data.correctDisplay; userDisplay = userCoeffs.join(', ');
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${question.productDisplay}`.slice(0,-1) + _ci + `Correct! ${question.productDisplay}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49672,7 +50184,23 @@ const startQuiz = async () => {
         const f = question.factors
         correct = data.correct; correctDisplay = `(${f.p}x${f.q>=0?'+':''}${f.q})(${f.r}x${f.s>=0?'+':''}${f.s})`; userDisplay = `(${up}x${Number(uq)>=0?'+':''}${uq})(${ur}x${Number(us)>=0?'+':''}${us})`;
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${correctDisplay}`.slice(0,-1) + _ci + `Correct! ${correctDisplay}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49693,7 +50221,23 @@ const startQuiz = async () => {
         data = await res.json()
         correct = data.correct; correctDisplay = data.correctFactors.join(' × '); userDisplay = pf.join(' × ');
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${question.number} = ${correctDisplay}`.slice(0,-1) + _ci + `Correct! ${question.number} = ${correctDisplay}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49719,7 +50263,23 @@ const startQuiz = async () => {
         correctDisplay = rt.type === 'real_distinct' ? `r₁ = ${rt.r1}, r₂ = ${rt.r2}` : rt.type === 'real_equal' ? `r = ${rt.r1}` : `${rt.realPart} ± ${rt.imagPart}i`
         userDisplay = question.roots.type === 'real_equal' ? r1 : `${r1}, ${r2}`;
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${correctDisplay}`.slice(0,-1) + _ci + `Correct! ${correctDisplay}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49746,7 +50306,23 @@ const startQuiz = async () => {
         correctDisplay = question.size === 3 ? `(${s.x}, ${s.y}, ${s.z})` : `(${s.x}, ${s.y})`
         userDisplay = question.size === 3 ? `(${ux}, ${uy}, ${uz})` : `(${ux}, ${uy})`;
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${correctDisplay}`.slice(0,-1) + _ci + `Correct! ${correctDisplay}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49767,7 +50343,23 @@ const startQuiz = async () => {
         data = await res.json()
         correct = data.correct; correctDisplay = `m = ${data.m}, c = ${data.c}`; userDisplay = `m = ${m}, c = ${c}`;
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${correctDisplay}`.slice(0,-1) + _ci + `Correct! ${correctDisplay}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49800,7 +50392,23 @@ const startQuiz = async () => {
         data = await res.json()
         correct = data.correct; correctDisplay = data.display; userDisplay = answer;
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! = ${data.display}`.slice(0,-1) + _ci + `Correct! = ${data.display}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49821,7 +50429,23 @@ const startQuiz = async () => {
         data = await res.json()
         correct = data.correct; correctDisplay = data.display; userDisplay = surdAnswer;
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! = ${data.display}`.slice(0,-1) + _ci + `Correct! = ${data.display}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49841,7 +50465,23 @@ const startQuiz = async () => {
         data = await res.json()
         correct = data.correct; correctDisplay = data.display; userDisplay = answer.trim();
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! = ${data.display}`.slice(0,-1) + _ci + `Correct! = ${data.display}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49861,7 +50501,23 @@ const startQuiz = async () => {
         data = await res.json()
         correct = data.correct; correctDisplay = data.display; userDisplay = answer.trim();
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${data.display}`.slice(0,-1) + _ci + `Correct! ${data.display}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49881,7 +50537,23 @@ const startQuiz = async () => {
         data = await res.json()
         correct = data.correct; correctDisplay = data.display; userDisplay = answer.trim();
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${data.display}`.slice(0,-1) + _ci + `Correct! ${data.display}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49901,7 +50573,23 @@ const startQuiz = async () => {
         data = await res.json()
         correct = data.correct; correctDisplay = data.display; userDisplay = answer.trim();
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${data.display}`.slice(0,-1) + _ci + `Correct! ${data.display}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49921,7 +50609,23 @@ const startQuiz = async () => {
         data = await res.json()
         correct = data.correct; correctDisplay = data.display; userDisplay = answer.trim();
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${data.display}`.slice(0,-1) + _ci + `Correct! ${data.display}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49950,7 +50654,23 @@ const startQuiz = async () => {
         data = await res.json()
         correct = data.correct; correctDisplay = data.display; userDisplay = answer.trim();
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${data.display}`.slice(0,-1) + _ci + `Correct! ${data.display}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
@@ -49972,7 +50692,23 @@ const startQuiz = async () => {
         data = await res.json()
         correct = data.correct; correctDisplay = `${data.correctAnswer}: ${data.correctAnswerText}`; userDisplay = optionToUse;
         (() => {
-        const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
+        
+        let currentDiff = 'medium';
+        try { currentDiff = typeof effectiveDiff === 'function' ? effectiveDiff() : (typeof diff !== 'undefined' ? diff : (typeof difficulty !== 'undefined' ? difficulty : 'medium')); } catch(e) {}
+        let earned = 0;
+        if (data.correct) {
+          if (currentDiff === 'easy') earned = 5;
+          else if (currentDiff === 'medium') earned = 10;
+          else if (currentDiff === 'hard') earned = 15;
+          else if (currentDiff === 'extrahard') earned = 20;
+          else earned = 10;
+          const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+          localStorage.setItem('user_coins', currentCoins + earned);
+          window.dispatchEvent(new Event('coinsUpdated'));
+        }
+        data.lil = data.lil || {};
+        data.lil.coinsEarned = earned;
+const _ci = data.lil?.coinsEarned > 0 ? ` (+${data.lil.coinsEarned} coins!)` : ''
         if (data.correct) {
           setFeedback(`Correct! ${data.correctAnswerText}`.slice(0,-1) + _ci + `Correct! ${data.correctAnswerText}`.slice(-1))
         } else if (sessionGoal === 'perfect') {
