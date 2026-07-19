@@ -4,9 +4,9 @@ import { avataaars } from '@dicebear/collection';
 import { motion } from 'framer-motion';
 
 import {
-  ExplorerBg, BlueprintBg, GridBg, GoldenPalaceBg, AncientNumbersBg,
+  ExplorerBg, BlueprintBg, GridBg, GoldenPalaceBg, BookshelfBg, CosmicMathBg, AncientNumbersBg,
   AlgebraAura, InfinityAura, LightningAura, VectorCape,
-  NumberShirt, SigmaHoodie, GraphHoodie, FinanceJacket, TrainingOutfit, ScholarRobe, TenaliShawl, AryabhataStole, ChanakyaBeads, ChitraguptaScroll,
+  NumberShirt, SigmaHoodie, GraphHoodie, FinanceJacket, TrainingOutfit, ScholarRobe, TenaliOutfit, AryabhataStole, ChanakyaOutfit, ChitraguptaScroll,
   CalculatorBadge, CompassAccessory, CoordinateCompass, FormulaNotebook, DiceBackpack, GoldenFormula, MoneyBag, InvestorBadge, ChampionMedal,
   PuzzleCrown, StatisticsCap,
   GeometryGlasses, LogicGlasses,
@@ -19,39 +19,18 @@ export const SVG_MAP = {
   blueprint_bg: BlueprintBg,
   grid_bg: GridBg,
   golden_palace_bg: GoldenPalaceBg,
+  bookshelf_bg: BookshelfBg,
+  cosmic_math_bg: CosmicMathBg,
   ancient_numbers_bg: AncientNumbersBg,
   
   algebra_aura: AlgebraAura,
   infinity_aura: InfinityAura,
   lightning_aura: LightningAura,
   
-  vector_cape: VectorCape,
-  number_shirt: NumberShirt,
-  sigma_hoodie: SigmaHoodie,
-  graph_hoodie: GraphHoodie,
-  finance_jacket: FinanceJacket,
-  training_outfit: TrainingOutfit,
-  scholar_robe: ScholarRobe,
-  tenali_outfit: TenaliShawl,
+  tenali_outfit: TenaliOutfit,
   aryabhata_outfit: AryabhataStole,
-  chanakya_outfit: ChanakyaBeads,
-  chitragupta_outfit: ChitraguptaScroll,
-  
-  calculator_badge: CalculatorBadge,
-  compass_accessory: CompassAccessory,
-  coordinate_compass: CoordinateCompass,
-  formula_notebook: FormulaNotebook,
-  dice_backpack: DiceBackpack,
-  golden_formula: GoldenFormula,
-  money_bag: MoneyBag,
-  investor_badge: InvestorBadge,
-  champion_medal: ChampionMedal,
-  
-  puzzle_crown: PuzzleCrown,
-  statistics_cap: StatisticsCap,
-  
-  geometry_glasses: GeometryGlasses,
-  logic_glasses: LogicGlasses
+  chanakya_outfit: ChanakyaOutfit,
+  chitragupta_outfit: ChitraguptaScroll
 };
 
 export const STANDARD_BG_MAP = {
@@ -116,7 +95,7 @@ export default function AvatarPreview({ config }) {
           <img
             src={avatarUri}
             alt="Avatar Preview"
-            className="w-full h-full object-contain drop-shadow-2xl z-10 relative"
+            className="w-full h-full object-contain drop-shadow-2xl z-10 relative pointer-events-none"
             onError={(e) => {
               e.target.style.display = 'none';
             }}
@@ -124,10 +103,13 @@ export default function AvatarPreview({ config }) {
           
           {/* Custom Overlays (Absolutely positioned within the floating container) */}
           <div className="absolute inset-0 pointer-events-none z-20 flex justify-center items-center">
-            {CustomClothing && <CustomClothing />}
-            {CustomAccessory && <CustomAccessory />}
-            {CustomHat && <CustomHat />}
-            {CustomEyewear && <CustomEyewear />}
+            {/* Inner square container to keep overlay positioning perfectly aligned with the square object-contain avatar */}
+            <div className="relative w-full h-full" style={{ maxWidth: '100%', maxHeight: '100%', aspectRatio: '1/1' }}>
+              {CustomClothing && <CustomClothing config={config} />}
+              {CustomAccessory && <CustomAccessory config={config} />}
+              {CustomHat && <CustomHat config={config} />}
+              {CustomEyewear && <CustomEyewear config={config} />}
+            </div>
           </div>
         </div>
       </motion.div>

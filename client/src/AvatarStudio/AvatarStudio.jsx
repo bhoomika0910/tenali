@@ -49,6 +49,31 @@ function AvatarStudio({ onBack }) {
     return document.documentElement.getAttribute('data-theme') || 'dark';
   });
 
+  const [unlockedItems, setUnlockedItems] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('unlocked_cosmetics')) || [];
+    } catch {
+      return [];
+    }
+  });
+
+  const handleUnlockItem = (itemId, cost) => {
+    const currentCoins = parseInt(localStorage.getItem('user_coins') || '0', 10);
+    if (currentCoins >= cost) {
+      if (window.confirm(`Unlock this item for ${cost} coins?`)) {
+        localStorage.setItem('user_coins', currentCoins - cost);
+        window.dispatchEvent(new Event('coinsUpdated'));
+        const newUnlocked = [...unlockedItems, itemId];
+        setUnlockedItems(newUnlocked);
+        localStorage.setItem('unlocked_cosmetics', JSON.stringify(newUnlocked));
+        return true;
+      }
+    } else {
+      alert("Not enough coins! Solve more questions to earn coins.");
+    }
+    return false;
+  };
+
   // Load from backend if available
   useEffect(() => {
     if (userAvatarData && Object.keys(userAvatarData).length > 0) {
@@ -136,16 +161,21 @@ function AvatarStudio({ onBack }) {
   const handleRandomize = () => {
     const newConfig = { ...DEFAULT_AVATAR };
     
-    // Pick a random option for each category
+    // Pick a random option for each category from UNLOCKED items only
     Object.keys(OPTIONS).forEach(category => {
       // Don't randomize background by default
       if (category === 'backgroundColor') return;
       
       const categoryOptions = OPTIONS[category];
       if (categoryOptions && categoryOptions.length > 0) {
-        const randomIndex = Math.floor(Math.random() * categoryOptions.length);
-        const selectedValue = categoryOptions[randomIndex];
-        newConfig[category] = selectedValue === 'none' ? [] : [selectedValue];
+        // Filter options to only include the first item OR items in unlockedItems
+        const availableForRandom = categoryOptions.filter((opt, index) => index === 0 || unlockedItems.includes(opt));
+        
+        if (availableForRandom.length > 0) {
+          const randomIndex = Math.floor(Math.random() * availableForRandom.length);
+          const selectedValue = availableForRandom[randomIndex];
+          newConfig[category] = selectedValue === 'none' ? [] : [selectedValue];
+        }
       }
     });
     
@@ -254,36 +284,39 @@ function AvatarStudio({ onBack }) {
             style={{ borderColor: 'var(--clr-border)', backgroundColor: 'var(--clr-surface)' }}
           >
             <CategorySidebar 
-              categories={CATEGORIES} 
+              categories={CATEGORIES}
               activeCategory={activeCategory} 
-              setActiveCategory={setActiveCategory}
+              setActiveCategory={setActiveCategory} 
             />
           </div>
 
-          {/* Options Grid */}
-          <div className="flex-1 overflow-y-auto custom-scrollbar p-2 lg:p-4" style={{ backgroundColor: 'var(--clr-card)' }}>
+          <div className="flex-1 overflow-y-auto custom-scrollbar p-2 relative bg-black/5 dark:bg-white/5">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeCategory}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -10 }}
                 transition={{ duration: 0.2 }}
                 className="h-full"
               >
                 {activeCategory === 'math_collection' ? (
-                  <div className="h-full overflow-y-auto">
-                    <CollectionsDashboard 
-                      collections={collections} 
-                      progress={progress} 
-                      onEquipReward={(type, id) => handleUpdate(type, id)} 
-                    />
-                  </div>
+                  <CollectionsDashboard 
+                    collections={collections} 
+                    progress={progress} 
+                    onEquipReward={handleUpdate} 
+                  />
                 ) : (
                   <CustomizationGrid 
                     categoryId={activeCategory} 
-                    currentValue={config[activeCategory]?.[0] || 'none'}
-                    onSelect={(val) => handleUpdate(activeCategory, val)}
+                    currentValue={
+                      activeCategory === 'backgroundColor' 
+                        ? (config.backgroundColor?.[0] || 'transparent')
+                        : (config[activeCategory]?.[0] || 'none')
+                    }
+                    onSelect={(val) => handleUpdate(activeCategory, val)} 
+                    unlockedItems={unlockedItems}
+                    onUnlockItem={handleUnlockItem}
                   />
                 )}
               </motion.div>

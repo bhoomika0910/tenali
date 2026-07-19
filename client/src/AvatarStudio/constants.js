@@ -61,6 +61,46 @@ export const OPTIONS = {
   outfit_macro: []
 };
 
+export const DEFAULT_UNLOCK_COST = 50;
+
+export const COSMETIC_PRICES = {
+  // Top / Hats
+  "curvy": 75, "dreads": 100, "fro": 100, "shavedSides": 75, "shaggyMullet": 120, "bigHair": 150,
+  "hat": 100, "turban": 120, "winterHat02": 150, "winterHat03": 150, "winterHat04": 200,
+
+  // Accessories
+  "prescription01": 50, "prescription02": 75, "round": 100, "sunglasses": 150, "wayfarers": 150, "eyepatch": 200,
+
+  // Clothing
+  "blazerAndSweater": 150, "graphicShirt": 100, "hoodie": 120, "overall": 100, "blazerAndShirt": 200,
+
+  // Backgrounds (Hex Colors map to standard SVGs)
+  "f3eafe": 150, // Math Lab
+  "eaffed": 200, // Space Explorer
+  "3b82f6": 250, // Dark Universe
+  "22c55e": 200, // Emerald City
+  "f97316": 150, // Forest Classroom
+  "a855f7": 150, // Blue Sky
+
+  // Premium Math Collection & Custom Outfits
+  "champion_medal": 1000,
+  "puzzle_crown": 800,
+  "tenali_outfit": 1500,
+  "aryabhata_outfit": 1500,
+  "chanakya_outfit": 1500,
+  "chitragupta_outfit": 1500,
+  "golden_palace_bg": 1000,
+  "vector_cape": 600,
+  "finance_jacket": 700,
+  "scholar_robe": 750,
+  "lightning_aura": 1200,
+  "infinity_aura": 1000,
+  "algebra_aura": 800,
+  "golden_formula": 500,
+  "logic_glasses": 500,
+  "geometry_glasses": 400
+};
+
 export const COLOR_NAMES = {
   // Backgrounds
   "ffedea": "Galaxy Classroom",
@@ -105,42 +145,55 @@ export const DEFAULT_AVATAR = {
   outfit_macro: []
 };
 
+export const BACKGROUNDS = {
+  explorer_bg: { type: 'custom_bg', name: 'Explorer Gradient' },
+  blueprint_bg: { type: 'custom_bg', name: 'Tech Blueprint' },
+  grid_bg: { type: 'custom_bg', name: 'Data Grid' },
+  golden_palace_bg: { type: 'custom_bg', name: 'Golden Palace' },
+  bookshelf_bg: { type: 'custom_bg', name: 'Scholar Bookshelf' },
+  cosmic_math_bg: { type: 'custom_bg', name: 'Cosmic Mathematics' },
+  ancient_numbers_bg: { type: 'custom_bg', name: 'Ancient Numbers' }
+};
+
 export const CUSTOM_REWARDS = {
   explorer_bg: { type: 'custom_bg', base: { backgroundColor: ['transparent'] } },
   blueprint_bg: { type: 'custom_bg', base: { backgroundColor: ['transparent'] } },
   grid_bg: { type: 'custom_bg', base: { backgroundColor: ['transparent'] } },
   golden_palace_bg: { type: 'custom_bg', base: { backgroundColor: ['transparent'] } },
+  bookshelf_bg: { type: 'custom_bg', base: { backgroundColor: ['transparent'] } },
+  cosmic_math_bg: { type: 'custom_bg', base: { backgroundColor: ['transparent'] } },
   ancient_numbers_bg: { type: 'custom_bg', base: { backgroundColor: ['transparent'] } },
   
   algebra_aura: { type: 'custom_bg', base: { backgroundColor: ['transparent'] } },
   infinity_aura: { type: 'custom_bg', base: { backgroundColor: ['transparent'] } },
   lightning_aura: { type: 'custom_bg', base: { backgroundColor: ['transparent'] } },
   
-  vector_cape: { type: 'custom_clothing', base: {} },
-  number_shirt: { type: 'custom_clothing', base: {} },
-  sigma_hoodie: { type: 'custom_clothing', base: {} },
-  graph_hoodie: { type: 'custom_clothing', base: {} },
-  finance_jacket: { type: 'custom_clothing', base: {} },
-  training_outfit: { type: 'custom_clothing', base: {} },
-  scholar_robe: { type: 'custom_clothing', base: {} },
-  tenali_outfit: { type: 'outfit_macro', base: {} },
-  aryabhata_outfit: { type: 'outfit_macro', base: {} },
-  chanakya_outfit: { type: 'outfit_macro', base: {} },
-  chitragupta_outfit: { type: 'outfit_macro', base: {} },
+  vector_cape: { type: 'outfit_macro', base: { clothing: ['shirtCrewNeck'], clothesColor: ['ff5c5c'] } },
+  number_shirt: { type: 'outfit_macro', base: { clothing: ['graphicShirt'], clothesColor: ['a7ffc4'] } },
+  sigma_hoodie: { type: 'outfit_macro', base: { clothing: ['hoodie'], clothesColor: ['a855f7'] } },
+  graph_hoodie: { type: 'outfit_macro', base: { clothing: ['hoodie'], clothesColor: ['3b82f6'] } },
+  finance_jacket: { type: 'outfit_macro', base: { clothing: ['blazerAndShirt'], clothesColor: ['262e33'] } },
+  training_outfit: { type: 'outfit_macro', base: { clothing: ['shirtVNeck'], clothesColor: ['ff5c5c'] } },
+  scholar_robe: { type: 'outfit_macro', base: { clothing: ['blazerAndSweater'], clothesColor: ['3c4f5c'] } },
+  tenali_outfit: { type: 'outfit_macro', base: { top: [], accessories: [], clothing: [], eyes: ['default'], eyebrows: ['defaultNatural'], mouth: ['smile'], custom_clothing: ['tenali_outfit'], custom_bg: ['golden_palace_bg'] } },
+  aryabhata_outfit: { type: 'outfit_macro', base: { top: [], accessories: [], clothing: [], eyes: ['default'], eyebrows: ['defaultNatural'], mouth: ['default'], custom_clothing: ['aryabhata_outfit'], custom_bg: ['cosmic_math_bg'] } },
+  chanakya_outfit: { type: 'outfit_macro', base: { top: [], accessories: [], clothing: [], eyes: ['happy'], eyebrows: ['defaultNatural'], mouth: ['smile'], custom_clothing: ['chanakya_outfit'], custom_bg: ['ancient_library_bg'] } },
+  chitragupta_outfit: { type: 'outfit_macro', base: { top: [], accessories: [], clothing: [], eyes: ['default'], eyebrows: ['defaultNatural'], mouth: ['smile'], custom_clothing: ['chitragupta_outfit'], custom_bg: ['bookshelf_bg'] } },
   
-  calculator_badge: { type: 'custom_accessory', base: {} },
-  compass_accessory: { type: 'custom_accessory', base: {} },
-  coordinate_compass: { type: 'custom_accessory', base: {} },
-  formula_notebook: { type: 'custom_accessory', base: {} },
-  dice_backpack: { type: 'custom_accessory', base: {} },
-  golden_formula: { type: 'custom_accessory', base: {} },
-  money_bag: { type: 'custom_accessory', base: {} },
-  investor_badge: { type: 'custom_accessory', base: {} },
-  champion_medal: { type: 'custom_accessory', base: {} },
+  calculator_badge: { type: 'outfit_macro', base: { clothing: ['collarAndSweater'], clothesColor: ['929598'], accessories: ['prescription01'] } },
+  compass_accessory: { type: 'outfit_macro', base: { clothing: ['overall'], clothesColor: ['b1e2ff'], accessories: ['round'] } },
+  coordinate_compass: { type: 'outfit_macro', base: { clothing: ['shirtCrewNeck'], clothesColor: ['65c9ff'], accessories: ['wayfarers'] } },
+  formula_notebook: { type: 'outfit_macro', base: { clothing: ['blazerAndSweater'], clothesColor: ['ff488e'], accessories: ['prescription02'] } },
+  dice_backpack: { type: 'outfit_macro', base: { clothing: ['hoodie'], clothesColor: ['e6e6e6'], top: ['winterHat03'] } },
+  golden_formula: { type: 'outfit_macro', base: { clothing: ['graphicShirt'], clothesColor: ['ffffb1'], accessories: ['sunglasses'] } },
+  money_bag: { type: 'outfit_macro', base: { clothing: ['overall'], clothesColor: ['a7ffc4'], accessories: ['wayfarers'] } },
+  investor_badge: { type: 'outfit_macro', base: { clothing: ['blazerAndShirt'], clothesColor: ['262e33'], accessories: ['sunglasses'] } },
+  champion_medal: { type: 'outfit_macro', base: { clothing: ['shirtScoopNeck'], clothesColor: ['ff5c5c'], accessories: ['sunglasses'], top: ['bigHair'] } },
   
-  puzzle_crown: { type: 'custom_hat', base: {} },
-  statistics_cap: { type: 'custom_hat', base: {} },
+  puzzle_crown: { type: 'outfit_macro', base: { top: ['winterHat02'] } },
+  statistics_cap: { type: 'outfit_macro', base: { top: ['hat'] } },
   
-  geometry_glasses: { type: 'custom_eyewear', base: {} },
-  logic_glasses: { type: 'custom_eyewear', base: {} },
+  geometry_glasses: { type: 'outfit_macro', base: { accessories: ['round'] } },
+  logic_glasses: { type: 'outfit_macro', base: { accessories: ['prescription02'] } },
 };
+

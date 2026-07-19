@@ -10,22 +10,22 @@
       "fractionadd",
       "percent",
       "ratio",
-      "basicarith"
+      "arithmetic"
     ],
     "rewards": [
       {
-        "id": "number_shirt",
-        "type": "custom_clothing",
+        "id": "graphicShirt",
+        "type": "clothing",
         "label": "Number-themed T-shirt"
       },
       {
-        "id": "calculator_badge",
-        "type": "custom_accessory",
+        "id": "round",
+        "type": "accessories",
         "label": "Calculator Badge"
       },
       {
-        "id": "explorer_bg",
-        "type": "custom_bg",
+        "id": "1e88e5",
+        "type": "backgroundColor",
         "label": "Explorer Background"
       }
     ]
@@ -40,24 +40,24 @@
       "similarity",
       "congruence",
       "polygons",
-      "circleth",
+      "circletheorems",
       "pythag",
       "heron"
     ],
     "rewards": [
       {
-        "id": "geometry_glasses",
-        "type": "custom_eyewear",
+        "id": "wayfarers",
+        "type": "accessories",
         "label": "Geometry Glasses"
       },
       {
-        "id": "compass_accessory",
-        "type": "custom_accessory",
+        "id": "overall",
+        "type": "clothing",
         "label": "Compass"
       },
       {
-        "id": "blueprint_bg",
-        "type": "custom_bg",
+        "id": "3949ab",
+        "type": "backgroundColor",
         "label": "Blueprint Background"
       }
     ]
@@ -70,24 +70,24 @@
       "lineareq",
       "simul",
       "quadratic",
-      "qformula",
-      "ineq",
+      "quadformula",
+      "inequality",
       "funceval"
     ],
     "rewards": [
       {
-        "id": "sigma_hoodie",
-        "type": "custom_clothing",
+        "id": "hoodie",
+        "type": "clothing",
         "label": "Sigma Hoodie"
       },
       {
-        "id": "formula_notebook",
-        "type": "custom_accessory",
+        "id": "prescription01",
+        "type": "accessories",
         "label": "Formula Notebook"
       },
       {
-        "id": "algebra_aura",
-        "type": "custom_bg",
+        "id": "8e24aa",
+        "type": "backgroundColor",
         "label": "Algebra Aura"
       }
     ]
@@ -98,26 +98,26 @@
     "theme": "Coordinate Geometry",
     "requiredModules": [
       "coordgeom",
-      "lineq",
-      "section",
+      "lineequation",
+      "sectionformula",
       "vectors",
-      "dotprod",
-      "transform"
+      "dotproduct",
+      "transformations"
     ],
     "rewards": [
       {
-        "id": "grid_bg",
-        "type": "custom_bg",
+        "id": "00acc1",
+        "type": "backgroundColor",
         "label": "Grid Background"
       },
       {
-        "id": "coordinate_compass",
-        "type": "custom_accessory",
+        "id": "sunglasses",
+        "type": "accessories",
         "label": "Coordinate Compass"
       },
       {
-        "id": "vector_cape",
-        "type": "custom_clothing",
+        "id": "blazerAndShirt",
+        "type": "clothing",
         "label": "Vector Cape"
       }
     ]
@@ -134,18 +134,18 @@
     ],
     "rewards": [
       {
-        "id": "dice_backpack",
-        "type": "custom_accessory",
+        "id": "shirtVNeck",
+        "type": "clothing",
         "label": "Dice Backpack"
       },
       {
-        "id": "graph_hoodie",
-        "type": "custom_clothing",
+        "id": "hoodie",
+        "type": "clothing",
         "label": "Graph Hoodie"
       },
       {
-        "id": "statistics_cap",
-        "type": "custom_hat",
+        "id": "winterHat01",
+        "type": "top",
         "label": "Statistics Cap"
       }
     ]
@@ -159,25 +159,25 @@
       "diff",
       "integ",
       "diffeq",
-      "log",
+      "logarithms",
       "matrix",
       "complex",
       "binomial"
     ],
     "rewards": [
       {
-        "id": "infinity_aura",
-        "type": "custom_bg",
+        "id": "651fff",
+        "type": "backgroundColor",
         "label": "Infinity Aura"
       },
       {
-        "id": "scholar_robe",
-        "type": "outfit_macro",
+        "id": "blazerAndSweater",
+        "type": "clothing",
         "label": "Scholar Robe"
       },
       {
-        "id": "golden_formula",
-        "type": "custom_accessory",
+        "id": "kurt",
+        "type": "accessories",
         "label": "Golden Formula Scroll"
       }
     ]
@@ -189,25 +189,25 @@
     "requiredModules": [
       "gst",
       "profitloss",
-      "banking",
-      "shares",
+      "bankingrd",
+      "sharesdiv",
       "variation",
-      "sdt"
+      "speeddist"
     ],
     "rewards": [
       {
-        "id": "money_bag",
-        "type": "custom_accessory",
+        "id": "prescription02",
+        "type": "accessories",
         "label": "Money Bag"
       },
       {
-        "id": "finance_jacket",
-        "type": "custom_clothing",
+        "id": "collarAndSweater",
+        "type": "clothing",
         "label": "Finance Jacket"
       },
       {
-        "id": "investor_badge",
-        "type": "custom_accessory",
+        "id": "winterHat02",
+        "type": "top",
         "label": "Investor Badge"
       }
     ]
@@ -219,28 +219,28 @@
     "requiredModules": [
       "indices",
       "surds",
-      "sqrt",
+      "squareroot",
       "primefactor",
       "hcflcm",
-      "remfactor",
+      "remainder",
       "polyfactor",
-      "polymul",
+      "polymult",
       "bases"
     ],
     "rewards": [
       {
-        "id": "puzzle_crown",
-        "type": "custom_hat",
+        "id": "winterHat03",
+        "type": "top",
         "label": "Puzzle Crown"
       },
       {
-        "id": "logic_glasses",
-        "type": "custom_eyewear",
+        "id": "wayfarers",
+        "type": "accessories",
         "label": "Logic Glasses"
       },
       {
-        "id": "ancient_numbers_bg",
-        "type": "custom_bg",
+        "id": "8d6e63",
+        "type": "backgroundColor",
         "label": "Ancient Numbers Background"
       }
     ]
@@ -250,30 +250,30 @@
     "name": "Practice Champion",
     "theme": "Practice",
     "requiredModules": [
-      "gymdecimals",
-      "funcgym",
-      "dotprodgym",
-      "fracaddgym",
-      "lineqgym",
-      "indicesgym",
-      "polygym",
-      "guess",
-      "spot"
+      "gym_decimals",
+      "gym_functions",
+      "gym_dotproduct",
+      "gym_fractionadd",
+      "gym_lineareq",
+      "gym_indices",
+      "gym_polynomials",
+      "guess_number",
+      "twin_hunt"
     ],
     "rewards": [
       {
-        "id": "training_outfit",
-        "type": "custom_clothing",
+        "id": "shirtScoopNeck",
+        "type": "clothing",
         "label": "Training Outfit"
       },
       {
-        "id": "champion_medal",
-        "type": "custom_accessory",
+        "id": "round",
+        "type": "accessories",
         "label": "Champion Medal"
       },
       {
-        "id": "lightning_aura",
-        "type": "custom_bg",
+        "id": "ffb300",
+        "type": "backgroundColor",
         "label": "Lightning Aura"
       }
     ]
@@ -288,28 +288,38 @@
     "rewards": [
       {
         "id": "tenali_outfit",
-        "type": "outfit_macro",
+        "type": "custom_clothing",
         "label": "Tenali Outfit"
       },
       {
         "id": "aryabhata_outfit",
-        "type": "outfit_macro",
+        "type": "custom_clothing",
         "label": "Aryabhata Outfit"
       },
       {
         "id": "chanakya_outfit",
-        "type": "outfit_macro",
+        "type": "custom_clothing",
         "label": "Chanakya Outfit"
       },
       {
         "id": "chitragupta_outfit",
-        "type": "outfit_macro",
+        "type": "custom_clothing",
         "label": "Chitragupta Outfit"
       },
       {
         "id": "golden_palace_bg",
         "type": "custom_bg",
         "label": "Golden Palace Background"
+      },
+      {
+        "id": "bookshelf_bg",
+        "type": "custom_bg",
+        "label": "Scholar Bookshelf"
+      },
+      {
+        "id": "cosmic_math_bg",
+        "type": "custom_bg",
+        "label": "Cosmic Mathematics"
       }
     ]
   }
