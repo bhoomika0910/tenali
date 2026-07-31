@@ -30,7 +30,31 @@ export const SVG_MAP = {
   tenali_outfit: TenaliOutfit,
   aryabhata_outfit: AryabhataStole,
   chanakya_outfit: ChanakyaOutfit,
-  chitragupta_outfit: ChitraguptaScroll
+  chitragupta_outfit: ChitraguptaScroll,
+
+  vector_cape: VectorCape,
+  number_shirt: NumberShirt,
+  sigma_hoodie: SigmaHoodie,
+  graph_hoodie: GraphHoodie,
+  finance_jacket: FinanceJacket,
+  training_outfit: TrainingOutfit,
+  scholar_robe: ScholarRobe,
+
+  geometry_glasses: GeometryGlasses,
+  logic_glasses: LogicGlasses,
+
+  calculator_badge: CalculatorBadge,
+  compass_accessory: CompassAccessory,
+  coordinate_compass: CoordinateCompass,
+  formula_notebook: FormulaNotebook,
+  dice_backpack: DiceBackpack,
+  golden_formula: GoldenFormula,
+  money_bag: MoneyBag,
+  investor_badge: InvestorBadge,
+  champion_medal: ChampionMedal,
+  
+  puzzle_crown: PuzzleCrown,
+  statistics_cap: StatisticsCap
 };
 
 export const STANDARD_BG_MAP = {

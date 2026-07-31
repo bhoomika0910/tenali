@@ -3,22 +3,88 @@ import { motion } from 'framer-motion';
 
 // --- BACKGROUNDS (z-0) ---
 export const ExplorerBg = () => (
-  <svg className="absolute inset-0 w-full h-full opacity-40" viewBox="0 0 100 100" preserveAspectRatio="none">
-    <defs><linearGradient id="expGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#1e3a8a" /><stop offset="100%" stopColor="#10b981" /></linearGradient></defs>
-    <rect width="100" height="100" fill="url(#expGrad)" />
-    <path d="M0,50 Q25,20 50,50 T100,50" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" strokeDasharray="5,5" />
-    <circle cx="50" cy="50" r="2" fill="white" />
+  <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <rect width="100" height="100" fill="#fcd34d" />
+    <rect width="100" height="100" fill="#f59e0b" opacity="0.3" />
+
+    <path d="M 0 20 Q 20 10 30 30 T 50 20 T 70 40 T 100 10 L 100 100 L 0 100 Z" fill="#d97706" opacity="0.15" />
+    <path d="M 80 0 Q 70 20 90 40 T 100 80 L 100 0 Z" fill="#d97706" opacity="0.2" />
+
+    <g stroke="#b45309" strokeWidth="0.5" opacity="0.4">
+      <line x1="20" y1="0" x2="20" y2="100" />
+      <line x1="50" y1="0" x2="50" y2="100" />
+      <line x1="80" y1="0" x2="80" y2="100" />
+      <line x1="0" y1="30" x2="100" y2="30" />
+      <line x1="0" y1="70" x2="100" y2="70" />
+    </g>
+
+    <g transform="translate(10, 20) scale(0.6)">
+      <circle cx="20" cy="20" r="18" fill="none" stroke="#78350f" strokeWidth="1" />
+      <circle cx="20" cy="20" r="14" fill="none" stroke="#78350f" strokeWidth="0.5" />
+      <polygon points="20,2 24,20 20,20" fill="#78350f" />
+      <polygon points="20,2 16,20 20,20" fill="#d97706" />
+      <polygon points="20,38 24,20 20,20" fill="#78350f" />
+      <polygon points="20,38 16,20 20,20" fill="#d97706" />
+      <polygon points="38,20 20,16 20,20" fill="#78350f" />
+      <polygon points="38,20 20,24 20,20" fill="#d97706" />
+      <polygon points="2,20 20,16 20,20" fill="#78350f" />
+      <polygon points="2,20 20,24 20,20" fill="#d97706" />
+      <text x="18" y="0" fill="#78350f" fontSize="6" fontWeight="bold">N</text>
+      <text x="18" y="46" fill="#78350f" fontSize="6" fontWeight="bold">S</text>
+      <text x="40" y="22" fill="#78350f" fontSize="6" fontWeight="bold">E</text>
+      <text x="-4" y="22" fill="#78350f" fontSize="6" fontWeight="bold">W</text>
+    </g>
   </svg>
 );
 
 export const BlueprintBg = () => (
-  <svg className="absolute inset-0 w-full h-full opacity-80" viewBox="0 0 100 100" preserveAspectRatio="none">
-    <rect width="100" height="100" fill="#1e40af" />
-    <g stroke="rgba(255,255,255,0.2)" strokeWidth="1">
-      {Array.from({ length: 10 }).map((_, i) => <line key={`h${i}`} x1="0" y1={i * 10} x2="100" y2={i * 10} />)}
-      {Array.from({ length: 10 }).map((_, i) => <line key={`v${i}`} x1={i * 10} y1="0" x2={i * 10} y2="100" />)}
+  <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <rect width="100" height="100" fill="#2563eb" />
+    <g stroke="rgba(255,255,255,0.3)" strokeWidth="0.5">
+      {Array.from({ length: 20 }).map((_, i) => <line key={`h${i}`} x1="0" y1={i * 5} x2="100" y2={i * 5} />)}
+      {Array.from({ length: 20 }).map((_, i) => <line key={`v${i}`} x1={i * 5} y1="0" x2={i * 5} y2="100" />)}
     </g>
-    <polygon points="50,20 80,80 20,80" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2" />
+
+    <g stroke="#ffffff" strokeWidth="1.5" fill="none" opacity="0.9">
+      {/* Cube (Top Left) */}
+      <g transform="translate(10, 15) scale(0.6)">
+        <polygon points="10,10 30,10 30,30 10,30" />
+        <polygon points="20,0 40,0 40,20 20,20" />
+        <line x1="10" y1="10" x2="20" y2="0" />
+        <line x1="30" y1="10" x2="40" y2="0" />
+        <line x1="30" y1="30" x2="40" y2="20" />
+        <line x1="10" y1="30" x2="20" y2="20" />
+        <text x="25" y="38" fontSize="6" fill="#ffffff" stroke="none">a</text>
+        <line x1="10" y1="33" x2="30" y2="33" strokeWidth="0.5" />
+      </g>
+
+      {/* Cylinder (Bottom Left) */}
+      <g transform="translate(10, 60) scale(0.6)">
+        <ellipse cx="25" cy="5" rx="15" ry="5" />
+        <path d="M 10 5 L 10 35 A 15 5 0 0 0 40 35 L 40 5" />
+        <path d="M 10 35 A 15 5 0 0 1 40 35" strokeDasharray="2,2" strokeWidth="1" opacity="0.6" />
+        <line x1="25" y1="5" x2="25" y2="35" strokeDasharray="2,2" strokeWidth="1" />
+        <text x="3" y="20" fontSize="6" fill="#ffffff" stroke="none">h</text>
+      </g>
+
+      {/* Icosahedron/Polygon (Top Right) */}
+      <g transform="translate(70, 15) scale(0.7)">
+        <polygon points="20,0 35,10 35,25 20,35 5,25 5,10" />
+        <line x1="20" y1="0" x2="20" y2="18" />
+        <line x1="20" y1="18" x2="35" y2="10" />
+        <line x1="20" y1="18" x2="35" y2="25" />
+        <line x1="20" y1="18" x2="20" y2="35" />
+        <line x1="20" y1="18" x2="5" y2="25" />
+        <line x1="20" y1="18" x2="5" y2="10" />
+      </g>
+
+      {/* Sphere (Bottom Right) */}
+      <g transform="translate(70, 55) scale(0.7)">
+        <circle cx="20" cy="20" r="15" />
+        <ellipse cx="20" cy="20" rx="15" ry="5" />
+        <ellipse cx="20" cy="20" rx="5" ry="15" />
+      </g>
+    </g>
   </svg>
 );
 
@@ -135,23 +201,43 @@ export const AncientNumbersBg = () => (
 
 // --- AURAS (z-0 / Animated behind body) ---
 export const AlgebraAura = () => (
-  <motion.div className="absolute inset-0 flex items-center justify-center opacity-60"
-    animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }}>
-    <svg viewBox="0 0 200 200" className="w-[150%] h-[150%] drop-shadow-[0_0_15px_#d946ef]">
-      <text x="30" y="50" fill="#d946ef" fontSize="30" fontWeight="bold">x</text>
-      <text x="150" y="60" fill="#a855f7" fontSize="30" fontWeight="bold">y</text>
-      <text x="100" y="160" fill="#ec4899" fontSize="40" fontWeight="bold">=</text>
-      <text x="40" y="140" fill="#8b5cf6" fontSize="30" fontWeight="bold">f()</text>
-      <circle cx="100" cy="100" r="80" fill="none" stroke="#d946ef" strokeWidth="2" strokeDasharray="10,10" />
-    </svg>
-  </motion.div>
+  <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <rect width="100" height="100" fill="#1e293b" />
+    <rect width="100" height="100" fill="#0f172a" opacity="0.4" />
+    <g fill="rgba(255,255,255,0.4)" fontSize="4" fontFamily="serif" fontStyle="italic">
+      <text x="10" y="20">f(x) = ∑x²</text>
+      <text x="70" y="15">σ</text>
+      <text x="50" y="25">∂ + ∑x²</text>
+      <text x="80" y="30">a + b = c</text>
+      <text x="15" y="45">a + b = c</text>
+      <text x="50" y="45">f(x) = y</text>
+      <text x="10" y="60">nt(x - mh, z_i)</text>
+      <text x="25" y="70">f(x+1)</text>
+      <text x="80" y="70">fib(n)</text>
+      <text x="50" y="80">fib(n)</text>
+      <text x="60" y="60">x² = y</text>
+      <text x="10" y="85">Δ</text>
+
+      <path d="M 70 40 L 90 40 L 80 50 Z" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="0.5" />
+      <path d="M 50 85 Q 60 70 70 85" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="0.5" />
+      <circle cx="85" cy="85" r="5" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="0.5" />
+    </g>
+    <g stroke="rgba(255,255,255,0.2)" strokeWidth="0.2">
+      <line x1="5" y1="30" x2="30" y2="30" />
+      <line x1="15" y1="25" x2="15" y2="40" />
+    </g>
+  </svg>
 );
 
 export const InfinityAura = () => (
-  <motion.div className="absolute inset-0 flex items-center justify-center opacity-60"
-    animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}>
-    <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_0_20px_#3b82f6]">
-      <path d="M 25 50 C 10 50, 10 30, 25 30 C 40 30, 60 70, 75 70 C 90 70, 90 50, 75 50 C 60 50, 40 10, 25 10 Z" fill="none" stroke="#60a5fa" strokeWidth="4" />
+  <motion.div className="absolute inset-0 flex items-center justify-center opacity-80"
+    animate={{ opacity: [0.6, 0.9, 0.6] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}>
+    <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_0_15px_#facc15]">
+      <circle cx="35" cy="40" r="18" fill="none" stroke="#fef08a" strokeWidth="3" opacity="0.8" />
+      <circle cx="65" cy="40" r="18" fill="none" stroke="#fef08a" strokeWidth="3" opacity="0.8" />
+      {/* Inner glow lines */}
+      <circle cx="35" cy="40" r="15" fill="none" stroke="#f59e0b" strokeWidth="1" opacity="0.5" />
+      <circle cx="65" cy="40" r="15" fill="none" stroke="#f59e0b" strokeWidth="1" opacity="0.5" />
     </svg>
   </motion.div>
 );
@@ -178,10 +264,13 @@ export const VectorCape = () => (
 
 // --- CLOTHING OVERLAYS (z-20) ---
 export const NumberShirt = () => (
-  <div className="absolute top-[65%] left-[15%] w-[70%] h-[35%] pointer-events-none">
+  <div className="absolute top-[50%] left-[25%] w-[50%] h-[25%] pointer-events-none flex items-center justify-center">
     <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-md">
-      <path d="M 10 0 L 0 100 L 100 100 L 90 0 Z" fill="#22c55e" />
-      <text x="50" y="60" textAnchor="middle" fill="#ffffff" fontSize="40" fontWeight="900" fontFamily="sans-serif">123</text>
+      <g fontFamily="sans-serif" fontWeight="900" transform="translate(0, 5)">
+        <text x="65" y="75" fill="#ef4444" fontSize="24">99</text>
+        <text x="24" y="75" fill="#38bdf8" fontSize="16">07</text>
+        <text x="24" y="90" fill="#f97316" fontSize="14">1=3√76√x</text>
+      </g>
     </svg>
   </div>
 );
@@ -189,9 +278,19 @@ export const NumberShirt = () => (
 export const SigmaHoodie = () => (
   <div className="absolute top-[65%] left-[15%] w-[70%] h-[35%] pointer-events-none">
     <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-md">
-      <path d="M 10 0 L 0 100 L 100 100 L 90 0 Z" fill="#a855f7" />
-      <path d="M 30 0 L 50 30 L 70 0 Z" fill="#7e22ce" />
-      <path d="M 35 40 L 65 40 L 50 55 L 65 70 L 35 70" fill="none" stroke="#f0abfc" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Rainbow Sigma Logo */}
+      <defs>
+        <linearGradient id="rainbowGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ef4444" />
+          <stop offset="25%" stopColor="#f59e0b" />
+          <stop offset="50%" stopColor="#22c55e" />
+          <stop offset="75%" stopColor="#3b82f6" />
+          <stop offset="100%" stopColor="#a855f7" />
+        </linearGradient>
+      </defs>
+      <g transform="translate(30, 40) scale(0.6)">
+        <path d="M 60 0 L 10 0 L 35 30 L 10 60 L 60 60" fill="none" stroke="url(#rainbowGrad)" strokeWidth="12" strokeLinejoin="miter" strokeLinecap="square" />
+      </g>
     </svg>
   </div>
 );
@@ -460,34 +559,74 @@ export const ChitraguptaScroll = ({ config }) => {
 
 // --- ACCESSORIES (z-30 / Body) ---
 export const CalculatorBadge = () => (
-  <div className="absolute top-[75%] right-[28%] w-[15%]">
-    <svg viewBox="0 0 60 80" className="w-full drop-shadow-md">
-      <rect x="5" y="5" width="50" height="70" rx="8" fill="#334155" />
-      <rect x="12" y="15" width="36" height="20" rx="4" fill="#94a3b8" />
-      <circle cx="18" cy="45" r="5" fill="#cbd5e1" />
-      <circle cx="30" cy="45" r="5" fill="#cbd5e1" />
-      <circle cx="42" cy="45" r="5" fill="#cbd5e1" />
-      <circle cx="18" cy="60" r="5" fill="#cbd5e1" />
-      <circle cx="30" cy="60" r="5" fill="#cbd5e1" />
-      <circle cx="42" cy="60" r="5" fill="#f59e0b" />
+  <div className="absolute top-[46%] left-[15%] w-[70%] h-[35%] pointer-events-none z-30">
+    <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-md">
+      <g transform="translate(62, 65) scale(0.55)">
+        {/* Clip (Badge clip) */}
+        <rect x="10" y="-15" width="10" height="8" rx="1" fill="#cbd5e1" stroke="#64748b" strokeWidth="1" />
+
+        {/* Calculator */}
+        <rect x="2" y="-10" width="26" height="40" rx="3" fill="#334155" stroke="#cbd5e1" strokeWidth="1" />
+        <rect x="5" y="-5" width="20" height="10" fill="#a7f3d0" />
+        {/* Buttons */}
+        <g fill="#cbd5e1">
+          <circle cx="8" cy="10" r="1.5" /><circle cx="15" cy="10" r="1.5" /><circle cx="22" cy="10" r="1.5" />
+          <circle cx="8" cy="15" r="1.5" /><circle cx="15" cy="15" r="1.5" /><circle cx="22" cy="15" r="1.5" />
+          <circle cx="8" cy="20" r="1.5" /><circle cx="15" cy="20" r="1.5" /><circle cx="22" cy="20" r="1.5" />
+          <circle cx="8" cy="25" r="1.5" /><circle cx="15" cy="25" r="1.5" /><circle cx="22" cy="25" r="1.5" fill="#f59e0b" />
+        </g>
+      </g>
     </svg>
   </div>
 );
 
-export const CompassAccessory = () => (
-  <div className="absolute top-[70%] left-[25%] w-[15%]">
-    <svg viewBox="0 0 50 80" className="w-full drop-shadow-md">
-      <circle cx="25" cy="15" r="5" fill="#94a3b8" />
-      <line x1="25" y1="15" x2="10" y2="70" stroke="#cbd5e1" strokeWidth="4" strokeLinecap="round" />
-      <line x1="25" y1="15" x2="40" y2="70" stroke="#cbd5e1" strokeWidth="4" strokeLinecap="round" />
-      <path d="M 10 70 L 12 75 L 8 75 Z" fill="#475569" />
-      <path d="M 40 70 L 42 75 L 38 75 Z" fill="#475569" />
-    </svg>
-  </div>
-);
+export const CompassAccessory = ({ config }) => {
+  const skinColorStr = config?.skinColor?.[0] || 'edb98a';
+  const skinColor = `#${skinColorStr}`;
+
+  return (
+    <div className="absolute top-[45%] right-[5%] w-[45%] h-[50%] z-40">
+      <svg viewBox="0 0 100 120" className="w-full h-full drop-shadow-xl">
+        {/* The Drafting Compass */}
+        <g stroke="#cbd5e1" strokeWidth="8" strokeLinecap="round">
+          {/* Left leg */}
+          <line x1="50" y1="30" x2="20" y2="100" />
+          {/* Right leg */}
+          <line x1="50" y1="30" x2="80" y2="100" />
+        </g>
+        {/* Metal points */}
+        <g stroke="#475569" strokeWidth="4" strokeLinecap="round">
+          <line x1="20" y1="100" x2="15" y2="115" />
+          <line x1="80" y1="100" x2="85" y2="115" />
+        </g>
+        {/* Center screw mechanism */}
+        <line x1="35" y1="65" x2="65" y2="65" stroke="#94a3b8" strokeWidth="4" />
+        <circle cx="50" cy="65" r="4" fill="#475569" />
+
+        {/* Hinge & Handle */}
+        <rect x="45" y="10" width="10" height="20" fill="#94a3b8" rx="2" />
+        <circle cx="50" cy="30" r="10" fill="#cbd5e1" stroke="#475569" strokeWidth="2" />
+        <circle cx="50" cy="30" r="4" fill="#475569" />
+
+        {/* The Hand gripping the right leg */}
+        <g fill={skinColor} stroke="rgba(0,0,0,0.2)" strokeWidth="1.5">
+          {/* Hand base/palm */}
+          <circle cx="85" cy="70" r="15" />
+          {/* Fingers wrapping over the right leg */}
+          <rect x="65" y="60" width="25" height="8" rx="4" transform="rotate(15 65 60)" />
+          <rect x="63" y="68" width="25" height="8" rx="4" transform="rotate(15 63 68)" />
+          <rect x="62" y="76" width="25" height="8" rx="4" transform="rotate(15 62 76)" />
+          <rect x="64" y="84" width="20" height="8" rx="4" transform="rotate(15 64 84)" />
+          {/* Thumb */}
+          <rect x="62" y="52" width="22" height="9" rx="4.5" transform="rotate(35 62 52)" />
+        </g>
+      </svg>
+    </div>
+  );
+};
 
 export const CoordinateCompass = () => (
-  <div className="absolute top-[75%] right-[25%] w-[15%]">
+  <div className="absolute top-[65%] right-[25%] w-[15%]">
     <svg viewBox="0 0 50 50" className="w-full drop-shadow-md">
       <circle cx="25" cy="25" r="20" fill="#f8fafc" stroke="#0ea5e9" strokeWidth="3" />
       <polygon points="25,5 30,25 25,45 20,25" fill="#ef4444" />
@@ -497,27 +636,112 @@ export const CoordinateCompass = () => (
   </div>
 );
 
-export const FormulaNotebook = () => (
-  <div className="absolute top-[72%] left-[25%] w-[18%]">
-    <svg viewBox="0 0 50 70" className="w-full drop-shadow-md">
-      <rect x="10" y="5" width="30" height="60" rx="2" fill="#ef4444" />
-      <rect x="15" y="15" width="20" height="15" fill="#ffffff" />
-      <text x="25" y="26" textAnchor="middle" fontSize="10" fontWeight="bold">E=mc²</text>
-      <line x1="5" y1="10" x2="10" y2="10" stroke="#1e293b" strokeWidth="2" />
-      <line x1="5" y1="20" x2="10" y2="20" stroke="#1e293b" strokeWidth="2" />
-      <line x1="5" y1="30" x2="10" y2="30" stroke="#1e293b" strokeWidth="2" />
-      <line x1="5" y1="40" x2="10" y2="40" stroke="#1e293b" strokeWidth="2" />
-    </svg>
-  </div>
+export const FormulaNotebook = ({ config }) => {
+  const skinColorStr = config?.skinColor?.[0] || 'edb98a';
+  const skinColor = `#${skinColorStr}`;
+
+  return (
+    <div className="absolute top-[45%] left-0 w-full h-[55%] pointer-events-none z-40">
+      <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-xl">
+        {/* LEFT HAND (Viewer's left) holding Brown Book */}
+        <g transform="translate(15, 45)">
+          {/* Brown Book */}
+          <g transform="rotate(-15) translate(0, -10)">
+            <rect x="-10" y="-15" width="25" height="35" rx="2" fill="#5c4033" stroke="#3e2723" strokeWidth="1" />
+            <rect x="-8" y="-13" width="20" height="31" fill="#795548" />
+            <text x="-4" y="5" textAnchor="middle" fill="#facc15" fontSize="4" fontWeight="bold" transform="rotate(-90 -4 5)">FORMULAS</text>
+            <rect x="13" y="-13" width="2" height="31" fill="#fcd34d" />
+          </g>
+          {/* Hand overlapping the book */}
+          <g fill={skinColor} stroke="rgba(0,0,0,0.2)" strokeWidth="0.5">
+            <circle cx="0" cy="15" r="8" />
+            <rect x="-6" y="5" width="4" height="12" rx="2" transform="rotate(20 -6 5)" />
+            <rect x="-2" y="3" width="4" height="12" rx="2" transform="rotate(10 -2 3)" />
+            <rect x="2" y="4" width="4" height="12" rx="2" transform="rotate(0 2 4)" />
+            <rect x="6" y="7" width="4" height="11" rx="2" transform="rotate(-10 6 7)" />
+          </g>
+        </g>
+
+        {/* RIGHT HAND (Viewer's right) holding Open Book */}
+        <g transform="translate(85, 45)">
+          {/* Open Book */}
+          <g transform="rotate(10) translate(-25, -15)">
+            <path d="M 0 0 Q 10 -5 20 0 L 20 25 Q 10 20 0 25 Z" fill="#e2e8f0" stroke="#94a3b8" strokeWidth="1" />
+            <path d="M 20 0 Q 30 -5 40 0 L 40 25 Q 30 20 20 25 Z" fill="#e2e8f0" stroke="#94a3b8" strokeWidth="1" />
+            {/* Center fold */}
+            <line x1="20" y1="0" x2="20" y2="25" stroke="#94a3b8" strokeWidth="1.5" />
+            {/* Golden Ratio spiral on the right page */}
+            <g transform="translate(22, 5) scale(0.15)">
+              <rect x="0" y="0" width="100" height="61.8" fill="none" stroke="#f59e0b" strokeWidth="3" />
+              <rect x="0" y="0" width="61.8" height="61.8" fill="none" stroke="#f59e0b" strokeWidth="3" />
+              <path d="M 61.8 0 A 61.8 61.8 0 0 0 0 61.8" fill="none" stroke="#f59e0b" strokeWidth="4" />
+            </g>
+            <text x="22" y="22" fontSize="2.5" fill="#475569">1,1,2,3,5,8...</text>
+            <text x="5" y="8" fontSize="2.5" fill="#475569">x² + y² = z²</text>
+            <text x="5" y="14" fontSize="2.5" fill="#475569">E = mc²</text>
+          </g>
+          {/* Hand overlapping the book */}
+          <g fill={skinColor} stroke="rgba(0,0,0,0.2)" strokeWidth="0.5">
+            <circle cx="0" cy="15" r="8" />
+            <rect x="-10" y="7" width="4" height="11" rx="2" transform="rotate(10 -10 7)" />
+            <rect x="-6" y="4" width="4" height="12" rx="2" transform="rotate(0 -6 4)" />
+            <rect x="-2" y="3" width="4" height="12" rx="2" transform="rotate(-10 -2 3)" />
+            <rect x="2" y="5" width="4" height="12" rx="2" transform="rotate(-20 2 5)" />
+          </g>
+        </g>
+      </svg>
+    </div>
+  );
+};
+
+const Die3D = ({ x, y, rotate = 0 }) => (
+  <g transform={`translate(${x}, ${y}) rotate(${rotate}) scale(0.8)`}>
+    <polygon points="10,0 20,5 10,10 0,5" fill="#ffffff" stroke="#475569" strokeWidth="0.5" strokeLinejoin="round" />
+    <circle cx="10" cy="5" r="1.5" fill="#000" />
+
+    <polygon points="0,5 10,10 10,20 0,15" fill="#f1f5f9" stroke="#475569" strokeWidth="0.5" strokeLinejoin="round" />
+    <circle cx="3" cy="10" r="1" fill="#000" />
+    <circle cx="7" cy="15" r="1" fill="#000" />
+
+    <polygon points="10,10 20,5 20,15 10,20" fill="#e2e8f0" stroke="#475569" strokeWidth="0.5" strokeLinejoin="round" />
+    <circle cx="13" cy="11" r="1" fill="#000" />
+    <circle cx="17" cy="9" r="1" fill="#000" />
+    <circle cx="13" cy="17" r="1" fill="#000" />
+    <circle cx="17" cy="15" r="1" fill="#000" />
+    <circle cx="15" cy="13" r="1" fill="#000" />
+  </g>
 );
 
 export const DiceBackpack = () => (
-  <div className="absolute top-[55%] left-[15%] w-[25%] -z-10">
-    <svg viewBox="0 0 50 50" className="w-full drop-shadow-lg">
-      <rect x="5" y="5" width="40" height="40" rx="8" fill="#ffffff" stroke="#e2e8f0" strokeWidth="2" />
-      <circle cx="15" cy="15" r="4" fill="#ef4444" />
-      <circle cx="35" cy="35" r="4" fill="#ef4444" />
-      <circle cx="25" cy="25" r="4" fill="#ef4444" />
+  <div className="absolute top-[55%] left-[10%] w-[80%] h-[45%] pointer-events-none z-30">
+    <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-md">
+      {/* Left Strap (viewer left) */}
+      <path d="M 30 15 Q 25 35 27 45" fill="none" stroke="#22543d" strokeWidth="8" strokeLinecap="round" />
+      <path d="M 30 15 Q 25 35 27 45" fill="none" stroke="#38a169" strokeWidth="4" strokeLinecap="round" />
+      <rect x="22" y="40" width="10" height="6" fill="#475569" rx="1" />
+
+      {/* Right Strap (viewer right) */}
+      <path d="M 70 15 Q 75 35 73 45" fill="none" stroke="#22543d" strokeWidth="8" strokeLinecap="round" />
+      <path d="M 70 15 Q 75 35 73 45" fill="none" stroke="#38a169" strokeWidth="4" strokeLinecap="round" />
+      <rect x="68" y="40" width="10" height="6" fill="#475569" rx="1" />
+
+      {/* D-rings for hanging dice */}
+      <path d="M 27 44 A 4 4 0 1 0 27 52" fill="none" stroke="#cbd5e1" strokeWidth="2" />
+      <path d="M 73 44 A 4 4 0 1 1 73 52" fill="none" stroke="#cbd5e1" strokeWidth="2" />
+
+      {/* Little chains connecting to dice */}
+      {/* Left side chains */}
+      <path d="M 27 50 L 18 55 M 27 50 L 28 65" stroke="#cbd5e1" strokeWidth="1" />
+      {/* Right side chain (goes to the right) */}
+      <path d="M 73 50 L 82 55" stroke="#cbd5e1" strokeWidth="1" />
+
+      {/* Dice! */}
+      {/* 2 on left side */}
+      <Die3D x={10} y={50} rotate={-15} />
+      <Die3D x={20} y={60} rotate={10} />
+
+      {/* 1 on right side (right of the green line) */}
+      <Die3D x={80} y={50} rotate={15} />
     </svg>
   </div>
 );
@@ -580,24 +804,47 @@ export const PuzzleCrown = () => (
 );
 
 export const StatisticsCap = () => (
-  <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[50%]">
-    <svg viewBox="0 0 100 60" className="w-full drop-shadow-lg">
-      <polygon points="50,10 90,30 50,45 10,30" fill="#1e293b" />
-      <polygon points="50,15 85,30 50,40 15,30" fill="#334155" />
-      <rect x="40" y="45" width="20" height="10" fill="#1e293b" />
-      <path d="M 85 30 L 85 50" stroke="#fcd34d" strokeWidth="3" />
-      <circle cx="85" cy="55" r="4" fill="#fcd34d" />
+  <div className="absolute top-[8%] left-1/2 -translate-x-1/2 w-[52%] z-40">
+    <svg viewBox="0 0 100 60" className="w-full drop-shadow-md overflow-visible">
+      {/* Cap crown */}
+      <path d="M 15 45 C 15 15, 30 5, 50 5 C 70 5, 85 15, 85 45 Z" fill="#166534" />
+      <circle cx="50" cy="5" r="3" fill="#14532d" />
+
+      {/* Cap Visor / Bill */}
+      <path d="M 10 45 C 30 35, 70 35, 95 48 C 70 55, 30 55, 10 45 Z" fill="#166534" stroke="#f8fafc" strokeWidth="2.5" />
+
+      {/* Logos on the front of the cap */}
+      <g transform="translate(25, 20) scale(0.9)" stroke="#d9f99d" fill="none" strokeWidth="1.5" strokeLinecap="round">
+        {/* Bell curve (Normal distribution) */}
+        <path d="M 0 15 C 5 15, 8 0, 15 0 C 22 0, 25 15, 30 15" />
+        {/* Dotted median line */}
+        <line x1="15" y1="0" x2="15" y2="15" strokeDasharray="1 2" strokeWidth="1" />
+
+        {/* Sigma symbol in the middle */}
+        <path d="M 32 2 L 40 2 L 35 8 L 40 14 L 32 14" strokeWidth="1.5" />
+
+        {/* Bar chart on the right */}
+        <rect x="42" y="10" width="3" height="5" fill="#d9f99d" stroke="none" />
+        <rect x="47" y="5" width="3" height="10" fill="#d9f99d" stroke="none" />
+        <rect x="52" y="0" width="3" height="15" fill="#d9f99d" stroke="none" />
+      </g>
     </svg>
   </div>
 );
 
 // --- EYEWEAR (z-30 / Face) ---
 export const GeometryGlasses = () => (
-  <div className="absolute top-[42%] left-1/2 -translate-x-1/2 w-[50%]">
+  <div className="absolute top-[41%] left-[27%] w-[46%] z-30">
     <svg viewBox="0 0 100 40" className="w-full drop-shadow-md">
-      <line x1="5" y1="10" x2="95" y2="10" stroke="#1e293b" strokeWidth="4" />
-      <rect x="15" y="5" width="25" height="25" fill="rgba(56, 189, 248, 0.5)" stroke="#ef4444" strokeWidth="3" />
-      <polygon points="72,5 85,30 60,30" fill="rgba(234, 179, 8, 0.5)" stroke="#3b82f6" strokeWidth="3" />
+      {/* Bridge */}
+      <path d="M 40 18 Q 50 12 60 18" fill="none" stroke="#334155" strokeWidth="4" />
+      {/* Left Lens (Square, viewer left) */}
+      <rect x="10" y="5" width="30" height="25" rx="3" fill="#94a3b8" stroke="#334155" strokeWidth="6" opacity="0.9" />
+      {/* Right Lens (Round, viewer right) */}
+      <circle cx="75" cy="18" r="14" fill="#94a3b8" stroke="#334155" strokeWidth="6" opacity="0.9" />
+      {/* Arms */}
+      <line x1="0" y1="12" x2="10" y2="12" stroke="#334155" strokeWidth="5" />
+      <line x1="89" y1="12" x2="100" y2="12" stroke="#334155" strokeWidth="5" />
     </svg>
   </div>
 );

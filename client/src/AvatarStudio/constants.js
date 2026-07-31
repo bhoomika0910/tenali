@@ -169,8 +169,8 @@ export const CUSTOM_REWARDS = {
   lightning_aura: { type: 'custom_bg', base: { backgroundColor: ['transparent'] } },
   
   vector_cape: { type: 'outfit_macro', base: { clothing: ['shirtCrewNeck'], clothesColor: ['ff5c5c'] } },
-  number_shirt: { type: 'outfit_macro', base: { clothing: ['graphicShirt'], clothesColor: ['a7ffc4'] } },
-  sigma_hoodie: { type: 'outfit_macro', base: { clothing: ['hoodie'], clothesColor: ['a855f7'] } },
+  number_shirt: { type: 'outfit_macro', base: { clothing: ['shirtCrewNeck'], clothesColor: ['25557c'] } },
+  sigma_hoodie: { type: 'outfit_macro', base: { clothing: ['hoodie'], clothesColor: ['3c4f5c'] } },
   graph_hoodie: { type: 'outfit_macro', base: { clothing: ['hoodie'], clothesColor: ['3b82f6'] } },
   finance_jacket: { type: 'outfit_macro', base: { clothing: ['blazerAndShirt'], clothesColor: ['262e33'] } },
   training_outfit: { type: 'outfit_macro', base: { clothing: ['shirtVNeck'], clothesColor: ['ff5c5c'] } },
@@ -181,19 +181,19 @@ export const CUSTOM_REWARDS = {
   chitragupta_outfit: { type: 'outfit_macro', base: { top: [], accessories: [], clothing: [], eyes: ['default'], eyebrows: ['defaultNatural'], mouth: ['smile'], custom_clothing: ['chitragupta_outfit'], custom_bg: ['bookshelf_bg'] } },
   
   calculator_badge: { type: 'outfit_macro', base: { clothing: ['collarAndSweater'], clothesColor: ['929598'], accessories: ['prescription01'] } },
-  compass_accessory: { type: 'outfit_macro', base: { clothing: ['overall'], clothesColor: ['b1e2ff'], accessories: ['round'] } },
+  compass_accessory: { type: 'outfit_macro', base: { clothing: ['blazerAndSweater'], clothesColor: ['262e33'], accessories: ['prescription02'] } },
   coordinate_compass: { type: 'outfit_macro', base: { clothing: ['shirtCrewNeck'], clothesColor: ['65c9ff'], accessories: ['wayfarers'] } },
   formula_notebook: { type: 'outfit_macro', base: { clothing: ['blazerAndSweater'], clothesColor: ['ff488e'], accessories: ['prescription02'] } },
-  dice_backpack: { type: 'outfit_macro', base: { clothing: ['hoodie'], clothesColor: ['e6e6e6'], top: ['winterHat03'] } },
+  dice_backpack: { type: 'outfit_macro', base: { clothing: ['hoodie'], clothesColor: ['262e33'] } },
   golden_formula: { type: 'outfit_macro', base: { clothing: ['graphicShirt'], clothesColor: ['ffffb1'], accessories: ['sunglasses'] } },
   money_bag: { type: 'outfit_macro', base: { clothing: ['overall'], clothesColor: ['a7ffc4'], accessories: ['wayfarers'] } },
   investor_badge: { type: 'outfit_macro', base: { clothing: ['blazerAndShirt'], clothesColor: ['262e33'], accessories: ['sunglasses'] } },
   champion_medal: { type: 'outfit_macro', base: { clothing: ['shirtScoopNeck'], clothesColor: ['ff5c5c'], accessories: ['sunglasses'], top: ['bigHair'] } },
   
   puzzle_crown: { type: 'outfit_macro', base: { top: ['winterHat02'] } },
-  statistics_cap: { type: 'outfit_macro', base: { top: ['hat'] } },
+  statistics_cap: { type: 'outfit_macro', base: { top: ['shortRound'], clothing: ['hoodie'], clothesColor: ['262e33'] } },
   
-  geometry_glasses: { type: 'outfit_macro', base: { accessories: ['round'] } },
-  logic_glasses: { type: 'outfit_macro', base: { accessories: ['prescription02'] } },
+  geometry_glasses: { type: 'outfit_macro', base: { accessories: [] } },
+  logic_glasses: { type: 'outfit_macro', base: { accessories: [] } },
 };
 

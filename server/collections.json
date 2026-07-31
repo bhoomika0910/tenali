@@ -14,18 +14,18 @@
     ],
     "rewards": [
       {
-        "id": "graphicShirt",
-        "type": "clothing",
+        "id": "number_shirt",
+        "type": "outfit_macro",
         "label": "Number-themed T-shirt"
       },
       {
-        "id": "round",
-        "type": "accessories",
+        "id": "calculator_badge",
+        "type": "outfit_macro",
         "label": "Calculator Badge"
       },
       {
-        "id": "1e88e5",
-        "type": "backgroundColor",
+        "id": "explorer_bg",
+        "type": "custom_bg",
         "label": "Explorer Background"
       }
     ]
@@ -46,18 +46,18 @@
     ],
     "rewards": [
       {
-        "id": "wayfarers",
-        "type": "accessories",
+        "id": "geometry_glasses",
+        "type": "outfit_macro",
         "label": "Geometry Glasses"
       },
       {
-        "id": "overall",
-        "type": "clothing",
+        "id": "compass_accessory",
+        "type": "outfit_macro",
         "label": "Compass"
       },
       {
-        "id": "3949ab",
-        "type": "backgroundColor",
+        "id": "blueprint_bg",
+        "type": "custom_bg",
         "label": "Blueprint Background"
       }
     ]
@@ -76,18 +76,18 @@
     ],
     "rewards": [
       {
-        "id": "hoodie",
-        "type": "clothing",
+        "id": "sigma_hoodie",
+        "type": "outfit_macro",
         "label": "Sigma Hoodie"
       },
       {
-        "id": "prescription01",
-        "type": "accessories",
+        "id": "formula_notebook",
+        "type": "outfit_macro",
         "label": "Formula Notebook"
       },
       {
-        "id": "8e24aa",
-        "type": "backgroundColor",
+        "id": "algebra_aura",
+        "type": "custom_bg",
         "label": "Algebra Aura"
       }
     ]
@@ -106,18 +106,18 @@
     ],
     "rewards": [
       {
-        "id": "00acc1",
-        "type": "backgroundColor",
+        "id": "grid_bg",
+        "type": "custom_bg",
         "label": "Grid Background"
       },
       {
-        "id": "sunglasses",
-        "type": "accessories",
+        "id": "coordinate_compass",
+        "type": "outfit_macro",
         "label": "Coordinate Compass"
       },
       {
-        "id": "blazerAndShirt",
-        "type": "clothing",
+        "id": "vector_cape",
+        "type": "outfit_macro",
         "label": "Vector Cape"
       }
     ]
@@ -134,19 +134,19 @@
     ],
     "rewards": [
       {
-        "id": "shirtVNeck",
-        "type": "clothing",
+        "id": "dice_backpack",
+        "type": "outfit_macro",
         "label": "Dice Backpack"
       },
       {
-        "id": "hoodie",
-        "type": "clothing",
-        "label": "Graph Hoodie"
+        "id": "statistics_cap",
+        "type": "outfit_macro",
+        "label": "Statistics Cap"
       },
       {
-        "id": "winterHat01",
-        "type": "top",
-        "label": "Statistics Cap"
+        "id": "graph_hoodie",
+        "type": "outfit_macro",
+        "label": "Graph Hoodie"
       }
     ]
   },
@@ -166,19 +166,34 @@
     ],
     "rewards": [
       {
-        "id": "651fff",
-        "type": "backgroundColor",
+        "id": "infinity_aura",
+        "type": "custom_bg",
         "label": "Infinity Aura"
       },
       {
-        "id": "blazerAndSweater",
-        "type": "clothing",
+        "id": "scholar_robe",
+        "type": "outfit_macro",
         "label": "Scholar Robe"
       },
       {
-        "id": "kurt",
-        "type": "accessories",
+        "id": "golden_formula",
+        "type": "outfit_macro",
         "label": "Golden Formula Scroll"
+      },
+      {
+        "id": "golden_palace_bg",
+        "type": "custom_bg",
+        "label": "Golden Palace Background"
+      },
+      {
+        "id": "bookshelf_bg",
+        "type": "custom_bg",
+        "label": "Scholar Bookshelf"
+      },
+      {
+        "id": "cosmic_math_bg",
+        "type": "custom_bg",
+        "label": "Cosmic Mathematics"
       }
     ]
   },
@@ -196,18 +211,18 @@
     ],
     "rewards": [
       {
-        "id": "prescription02",
-        "type": "accessories",
+        "id": "money_bag",
+        "type": "outfit_macro",
         "label": "Money Bag"
       },
       {
-        "id": "collarAndSweater",
-        "type": "clothing",
+        "id": "finance_jacket",
+        "type": "outfit_macro",
         "label": "Finance Jacket"
       },
       {
-        "id": "winterHat02",
-        "type": "top",
+        "id": "investor_badge",
+        "type": "outfit_macro",
         "label": "Investor Badge"
       }
     ]
@@ -229,19 +244,19 @@
     ],
     "rewards": [
       {
-        "id": "winterHat03",
-        "type": "top",
-        "label": "Puzzle Crown"
+        "id": "golden_formula",
+        "type": "outfit_macro",
+        "label": "Golden Formula"
       },
       {
-        "id": "wayfarers",
-        "type": "accessories",
+        "id": "logic_glasses",
+        "type": "outfit_macro",
         "label": "Logic Glasses"
       },
       {
-        "id": "8d6e63",
-        "type": "backgroundColor",
-        "label": "Ancient Numbers Background"
+        "id": "golden_palace_bg",
+        "type": "custom_bg",
+        "label": "Golden Palace Background"
       }
     ]
   },
@@ -262,18 +277,18 @@
     ],
     "rewards": [
       {
-        "id": "shirtScoopNeck",
-        "type": "clothing",
+        "id": "training_outfit",
+        "type": "outfit_macro",
         "label": "Training Outfit"
       },
       {
-        "id": "round",
-        "type": "accessories",
+        "id": "champion_medal",
+        "type": "outfit_macro",
         "label": "Champion Medal"
       },
       {
-        "id": "ffb300",
-        "type": "backgroundColor",
+        "id": "lightning_aura",
+        "type": "custom_bg",
         "label": "Lightning Aura"
       }
     ]
@@ -305,21 +320,6 @@
         "id": "chitragupta_outfit",
         "type": "custom_clothing",
         "label": "Chitragupta Outfit"
-      },
-      {
-        "id": "golden_palace_bg",
-        "type": "custom_bg",
-        "label": "Golden Palace Background"
-      },
-      {
-        "id": "bookshelf_bg",
-        "type": "custom_bg",
-        "label": "Scholar Bookshelf"
-      },
-      {
-        "id": "cosmic_math_bg",
-        "type": "custom_bg",
-        "label": "Cosmic Mathematics"
       }
     ]
   }

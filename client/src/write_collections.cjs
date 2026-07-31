@@ -1,0 +1,118 @@
+const fs = require('fs');
+const data = [
+  {
+    id: 'number_master',
+    name: 'Number Master',
+    theme: 'Arithmetic & Number Theory',
+    requiredModules: ['addition', 'multiply', 'decimals', 'fractionadd', 'percent', 'ratio', 'arithmetic'],
+    rewards: [
+      { id: 'graphicShirt', type: 'clothing', label: 'Number-themed T-shirt' },
+      { id: 'round', type: 'accessories', label: 'Calculator Badge' },
+      { id: '1e88e5', type: 'backgroundColor', label: 'Explorer Background' }
+    ]
+  },
+  {
+    id: 'geometry_hero',
+    name: 'Geometry Hero',
+    theme: 'Shapes & Space',
+    requiredModules: ['angles', 'triangles', 'similarity', 'congruence', 'polygons', 'circletheorems', 'pythag', 'heron'],
+    rewards: [
+      { id: 'wayfarers', type: 'accessories', label: 'Geometry Glasses' },
+      { id: 'overall', type: 'clothing', label: 'Compass' },
+      { id: '3949ab', type: 'backgroundColor', label: 'Blueprint Background' }
+    ]
+  },
+  {
+    id: 'algebra_genius',
+    name: 'Algebra Genius',
+    theme: 'Equations & Patterns',
+    requiredModules: ['lineareq', 'simul', 'quadratic', 'quadformula', 'inequality', 'funceval'],
+    rewards: [
+      { id: 'hoodie', type: 'clothing', label: 'Sigma Hoodie' },
+      { id: 'prescription01', type: 'accessories', label: 'Formula Notebook' },
+      { id: '8e24aa', type: 'backgroundColor', label: 'Algebra Aura' }
+    ]
+  },
+  {
+    id: 'coordinate_explorer',
+    name: 'Coordinate Explorer',
+    theme: 'Coordinate Geometry',
+    requiredModules: ['coordgeom', 'lineequation', 'sectionformula', 'vectors', 'dotproduct', 'transformations'],
+    rewards: [
+      { id: '00acc1', type: 'backgroundColor', label: 'Grid Background' },
+      { id: 'sunglasses', type: 'accessories', label: 'Coordinate Compass' },
+      { id: 'blazerAndShirt', type: 'clothing', label: 'Vector Cape' }
+    ]
+  },
+  {
+    id: 'data_wizard',
+    name: 'Data Wizard',
+    theme: 'Data & Probability',
+    requiredModules: ['stats', 'prob', 'sets', 'permcomb'],
+    rewards: [
+      { id: 'shirtVNeck', type: 'clothing', label: 'Dice Backpack' },
+      { id: 'hoodie', type: 'clothing', label: 'Graph Hoodie' },
+      { id: 'winterHat01', type: 'top', label: 'Statistics Cap' }
+    ]
+  },
+  {
+    id: 'advanced_maths',
+    name: 'Advanced Maths',
+    theme: 'Higher Level Concepts',
+    requiredModules: ['limits', 'diff', 'integ', 'diffeq', 'logarithms', 'matrix', 'complex', 'binomial'],
+    rewards: [
+      { id: '651fff', type: 'backgroundColor', label: 'Infinity Aura' },
+      { id: 'blazerAndSweater', type: 'clothing', label: 'Scholar Robe' },
+      { id: 'kurt', type: 'accessories', label: 'Golden Formula Scroll' }
+    ]
+  },
+  {
+    id: 'finance_expert',
+    name: 'Finance Expert',
+    theme: 'Finance',
+    requiredModules: ['gst', 'profitloss', 'bankingrd', 'sharesdiv', 'variation', 'speeddist'],
+    rewards: [
+      { id: 'prescription02', type: 'accessories', label: 'Money Bag' },
+      { id: 'collarAndSweater', type: 'clothing', label: 'Finance Jacket' },
+      { id: 'winterHat02', type: 'top', label: 'Investor Badge' }
+    ]
+  },
+  {
+    id: 'logic_patterns',
+    name: 'Logic & Patterns',
+    theme: 'Logic',
+    requiredModules: ['indices', 'surds', 'squareroot', 'primefactor', 'hcflcm', 'remainder', 'polyfactor', 'polymult', 'bases'],
+    rewards: [
+      { id: 'winterHat03', type: 'top', label: 'Puzzle Crown' },
+      { id: 'wayfarers', type: 'accessories', label: 'Logic Glasses' },
+      { id: '8d6e63', type: 'backgroundColor', label: 'Ancient Numbers Background' }
+    ]
+  },
+  {
+    id: 'practice_champion',
+    name: 'Practice Champion',
+    theme: 'Practice',
+    requiredModules: ['gym_decimals', 'gym_functions', 'gym_dotproduct', 'gym_fractionadd', 'gym_lineareq', 'gym_indices', 'gym_polynomials', 'guess_number', 'twin_hunt'],
+    rewards: [
+      { id: 'shirtScoopNeck', type: 'clothing', label: 'Training Outfit' },
+      { id: 'round', type: 'accessories', label: 'Champion Medal' },
+      { id: 'ffb300', type: 'backgroundColor', label: 'Lightning Aura' }
+    ]
+  },
+  {
+    id: 'legendary_scholar',
+    name: 'Legendary Scholar',
+    theme: 'Completion',
+    requiredModules: ['all_collections'],
+    rewards: [
+      { id: 'tenali_outfit', type: 'custom_clothing', label: 'Tenali Outfit' },
+      { id: 'aryabhata_outfit', type: 'custom_clothing', label: 'Aryabhata Outfit' },
+      { id: 'chanakya_outfit', type: 'custom_clothing', label: 'Chanakya Outfit' },
+      { id: 'chitragupta_outfit', type: 'custom_clothing', label: 'Chitragupta Outfit' },
+      { id: 'golden_palace_bg', type: 'custom_bg', label: 'Golden Palace Background' },
+      { id: 'bookshelf_bg', type: 'custom_bg', label: 'Scholar Bookshelf' },
+      { id: 'cosmic_math_bg', type: 'custom_bg', label: 'Cosmic Mathematics' }
+    ]
+  }
+];
+fs.writeFileSync('d:/Tenali/server/collections.json', JSON.stringify(data, null, 2));
