@@ -6,9 +6,9 @@ node_modules/
 
 # Build output
 client/dist
-
 # Logs
 *.log
+server.log
 
 # Vite cache
 .vite/
@@ -17,4 +17,16 @@ client/dist
 .DS_Store
 Thumbs.db
 
+docs/
+server/in_memory_users_db.json
+server/lil/learning_journey/in_memory_journey_progress.json
 server/dictionaryCache/
+server/dictionaryCache
+ISSUE_DRAFT.md
+PR_DRAFT.md
+**/*.ps1
+
+# local scratch / debug throwaways
+scratch/
+server/_probe*.js
+

@@ -1,9 +1,21 @@
 [
   {
     "id": "number_master",
+    "collectionId": "number_master",
     "name": "Number Master",
     "theme": "Arithmetic & Number Theory",
+    "difficulty": "beginner",
+    "description": "Master core numbers, arithmetic, decimals and ratios!",
     "requiredModules": [
+      "addition",
+      "multiply",
+      "decimals",
+      "fractionadd",
+      "percent",
+      "ratio",
+      "arithmetic"
+    ],
+    "topics": [
       "addition",
       "multiply",
       "decimals",
@@ -32,9 +44,22 @@
   },
   {
     "id": "geometry_hero",
+    "collectionId": "geometry_hero",
     "name": "Geometry Hero",
     "theme": "Shapes & Space",
+    "difficulty": "intermediate",
+    "description": "Explore angles, triangles, polygons, circle theorems and pythagoras!",
     "requiredModules": [
+      "angles",
+      "triangles",
+      "similarity",
+      "congruence",
+      "polygons",
+      "circletheorems",
+      "pythag",
+      "heron"
+    ],
+    "topics": [
       "angles",
       "triangles",
       "similarity",
@@ -64,9 +89,20 @@
   },
   {
     "id": "algebra_genius",
+    "collectionId": "algebra_genius",
     "name": "Algebra Genius",
     "theme": "Equations & Patterns",
+    "difficulty": "intermediate",
+    "description": "Solve linear equations, systems, quadratics, and functions!",
     "requiredModules": [
+      "lineareq",
+      "simul",
+      "quadratic",
+      "quadformula",
+      "inequality",
+      "funceval"
+    ],
+    "topics": [
       "lineareq",
       "simul",
       "quadratic",
@@ -94,9 +130,20 @@
   },
   {
     "id": "coordinate_explorer",
+    "collectionId": "coordinate_explorer",
     "name": "Coordinate Explorer",
     "theme": "Coordinate Geometry",
+    "difficulty": "intermediate",
+    "description": "Navigate grids, lines, vectors, section formula and transformations!",
     "requiredModules": [
+      "coordgeom",
+      "lineequation",
+      "sectionformula",
+      "vectors",
+      "dotproduct",
+      "transformations"
+    ],
+    "topics": [
       "coordgeom",
       "lineequation",
       "sectionformula",
@@ -124,9 +171,18 @@
   },
   {
     "id": "data_wizard",
+    "collectionId": "data_wizard",
     "name": "Data Wizard",
     "theme": "Data & Probability",
+    "difficulty": "intermediate",
+    "description": "Analyze statistics, probability, sets, and permutations!",
     "requiredModules": [
+      "stats",
+      "prob",
+      "sets",
+      "permcomb"
+    ],
+    "topics": [
       "stats",
       "prob",
       "sets",
@@ -152,9 +208,22 @@
   },
   {
     "id": "advanced_maths",
+    "collectionId": "advanced_maths",
     "name": "Advanced Maths",
     "theme": "Higher Level Concepts",
+    "difficulty": "advanced",
+    "description": "Conquer limits, calculus, differential equations, matrices and complex numbers!",
     "requiredModules": [
+      "limits",
+      "diff",
+      "integ",
+      "diffeq",
+      "logarithms",
+      "matrix",
+      "complex",
+      "binomial"
+    ],
+    "topics": [
       "limits",
       "diff",
       "integ",
@@ -199,9 +268,20 @@
   },
   {
     "id": "finance_expert",
+    "collectionId": "finance_expert",
     "name": "Finance Expert",
     "theme": "Finance",
+    "difficulty": "intermediate",
+    "description": "Master GST, profit & loss, banking RD, shares and variation!",
     "requiredModules": [
+      "gst",
+      "profitloss",
+      "bankingrd",
+      "sharesdiv",
+      "variation",
+      "speeddist"
+    ],
+    "topics": [
       "gst",
       "profitloss",
       "bankingrd",
@@ -229,9 +309,23 @@
   },
   {
     "id": "logic_patterns",
+    "collectionId": "logic_patterns",
     "name": "Logic & Patterns",
     "theme": "Logic",
+    "difficulty": "beginner",
+    "description": "Unlock indices, surds, roots, prime factors, and HCF/LCM!",
     "requiredModules": [
+      "indices",
+      "surds",
+      "squareroot",
+      "primefactor",
+      "hcflcm",
+      "remainder",
+      "polyfactor",
+      "polymult",
+      "bases"
+    ],
+    "topics": [
       "indices",
       "surds",
       "squareroot",
@@ -262,9 +356,23 @@
   },
   {
     "id": "practice_champion",
+    "collectionId": "practice_champion",
     "name": "Practice Champion",
     "theme": "Practice",
+    "difficulty": "intermediate",
+    "description": "Complete gym practices and twin hunt challenges!",
     "requiredModules": [
+      "gym_decimals",
+      "gym_functions",
+      "gym_dotproduct",
+      "gym_fractionadd",
+      "gym_lineareq",
+      "gym_indices",
+      "gym_polynomials",
+      "guess_number",
+      "twin_hunt"
+    ],
+    "topics": [
       "gym_decimals",
       "gym_functions",
       "gym_dotproduct",
@@ -295,9 +403,15 @@
   },
   {
     "id": "legendary_scholar",
+    "collectionId": "legendary_scholar",
     "name": "Legendary Scholar",
     "theme": "Completion",
+    "difficulty": "advanced",
+    "description": "Complete all collections for the ultimate scholar outfits!",
     "requiredModules": [
+      "all_collections"
+    ],
+    "topics": [
       "all_collections"
     ],
     "rewards": [
@@ -322,5 +436,175 @@
         "label": "Chitragupta Outfit"
       }
     ]
+  },
+  {
+    "collectionId": "counting-critters",
+    "id": "counting-critters",
+    "name": "Decimal Dino & Friends",
+    "difficulty": "beginner",
+    "description": "Learn to count, scale, and round numbers with the helpful Decimal Dino!",
+    "topics": [
+      "decimals",
+      "rounding"
+    ],
+    "requiredModules": [
+      "decimals",
+      "rounding"
+    ],
+    "coinReward": 100,
+    "badgeType": "dino"
+  },
+  {
+    "collectionId": "arithmetic-basics",
+    "id": "arithmetic-basics",
+    "name": "Arithmetic Champion",
+    "difficulty": "beginner",
+    "description": "Solve addition and arithmetic equations to hoist the Arithmetic Trophy!",
+    "topics": [
+      "addition",
+      "basicarith"
+    ],
+    "requiredModules": [
+      "addition",
+      "basicarith"
+    ],
+    "coinReward": 100,
+    "badgeType": "trophy"
+  },
+  {
+    "collectionId": "fraction-explorer",
+    "id": "fraction-explorer",
+    "name": "Fraction Feast Master",
+    "difficulty": "beginner",
+    "description": "Slice up the conceptual pies and ratios to master fraction additions!",
+    "topics": [
+      "fractionadd",
+      "ratio"
+    ],
+    "requiredModules": [
+      "fractionadd",
+      "ratio"
+    ],
+    "coinReward": 100,
+    "badgeType": "feast"
+  },
+  {
+    "collectionId": "geometry-master",
+    "id": "geometry-master",
+    "name": "Geometry Wizard",
+    "difficulty": "intermediate",
+    "description": "Wave your math wand to master lines, angles, and triangles!",
+    "topics": [
+      "angles",
+      "triangles"
+    ],
+    "requiredModules": [
+      "angles",
+      "triangles"
+    ],
+    "coinReward": 120,
+    "badgeType": "wizard"
+  },
+  {
+    "collectionId": "division-detective",
+    "id": "division-detective",
+    "name": "Division Detective",
+    "difficulty": "beginner",
+    "description": "Investigate times-tables, prime factors, and detective division cases!",
+    "topics": [
+      "multiply",
+      "hcflcm"
+    ],
+    "requiredModules": [
+      "multiply",
+      "hcflcm"
+    ],
+    "coinReward": 100,
+    "badgeType": "detective"
+  },
+  {
+    "collectionId": "time-traveler",
+    "id": "time-traveler",
+    "name": "Speed Star Racer",
+    "difficulty": "intermediate",
+    "description": "Hop in a rocket ship and speed through rate, time, and distance problems!",
+    "topics": [
+      "sdt",
+      "variation"
+    ],
+    "requiredModules": [
+      "sdt",
+      "variation"
+    ],
+    "coinReward": 150,
+    "badgeType": "rocket"
+  },
+  {
+    "collectionId": "data-detective",
+    "id": "data-detective",
+    "name": "Data Treasure Hunter",
+    "difficulty": "intermediate",
+    "description": "Chart your path across statistical maps to find the hidden probability chest!",
+    "topics": [
+      "stats",
+      "prob"
+    ],
+    "requiredModules": [
+      "stats",
+      "prob"
+    ],
+    "coinReward": 150,
+    "badgeType": "chest"
+  },
+  {
+    "collectionId": "algebra-alchemist",
+    "id": "algebra-alchemist",
+    "name": "Algebra Alchemist",
+    "difficulty": "intermediate",
+    "description": "Mix formulas in your equations beaker to perform math alchemy!",
+    "topics": [
+      "lineareq",
+      "lineq"
+    ],
+    "requiredModules": [
+      "lineareq",
+      "lineq"
+    ],
+    "coinReward": 150,
+    "badgeType": "flask"
+  },
+  {
+    "collectionId": "pythagoras-path",
+    "id": "pythagoras-path",
+    "name": "Right-Angle Knight",
+    "difficulty": "intermediate",
+    "description": "Forge the pythagorean shield to defend the angles of your math fortress!",
+    "topics": [
+      "pythag",
+      "polygons"
+    ],
+    "requiredModules": [
+      "pythag",
+      "polygons"
+    ],
+    "coinReward": 150,
+    "badgeType": "shield"
+  },
+  {
+    "collectionId": "trig-treasure",
+    "id": "trig-treasure",
+    "name": "Trigonometry King",
+    "difficulty": "advanced",
+    "description": "Ascend the throne by charting coordinates and scaling standard trigonometric peaks!",
+    "topics": [
+      "trig",
+      "coordgeom"
+    ],
+    "requiredModules": [
+      "trig",
+      "coordgeom"
+    ],
+    "coinReward": 200,
+    "badgeType": "crown"
   }
 ]
