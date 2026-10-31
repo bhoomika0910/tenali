@@ -80,7 +80,7 @@ It is built to run on a single VPS — `tenali.fun` — with one Node process se
 <p align="center">
   <table>
     <tr>
-      <td align="center"><b>1041</b><br/><sub>commits</sub></td>
+      <td align="center"><b>1042</b><br/><sub>commits</sub></td>
       <td align="center"><b>75</b><br/><sub>PRs merged</sub></td>
       <td align="center"><b>21</b><br/><sub>GitHub contributors</sub></td>
       <td align="center"><b>⭐ 0</b><br/><sub>stars</sub></td>
@@ -600,19 +600,19 @@ tenali.fun (DNS → <production IP — redacted from public docs>)
 <!-- live-snapshot:start -->
 | 🏆 Commits | 🔀 Merged PRs | 👥 Contributors | 🧩 Puzzles | 📚 Vocab | 🌍 GK |
 |----------:|------------:|--------------:|---------:|-------:|----:|
-| **1041** | **75** | **21** | **69** | **7,662** | **991** |
+| **1042** | **75** | **21** | **69** | **7,662** | **991** |
 <!-- live-snapshot:end -->
 
 ### 🥇 Leaderboard
 
 <!-- live-rank:start -->
-_Live data — last regenerated 2026-10-30 · auto-refreshed by [`github-actions[bot]`](https://github.com/features/actions) on every push to `main` and every 12h._
+_Live data — last regenerated 2026-10-31 · auto-refreshed by [`github-actions[bot]`](https://github.com/features/actions) on every push to `main` and every 12h._
 
 | # | 👤 Real Name | 🔗 GitHub ID | 📝 Commits | 🔀 PRs | 🏷️ Role |
 |--:|:-------------|:-------------|----------:|-----:|:--------|
 | 🥇 | **S. R. S. Iyengar**<br/><sub>↳ also commits as <b>sudarshan</b></sub> | [sudarshansudarshan](https://github.com/sudarshansudarshan) | **281** | 0  | Lead Architect · Curriculum Author · 69 puzzle families |
 | 🥈 | **25f2002654**<br/><sub>↳ also commits as <b>Mudit Agrawal</b></sub> | [muditagrawal2007](https://github.com/muditagrawal2007) | **191** | 24  | Maintainer · Battle Arena · Linear Algebra · Sudoku · Playground |
-| 🥉 | **github-actions-bot-**<br/><sub>↳ also commits as <b>github-actions[bot]</b></sub> | [github-actions-bot-](https://github.com/github-actions-bot-) | **186** | 0  | — |
+| 🥉 | **github-actions-bot-**<br/><sub>↳ also commits as <b>github-actions[bot]</b></sub> | [github-actions-bot-](https://github.com/github-actions-bot-) | **187** | 0  | — |
 | 4. | **Jinal Gupta** | [jgupta05072003-code](https://github.com/jgupta05072003-code) | **89** | 0  | Upstream Repo Maintainer & PR Reviewer |
 | 5. | **Lakshmi Varshini Nandula ** | [varshini-nandula](https://github.com/varshini-nandula) | **43** | 1  | Profile Showcase & Offline Storage |
 | 6. | **Sameer Mishra** | [24F3005086](https://github.com/24F3005086) | **36** | 4  | i18n · Accessibility · Concept Labs |
